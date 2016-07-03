@@ -1,0 +1,13 @@
+2016-07-01 18:38:32|30392|CAsyncLoader IO Thread started2016-07-01 18:38:32|38536|Async Processing Thread Local(0) Started
+2016-07-01 18:38:32|1948|Async Processing Thread Asset(1) Started
+2016-07-01 18:38:32|12076|Async Processing Thread Asset(1) Started
+2016-07-01 18:38:32|37724|Async Processing Thread Web(2) Started
+2016-07-01 18:38:32|36876|Async Processing Thread BigFile(3) Started
+2016-07-01 18:38:32|33040|Async Processing Thread AudioFile(4) Started
+2016-07-01 18:38:33|36748|ParaFile.OpenAssetFile using local file:config/userinfo.txt
+2016-07-01 18:38:33|36748|ParaFile.OpenAssetFile using local file:script/AI/animations/mount.rules.table
+2016-07-01 18:38:33|36748|ParaFile.OpenAssetFile using local file:config/language.txt
+2016-07-01 18:38:33|36748|ParaFile.OpenAssetFile using local file:config/Aries/creator/language/paracraft_zhCN.mo
+2016-07-01 18:38:33|36748|ParaFile.OpenAssetFile using local file:config/GameClient.config.xml
+2016-07-01 18:38:33|36748|AssetRequested Texture/dxutcontrols.dds
+2016-07-01 18:38:33|36748|AssetRequested Texture/whitedot.png

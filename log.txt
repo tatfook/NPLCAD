@@ -1,0 +1,71 @@
+NPL bin dir: C:\Project\ParaCraftSDK-master\ParaCraftSDK-master\NPLRuntime\win\bin\
+ParaEngine.sig file not found
+WorkingDir: C:\Project\Git\FirstApp
+Development directory is set to : C:/Project/Git/FirstApp/
+OS information:
+OS version:Microsoft Enterprise Edition (build 9200), 64-bit
+Number of processors:4
+Processor type:586
+TotalPhysicalMemory:8288684
+FreePhysicalMemory:2715480
+
+ParaEngine Root Dir is C:/Project/Git/FirstApp/
+./packages dir: C:\Project\ParaCraftSDK-master\ParaCraftSDK-master\NPLRuntime\win\packages\
+loading package: main_mobile_res.pkg
+Archive: C:\Project\ParaCraftSDK-master\ParaCraftSDK-master\NPLRuntime\win\packages\main_mobile_res.pkg is opened and read 566 entries
+loading package: main150727.pkg
+Archive: C:\Project\ParaCraftSDK-master\ParaCraftSDK-master\NPLRuntime\win\packages\main150727.pkg is opened and read 2339 entries
+loading package: main.pkg
+Archive: C:\Project\ParaCraftSDK-master\ParaCraftSDK-master\NPLRuntime\win\packages\main.pkg is opened and read 7536 entries
+load bootstrapper from xml file : config/bootstrapper.xml 
+main loop: (gl)script/apps/Aries/main_loop.lua 
+CAssetManifest loaded 0 files
+CAsyncLoader is started with 1 IO thread and 2 worker thread
+Plug-in loaded: PhysicsBT.dll version: 1 
+Default window thread started. and a window is created in it
+Window is native: 3d window: 4f0494, top level: 4f0494
+DEBUG: main thread wnd handle : 5178516
+update d3d window size: width: 1020, height:680, left:156, top:156
+Best full screen mode is (1280, 720)
+Window is native: 3d window: 4f0494, top level: 4f0494
+Plug-in loaded: cAudioEngine.dll version: 1 
+Available Audio Playback Devices: 
+0 : Generic Software on 耳机 (Cirrus Logic CS4208 (AB 123)) [DEFAULT]
+1 : Generic Software on 扬声器 (Cirrus Logic CS4208 (AB 123))
+2 : Generic Software on 数字音频(S/PDIF) (Cirrus Logic CS4208 (AB 123))
+font Tahoma;12;bold is created 
+font Tahoma;12;norm is created 
+Graphics Stats:
+HAL (pure hw vp): Intel(R) Iris(TM) Graphics 6100|
+VS:3 PS:3
+warning: script file script/mainstate.lua not found
+ParaEngine LuaJIT 32bits version:LuaJIT 2.0.3
+Jit status:true, CMOV, SSE2, SSE3, SSE4.1, fold, cse, dce, fwd, dse, narrow, loop, abc, sink, fuse 
+ffi loaded shared lib: ParaEngineClient
+2016-07-01 18:38:33||system|os|hook cm_m_down_hook of type 1 is created
+2016-07-01 18:38:33||system|os|hook cm_m_move_hook of type 1 is created
+2016-07-01 18:38:33||system|os|hook cm_m_wheel_hook of type 1 is created
+2016-07-01 18:38:33||system|os|hook cm_m_up_hook of type 1 is created
+2016-07-01 18:38:33||system|os|hook cm_keydown of type 1 is created
+WARN:unable to load rule mapping from rule file script/AI/animations/mount.rules.table
+2016-07-01 18:38:33|main|warn|REST|RPC paraworld.users.GetNIDByOtherAccountID is overriden by GameServer.rest.client.CreateRPCWrapper. Remove duplicate calls with the same name.
+2016-07-01 18:38:33|main|info|language|config/language.txt is not found
+2016-07-01 18:38:33|main|info|language|UI locale set to: zhCN. system default is zhCN
+2016-07-01 18:38:33|main|info|TranslationGettext|load mo file config/Aries/creator/language/paracraft_zhCN.mo with 1 entries
+2016-07-01 18:38:33|main|debug|cur_url|
+2016-07-01 18:38:33|main|info|AssetManifest|use local file first
+echo:"==============cmdVer ============== Fail"
+echo:"kids"
+echo:
+FileIO Error: hr = 80004005; 
+FileIO Error: hr = 80004005; 
+Default window thread exit
+NPL State main exited
+		NPL thread local memory allocator released 196608 bytes
+CAsyncLoader worker thread 0 of 6 is exited
+CAsyncLoader worker thread 1 of 6 is exited
+CAsyncLoader worker thread 2 of 6 is exited
+CAsyncLoader worker thread 3 of 6 is exited
+CAsyncLoader worker thread 4 of 6 is exited
+CAsyncLoader worker thread 5 of 6 is exited
+CAsyncLoader IO thread is exited

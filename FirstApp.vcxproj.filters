@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Mod">
+      <UniqueIdentifier>{c1e3f7e3-ff8c-4565-929e-e3a423cadcbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mod\FirstApp">
+      <UniqueIdentifier>{6f496cf8-66e3-426f-a6a6-59a51e878ef4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Mod\FirstApp\main.lua">
+      <Filter>Mod\FirstApp</Filter>
+    </None>
+    <None Include="Mod\FirstApp\Helper.lua">
+      <Filter>Mod\FirstApp</Filter>
+    </None>
+    <None Include=".gitignore" />
+    <None Include="InstallPackages.bat" />
+    <None Include="Run.bat" />
+  </ItemGroup>
+</Project>
