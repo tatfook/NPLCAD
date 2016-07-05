@@ -2,10 +2,10 @@
 Title: Build matrix and sample matrix operations
 Author(s): zhuzhikun15973
 Date: 2016/7/4
-Desc: 
+Desc:Generation of basis matrix and print matrix in a row-column form.A collections of sample matrix operations like 
+add, multiplication, etc. 
 Use Lib:
 -------------------------------------------------------
-NPL.load("(gl)script/ide/math/math3d.lua");
 local m1=matrixInit(5,5,"i")
 prinitMatrix(m1)
 local m2=matrixInit(5,5,"ut")
