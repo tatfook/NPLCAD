@@ -6,24 +6,35 @@ Desc:Generation of basis matrix and print matrix in a row-column form.A collecti
 add, multiplication, etc. 
 Use Lib:
 -------------------------------------------------------
-local m1=matrixInit(5,5,"i")
+local Matrix = commonlib.gettable("System.Math.Matrix");
+local m1=Matrix:new():init(5,5,"i")
 prinitMatrix(m1)
-local m2=matrixInit(5,5,"ut")
+local m2=Matrix:new():init(5,5,"ut")
 prinitMatrix(m2)
 local m3 = m1*m2
 prinitMatrix(m3)
 -------------------------------------------------------]]
 
 
-local matrix_meta = {}
+local Matrix = commonlib.inherit(nil, commonlib.gettable("System.Math.Matrix"));
+
+--[[
+Matrix.__index = Matrix;
+
+function Matrix:new(o)
+	o = o or {};
+	setmetatable(o, Matrix);
+	return o;
+end
+]]
+
 --  Initialize new metrix
 --	if mode = "i" this function will build a identity matrix of given rows
 --	if mode = "ut" this function will build a upper triangular matrix of given row
 --	if mode = "lt" this function will build a lower triangular matrix of given row
-function matrixInit(row,column,mode)
-	local matrix = {}
-	
-	while mode == "i" do
+function Matrix:init(row,column,mode)
+	local matrix = self;
+	if mode == "i" then
 		for i = 1,row do
 			matrix[i] = {}
 			for j = 1,row do
@@ -34,10 +45,8 @@ function matrixInit(row,column,mode)
 				end
 			end
 		end
-		return setmetatable( matrix,matrix_meta )
-	end	
-	while mode == "ut" do
-	for i = 1,row do
+	elseif mode == "ut" then
+		for i = 1,row do
 			matrix[i] = {}
 			for j = 1,i do
 				matrix[i][j] = 1
@@ -46,10 +55,8 @@ function matrixInit(row,column,mode)
 			matrix[i][j] = 0
 			end
 		end
-		return setmetatable( matrix,matrix_meta )
-	end	
-	while mode == "lt" do
-	for i = 1,row do
+	elseif (mode == "lt") then
+		for i = 1,row do
 			matrix[i] = {}
 			for j = i,row do
 				matrix[i][j] = 1
@@ -58,9 +65,8 @@ function matrixInit(row,column,mode)
 				matrix[i][j] = 0
 			end
 		end
-		return setmetatable( matrix,matrix_meta )
-	end	
-
+	end
+	return self;
 end
 -- Matrix add
 function matrix_meta.__add (m1,m2)
@@ -119,13 +125,6 @@ function prinitMatrix(matrix)
 	end
 	print("\t")
 end
-
-local m1=matrixInit(5,5,"i")
-prinitMatrix(m1)
-local m2=matrixInit(5,5,"ut")
-prinitMatrix(m2)
-local m3 = m1*m2
-prinitMatrix(m3)
 
 
 
