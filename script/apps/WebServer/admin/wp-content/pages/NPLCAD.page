@@ -1,0 +1,9 @@
+<script>
+  $(function(){
+    if(Page)
+      Page.ShowSideBar(false);
+  });
+</script>
+<div>
+  test
+</div>

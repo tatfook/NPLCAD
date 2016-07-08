@@ -9,14 +9,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Mod\FirstApp\main.lua">
-      <Filter>Mod\FirstApp</Filter>
-    </None>
-    <None Include="Mod\FirstApp\Helper.lua">
-      <Filter>Mod\FirstApp</Filter>
-    </None>
     <None Include=".gitignore" />
     <None Include="InstallPackages.bat" />
     <None Include="Run.bat" />
+    <None Include="Mod\HTML5Monitor\Helper.lua">
+      <Filter>Mod\FirstApp</Filter>
+    </None>
+    <None Include="Mod\HTML5Monitor\main.lua">
+      <Filter>Mod\FirstApp</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\HTML5Monitor.page" />
   </ItemGroup>
 </Project>

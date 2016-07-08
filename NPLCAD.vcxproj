@@ -112,9 +112,10 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="InstallPackages.bat" />
-    <None Include="Mod\FirstApp\Helper.lua" />
-    <None Include="Mod\FirstApp\main.lua" />
+    <None Include="Mod\HTML5Monitor\Helper.lua" />
+    <None Include="Mod\HTML5Monitor\main.lua" />
     <None Include="Run.bat" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\HTML5Monitor.page" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
