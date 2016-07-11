@@ -90,8 +90,5 @@
     <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\controls\TransformControls.js">
       <Filter>script\apps\WebServer\admin\wp-includes\NPLCAD\js\controls</Filter>
     </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\NPLCADTest.page">
-      <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
-    </None>
   </ItemGroup>
 </Project>
