@@ -110,12 +110,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include=".gitignore" />
-    <None Include="InstallPackages.bat" />
-    <None Include="Mod\HTML5Monitor\Helper.lua" />
-    <None Include="Mod\HTML5Monitor\main.lua" />
-    <None Include="Run.bat" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\HTML5Monitor.page" />
+    <None Include="Mod\NPLCAD\Helper.lua" />
+    <None Include="Mod\NPLCAD\main.lua" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\NPLCAD.page" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\NPLCADTest.page" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\css\dark.css" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\css\light.css" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\css\main.css" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\controls\EditorControls.js" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\controls\TransformControls.js" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\Editor.js" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\libs\signals.min.js" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\libs\three.min.js" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\libs\ui.js" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\libs\ui.three.js" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\Viewport.Info.js" />
+    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\Viewport.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NPLPackageMain", "npl_packages\main\NPLPackageMain.vcxproj", "{7D2D4F2A-E478-4746-9384-FEBA71DCD229}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTML5Monitor", "HTML5Monitor.vcxproj", "{5B2516A1-6249-44F7-87DB-DF16B2172E4B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NPLCAD", "NPLCAD.vcxproj", "{5B2516A1-6249-44F7-87DB-DF16B2172E4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
