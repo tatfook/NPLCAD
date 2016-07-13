@@ -204,6 +204,7 @@ end
 			hemiLight.position.set( 0, 500, 0 );
 			editor.addObject( hemiLight );
 
+			
 			var dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
 			dirLight.color.setHSL( 0.1, 1, 0.95 );
 			dirLight.position.set( -1, 1.75, 1 );
@@ -222,7 +223,7 @@ end
 			}
 
 			window.addEventListener( 'resize', onWindowResize, false );
-
+			
 			function createMesh(vertices,indices,normals,colors){
 				var geometry = new THREE.BufferGeometry ();
 				var vertices_arr = [];
@@ -241,19 +242,98 @@ end
 				geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( vertices_arr ), 3 ) );
 				geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array( colors_arr ), 3 ) );
 				geometry.computeBoundingSphere();
-
-				
 				var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
 				var mesh = new THREE.Mesh( geometry, material );
 				editor.addObject( mesh );
+				geometry = new THREE.Geometry().fromBufferGeometry( geometry );
+				return geometry;
 			}
-			function STLExporter(oCsg){
-				var exporter = new THREE.STLExporter();
-				var stlString = exporter.parse( scene );
-  
-				var blob = new Blob([stlString], {type: 'text/plain'});
-  
-				saveAs(blob, name + '.stl');
+			
+			function stlFromGeometry( geometry, options ) {
+
+				// calculate the faces and normals if they are not yet present
+				geometry.computeFaceNormals()
+
+				var addX = 0
+				var addY = 0
+				var addZ = 0
+				var download = false
+
+				if ( options ) {
+					if ( options.useObjectPosition ) {
+						addX = geometry.mesh.position.x
+						addY = geometry.mesh.position.y
+						addZ = geometry.mesh.position.z
+					}
+
+					if ( options.download ) {
+						download = true
+					}
+				}
+
+
+				var facetToStl = function( verts, normal ) {
+					var faceStl = ''
+					faceStl += 'facet normal ' + normal.x + ' ' + normal.y + ' ' +  normal.z + '\n'
+					faceStl += 'outer loop\n'
+
+					for ( var j = 0; j < 3; j++ ) {
+						var vert = verts[j]
+						faceStl += 'vertex ' + (vert.x+addX) + ' ' + (vert.y+addY) + ' ' + (vert.z+addZ) + '\n'
+					}
+
+					faceStl += 'endloop\n'
+					faceStl += 'endfacet\n'
+
+					return faceStl
+				}
+
+				// start bulding the STL string
+				var stl = ''
+				stl += 'solid\n'
+
+				for ( var i = 0; i < geometry.faces.length; i++ ) {
+					var face = geometry.faces[i]
+
+					// if we have just a griangle, that's easy. just write them to the file
+					if ( face.d === undefined ) {
+						var verts = [
+							geometry.vertices[ face.a ],
+							geometry.vertices[ face.b ],
+							geometry.vertices[ face.c ]
+						]
+
+						stl += facetToStl( verts, face.normal )
+
+					} else {
+						// if it's a quad, we need to triangulate it first
+						// split the quad into two triangles: abd and bcd
+						var verts = []
+						verts[0] = [
+							geometry.vertices[ face.a ],
+							geometry.vertices[ face.b ],
+							geometry.vertices[ face.d ]
+						]
+						verts[1] = [
+							geometry.vertices[ face.b ],
+							geometry.vertices[ face.c ],
+							geometry.vertices[ face.d ]
+						]
+						
+						for ( var k = 0; k<2; k++ ) {
+							stl += facetToStl( verts[k], face.normal )
+						}
+						
+					}
+				}
+
+				stl += 'endsolid'
+
+				if ( download ) {
+					document.location = 'data:Application/octet-stream, ' + encodeURIComponent( stl )
+				}
+
+				return stl
 			}
 				
 			var code_editor = ace.edit("code_editor");
@@ -278,10 +358,15 @@ end
 			$scope.onSaveSTL = function () {
 					var text = code_editor.getValue();
 					$http.get("ajax/NPLCAD?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
-					console.log("=============stl");
+					console.log("=============response");
 					console.log(response.data.result);
-					var oCsg = response.data.result[4];
-					STLExporter(oCsg);
+					var vertices = response.data.result[0];
+					var indices = response.data.result[1];
+					var normals = response.data.result[2];
+					var colors = response.data.result[3];
+
+					geometry = createMesh(vertices,indices,normals,colors);
+					stlFromGeometry( geometry, {download:true} )
 
 				});
 			}
