@@ -59,7 +59,9 @@ end
 --wp_enqueue_style("nplcad_main",					"/wp-includes/NPLCAD/css/main.css");
 wp_enqueue_style("nplcad_light",					"/wp-includes/NPLCAD/css/light.css");
 
+
 wp_enqueue_script("nplcad_threejs",				"/wp-includes/NPLCAD/js/libs/three.min.js"); 
+wp_enqueue_script("nplcad_STLExporter",				"/wp-includes/NPLCAD/js/libs/STLExporter.js"); 
 wp_enqueue_script("nplcad_signals",				"/wp-includes/NPLCAD/js/libs/signals.min.js"); 
 wp_enqueue_script("nplcad_ui",					"/wp-includes/NPLCAD/js/libs/ui.js"); 
 wp_enqueue_script("nplcad_ui_three",			"/wp-includes/NPLCAD/js/libs/ui.three.js"); 
@@ -100,51 +102,63 @@ end
 		width:100%;
 		height: 30px;
 	}
+	#savecode{
+		position: releative;
+		width:100%;
+		height: 30px;
+	}
 </style>
 <script>
 	$(function(){
 		
 	});
 </script>
-<h1>NPLCAD</h1>
+<div class="title">NPLCAD Editor</div></br>
 <div ng-app="NPLCAD" ng-controller="NPLCADController">
 	<div class="row" >
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div id="view_container" style="min-height:560px;"></div>
 		</div>
-		<div class="col-md-8" >
+		<div class="col-md-6" >
 			<div id="code_editor" style="min-height:560px;">--code here
-NPL.load("(gl)script/ide/CSG/CSG.lua");
-local cube_center = {0,1,0};
-local cube_radius = {10,2,1};
+				NPL.load("(gl)script/ide/CSG/CSG.lua");
+				local cube_center = {0,1,0};
+				local cube_radius = {10,2,1};
 
-local sphere_center = {0,0,0};
-local sphere_radius = 4;
-local sphere_slices = 16;
-local sphere_stacks = 8;
+				local sphere_center = {0,0,0};
+				local sphere_radius = 4;
+				local sphere_slices = 16;
+				local sphere_stacks = 8;
 
-local cube_options = {
-	center = cube_center,
-	radius = cube_radius,
-}
-local sphere_options = {
-	center = sphere_center,
-	radius = sphere_radius,
-	slices = sphere_slices,
-	stacks = sphere_stacks,
-}
+				local cube_options = {
+					center = cube_center,
+					radius = cube_radius,
+				}
+				local sphere_options = {
+					center = sphere_center,
+					radius = sphere_radius,
+					slices = sphere_slices,
+					stacks = sphere_stacks,
+				}
 
-local CSG = commonlib.gettable("CSG.CSG");
-local cube = CSG.cube(cube_options);
-local sphere = CSG.sphere(sphere_options);
-local csg_node = cube:union(sphere);
-local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-return {vertices,indices,normals,colors}; 
+				local CSG = commonlib.gettable("CSG.CSG");
+				local cube = CSG.cube(cube_options);
+				local sphere = CSG.sphere(sphere_options);
+				local csg_node = cube:union(sphere);
+				local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+				return {vertices,indices,normals,colors,csg_node}; 
+			</div></br>
+			<div>
+				
+					<div class="col-md-4">
+						<button ng-click="onRunCode()" class="btn btn-primary" id="runcode" name="btnRunCode" >Compile</button>
+					</div>
+					<div class="col-md-4">
+						<button ng-click="onSaveSTL()" class="btn btn-success" id="savecode" name="btnRunCode" >   Save   </button>				
+					</div>
+				
 			</div>
-		<div>
-	<div>
-	<div>
-		<button ng-click="onRunCode()" id="runcode" name="btnRunCode" >Run</button>
+		</div>
 	</div>
 </div>
 <script>
@@ -210,7 +224,7 @@ return {vertices,indices,normals,colors};
 			window.addEventListener( 'resize', onWindowResize, false );
 
 			function createMesh(vertices,indices,normals,colors){
-				var geometry = new THREE.BufferGeometry();
+				var geometry = new THREE.BufferGeometry ();
 				var vertices_arr = [];
 				var indices_arr = [];
 				var colors_arr = [];
@@ -223,7 +237,6 @@ return {vertices,indices,normals,colors};
 				for(var i = 0; i< colors.length;i++){
 					colors_arr.push(colors[i][0],colors[i][1],colors[i][2]);
 				}
-				var geometry = new THREE.BufferGeometry();
 				geometry.setIndex( new THREE.BufferAttribute( new Uint16Array( indices_arr ), 1 ) );
 				geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( vertices_arr ), 3 ) );
 				geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array( colors_arr ), 3 ) );
@@ -234,6 +247,15 @@ return {vertices,indices,normals,colors};
 				var mesh = new THREE.Mesh( geometry, material );
 				editor.addObject( mesh );
 			}
+			function STLExporter(oCsg){
+				var exporter = new THREE.STLExporter();
+				var stlString = exporter.parse( scene );
+  
+				var blob = new Blob([stlString], {type: 'text/plain'});
+  
+				saveAs(blob, name + '.stl');
+			}
+				
 			var code_editor = ace.edit("code_editor");
 			code_editor.setTheme("ace/theme/github");
 			code_editor.getSession().setMode("ace/mode/lua");
@@ -250,6 +272,16 @@ return {vertices,indices,normals,colors};
 					var colors = response.data.result[3];
 
 					createMesh(vertices,indices,normals,colors);
+
+				});
+			}
+			$scope.onSaveSTL = function () {
+					var text = code_editor.getValue();
+					$http.get("ajax/NPLCAD?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
+					console.log("=============stl");
+					console.log(response.data.result);
+					var oCsg = response.data.result[4];
+					STLExporter(oCsg);
 
 				});
 			}
