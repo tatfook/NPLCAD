@@ -112,19 +112,22 @@
   <ItemGroup>
     <None Include="Mod\NPLCAD\Helper.lua" />
     <None Include="Mod\NPLCAD\main.lua" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\NPLCAD.page" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\css\dark.css" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\css\light.css" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\css\main.css" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\controls\EditorControls.js" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\controls\TransformControls.js" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\Editor.js" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\libs\signals.min.js" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\libs\three.min.js" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\libs\ui.js" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\libs\ui.three.js" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\Viewport.Info.js" />
-    <None Include="script\apps\WebServer\admin\wp-includes\NPLCAD\js\Viewport.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\dark.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\light.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\main.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\nplcadController.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls\EditorControls.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls\TransformControls.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Editor.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\signals.min.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\three.min.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ui.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ui.three.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.Info.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\routes.page" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

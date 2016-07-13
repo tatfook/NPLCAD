@@ -5,9 +5,30 @@ Author: leio
 Date: 2016/7/11
 Desc: 
 ]]
-?>
 
-<?npl
+wp_enqueue_script("ace",						"/wp-includes/js/ace/ace.js"); 
+wp_enqueue_script("angular",					"/wp-includes/js/angular/angular.min.js");
+wp_enqueue_script("ngStorage",					"/wp-includes/js/angular/ngStorage.js");
+wp_enqueue_script("ngSanitize",					"/wp-includes/js/angular/angular-sanitize.min.js");
+
+wp_enqueue_script("NPLCAD_App",					"/wp-content/pages/nplcad/app.js");
+wp_enqueue_script("nplcadController",			"/wp-content/pages/nplcad/controllers/nplcadController.js");
+
+wp_enqueue_style("nplcad_light",				"/wp-content/pages/nplcad/assets/css/light.css");
+
+wp_enqueue_script("nplcad_threejs",				"/wp-content/pages/nplcad/js/libs/three.min.js"); 
+wp_enqueue_script("nplcad_signals",				"/wp-content/pages/nplcad/js/libs/signals.min.js"); 
+wp_enqueue_script("nplcad_ui",					"/wp-content/pages/nplcad/js/libs/ui.js"); 
+wp_enqueue_script("nplcad_ui_three",			"/wp-content/pages/nplcad/js/libs/ui.three.js"); 
+
+wp_enqueue_script("nplcad_editor",				"/wp-content/pages/nplcad/js/Editor.js"); 
+wp_enqueue_script("nplcad_viewport",			"/wp-content/pages/nplcad/js/Viewport.js"); 
+wp_enqueue_script("nplcad_viewport_info",		"/wp-content/pages/nplcad/js/Viewport.Info.js"); 
+
+wp_enqueue_script("nplcad_editorcontrols",		"/wp-content/pages/nplcad/js/controls/EditorControls.js"); 
+wp_enqueue_script("nplcad_transformcontrols",	"/wp-content/pages/nplcad/js/controls/TransformControls.js"); 
+
+
 local code = request:get("code");
 local function CreateSandBoxEnv()
   local env = {
@@ -56,25 +77,6 @@ local function RunWithResult(output)
 		end
 	end
 end
---wp_enqueue_style("nplcad_main",					"/wp-includes/NPLCAD/css/main.css");
-wp_enqueue_style("nplcad_light",					"/wp-includes/NPLCAD/css/light.css");
-
-wp_enqueue_script("nplcad_threejs",				"/wp-includes/NPLCAD/js/libs/three.min.js"); 
-wp_enqueue_script("nplcad_signals",				"/wp-includes/NPLCAD/js/libs/signals.min.js"); 
-wp_enqueue_script("nplcad_ui",					"/wp-includes/NPLCAD/js/libs/ui.js"); 
-wp_enqueue_script("nplcad_ui_three",			"/wp-includes/NPLCAD/js/libs/ui.three.js"); 
-
-wp_enqueue_script("nplcad_editor",				"/wp-includes/NPLCAD/js/Editor.js"); 
-wp_enqueue_script("nplcad_viewport",			"/wp-includes/NPLCAD/js/Viewport.js"); 
-wp_enqueue_script("nplcad_viewport_info",		"/wp-includes/NPLCAD/js/Viewport.Info.js"); 
-
-wp_enqueue_script("nplcad_editorcontrols",		"/wp-includes/NPLCAD/js/controls/EditorControls.js"); 
-wp_enqueue_script("nplcad_transformcontrols",	"/wp-includes/NPLCAD/js/controls/TransformControls.js"); 
-
-wp_enqueue_script("ace",						"/wp-includes/js/ace/ace.js"); 
-wp_enqueue_script("angular",					"/wp-includes/js/angular/angular.min.js");
-wp_enqueue_script("ngStorage",					"/wp-includes/js/angular/ngStorage.js");
-wp_enqueue_script("ngSanitize",					"/wp-includes/js/angular/angular-sanitize.min.js");
 
 if(is_ajax()) then
 	add_action('wp_ajax_runcode', function()
@@ -107,12 +109,12 @@ end
 	});
 </script>
 <h1>NPLCAD</h1>
-<div ng-app="NPLCAD" ng-controller="NPLCADController">
+<div ng-app="NPLCAD_App" ng-controller="nplcadController" class="container-fluid">
 	<div class="row" >
-		<div class="col-md-4">
+		<div class="col-md-5">
 			<div id="view_container" style="min-height:560px;"></div>
 		</div>
-		<div class="col-md-8" >
+		<div class="col-md-7" >
 			<div id="code_editor" style="min-height:560px;">--code here
 NPL.load("(gl)script/ide/CSG/CSG.lua");
 local cube_center = {0,1,0};
@@ -141,120 +143,15 @@ local csg_node = cube:union(sphere);
 local vertices,indices,normals,colors = CSG.toMesh(csg_node);
 return {vertices,indices,normals,colors}; 
 			</div>
-		<div>
-	<div>
-	<div>
+		</div>
+	<div class="row" style="padding-left:30px;padding-right:30px;">
 		<button ng-click="onRunCode()" id="runcode" name="btnRunCode" >Run</button>
+	</div>
+	
+	<div class="row" style="padding-left:30px;padding-right:30px;" id="logWnd">
 	</div>
 </div>
 <script>
- angular.module('NPLCAD', ['ngStorage'])
- .controller('NPLCADController', function ($scope,$http) {
-			if(Page)
-				Page.ShowSideBar(false);
-			window.URL = window.URL || window.webkitURL;
-			window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
 
-			Number.prototype.format = function (){
-				return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-			};
-
-			//
-            var rendererTypes = {
-
-                'WebGLRenderer': THREE.WebGLRenderer,
-                'CanvasRenderer': THREE.CanvasRenderer,
-                'SVGRenderer': THREE.SVGRenderer,
-                'SoftwareRenderer': THREE.SoftwareRenderer,
-                'RaytracingRenderer': THREE.RaytracingRenderer
-
-            };
-			var editor = new Editor();
-            var viewport = new Viewport( editor);
-			//document.body.appendChild( viewport.dom );
-			$( "#view_container" ).append(viewport.dom);
-
-
-            var type = "WebGLRenderer";
-            var renderer = new rendererTypes[type]();
-
-
-            var signals = editor.signals;
-            signals.rendererChanged.dispatch( renderer );
-			editor.setTheme("css/light.css");
-
-			//light
-			var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-			hemiLight.color.setHSL( 0.6, 1, 0.6 );
-			hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-			hemiLight.position.set( 0, 500, 0 );
-			editor.addObject( hemiLight );
-
-			var dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-			dirLight.color.setHSL( 0.1, 1, 0.95 );
-			dirLight.position.set( -1, 1.75, 1 );
-			dirLight.position.multiplyScalar( 50 );
-			editor.addObject( dirLight );
-
-
-			var object = new THREE.Mesh( new THREE.BoxGeometry( 2, 2, 2, 1, 1, 1 ),new THREE.MeshLambertMaterial( { color: 0xff0000 } ));
-			object.position.set( 0, 0, 0 );
-			//editor.addObject( object );
-
-			
-
-			function onWindowResize( event ) {
-				editor.signals.windowResize.dispatch();
-			}
-
-			window.addEventListener( 'resize', onWindowResize, false );
-
-			function createMesh(vertices,indices,normals,colors){
-				var geometry = new THREE.BufferGeometry();
-				var vertices_arr = [];
-				var indices_arr = [];
-				var colors_arr = [];
-				for(var i = 0; i< vertices.length;i++){
-					vertices_arr.push(vertices[i][0],vertices[i][1],vertices[i][2]);
-				}
-				for(var i = 0; i< indices.length;i++){
-					indices_arr.push(indices[i]-1);
-				}
-				for(var i = 0; i< colors.length;i++){
-					colors_arr.push(colors[i][0],colors[i][1],colors[i][2]);
-				}
-				var geometry = new THREE.BufferGeometry();
-				geometry.setIndex( new THREE.BufferAttribute( new Uint16Array( indices_arr ), 1 ) );
-				geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( vertices_arr ), 3 ) );
-				geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array( colors_arr ), 3 ) );
-				geometry.computeBoundingSphere();
-
-				
-				var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-				var mesh = new THREE.Mesh( geometry, material );
-				editor.addObject( mesh );
-			}
-			var code_editor = ace.edit("code_editor");
-			code_editor.setTheme("ace/theme/github");
-			code_editor.getSession().setMode("ace/mode/lua");
-			code_editor.setShowPrintMargin(false);
-
-			$scope.onRunCode = function () {
-					var text = code_editor.getValue();
-					$http.get("ajax/NPLCAD?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
-					console.log("=============response");
-					console.log(response.data.result);
-					var vertices = response.data.result[0];
-					var indices = response.data.result[1];
-					var normals = response.data.result[2];
-					var colors = response.data.result[3];
-
-					createMesh(vertices,indices,normals,colors);
-
-				});
-			}
-			
-			onWindowResize();
- });
 </script>
 
