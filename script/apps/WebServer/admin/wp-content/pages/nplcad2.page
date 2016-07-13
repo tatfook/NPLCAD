@@ -1,0 +1,167 @@
+<?npl
+--[[
+Title: NPL cad page
+Author: leio
+Date: 2016/7/11
+Desc: 
+]]
+
+wp_enqueue_script("ace",						"/wp-includes/js/ace/ace.js"); 
+wp_enqueue_script("angular",					"/wp-includes/js/angular/angular.min.js");
+wp_enqueue_script("ngStorage",					"/wp-includes/js/angular/ngStorage.js");
+wp_enqueue_script("ngSanitize",					"/wp-includes/js/angular/angular-sanitize.min.js");
+
+wp_enqueue_script("NPLCAD_App",					"/wp-content/pages/nplcad/app.js");
+wp_enqueue_script("nplcadController",			"/wp-content/pages/nplcad/controllers/nplcadController.js");
+
+wp_enqueue_style("nplcad_light",				"/wp-content/pages/nplcad/assets/css/light.css");
+
+wp_enqueue_script("nplcad_threejs",				"/wp-content/pages/nplcad/js/libs/three.min.js"); 
+wp_enqueue_script("nplcad_STLExporter",			"/wp-content/pages/nplcad/js/libs/STLExporter.js"); 
+wp_enqueue_script("nplcad_signals",				"/wp-content/pages/nplcad/js/libs/signals.min.js"); 
+wp_enqueue_script("nplcad_ui",					"/wp-content/pages/nplcad/js/libs/ui.js"); 
+wp_enqueue_script("nplcad_ui_three",			"/wp-content/pages/nplcad/js/libs/ui.three.js"); 
+
+wp_enqueue_script("nplcad_editor",				"/wp-content/pages/nplcad/js/Editor.js"); 
+wp_enqueue_script("nplcad_viewport",			"/wp-content/pages/nplcad/js/Viewport.js"); 
+wp_enqueue_script("nplcad_viewport_info",		"/wp-content/pages/nplcad/js/Viewport.Info.js"); 
+
+wp_enqueue_script("nplcad_editorcontrols",		"/wp-content/pages/nplcad/js/controls/EditorControls.js"); 
+wp_enqueue_script("nplcad_transformcontrols",	"/wp-content/pages/nplcad/js/controls/TransformControls.js"); 
+
+
+local code = request:get("code");
+local function CreateSandBoxEnv()
+  local env = {
+    alert = _guihelper and _guihelper.MessageBox or commonlib.echo,
+    GameLogic = commonlib.gettable("GameLogic"),
+    cmd = GameLogic and GameLogic.RunCommand or commonlib.echo,
+  };
+  local meta = {__index = _G};
+	setmetatable (env, meta);
+  return env;
+end
+local function RunWithResult(output)
+  if(not code or code == "") then
+    return;
+  end
+	local fromLogPos = commonlib.log.GetLogPos();
+	local code_func, errormsg = loadstring(code);
+	if(code_func) then
+		local env = CreateSandBoxEnv();
+		setfenv(code_func, env);
+		local ok, result = pcall(code_func);
+		if(output) then
+			if(ok) then
+				if(type(env.main) == "function") then
+					setfenv(env.main, env);
+					ok, result = pcall(env.main);
+				end
+			end
+			output.success = ok;
+			output.result = result;
+		else
+			if(ok) then
+				echo("<p style='color:green'>success!</p>")
+				echo(string.gsub(sanitize(ParaGlobal.GetLog(fromLogPos, -1) or ""), "\n", "<br/>"));
+			else
+				echo("<p style='color:red'>Runtime error: </p>")
+				echo(sanitize(result));
+			end
+		end
+	else
+		if(output) then
+			output.compile_error = errormsg;
+		else
+			echo("<p style='color:red'>Syntax error: </p>")
+			echo(sanitize(errormsg));
+		end
+	end
+end
+
+if(is_ajax()) then
+	add_action('wp_ajax_runcode', function()
+		local output = {};
+		RunWithResult(output);
+		wp_send_json(output,true);
+    end)
+	return;
+end
+?>
+<style type="text/css" media="screen">
+	#view_container { 
+		position: releative;
+		width:100%;
+    }
+    #code_editor { 
+		position: releative;
+		width:100%;
+		min-height:300px;
+    }
+	#runcode{
+		position: releative;
+		width:100%;
+		height: 30px;
+	}
+</style>
+<script>
+	$(function(){
+		
+	});
+</script>
+<h1>NPLCAD</h1>
+<div ng-app="NPLCAD_App" ng-controller="nplcadController" class="container-fluid">
+	<div class="row" >
+		<div class="col-md-6">
+			<div id="view_container" style="min-height:560px;"></div>
+		</div>
+		<div class="col-md-6" >
+			<div id="code_editor" style="min-height:560px;">--code here
+NPL.load("(gl)script/ide/CSG/CSG.lua");
+local cube_center = {0,1,0};
+local cube_radius = {10,2,1};
+
+local sphere_center = {0,0,0};
+local sphere_radius = 4;
+local sphere_slices = 16;
+local sphere_stacks = 8;
+
+local cube_options = {
+	center = cube_center,
+	radius = cube_radius,
+}
+local sphere_options = {
+	center = sphere_center,
+	radius = sphere_radius,
+	slices = sphere_slices,
+	stacks = sphere_stacks,
+}
+
+local CSG = commonlib.gettable("CSG.CSG");
+local cube = CSG.cube(cube_options);
+local sphere = CSG.sphere(sphere_options);
+local csg_node = cube:union(sphere);
+local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+return {vertices,indices,normals,colors}; 
+			</div>
+
+			</br>
+			<div class="row">
+				
+					<div class="col-md-4">
+						<button ng-click="onRunCode()" class="btn btn-primary" id="runcode" >Compile</button>
+					</div>
+					<div class="col-md-4">
+						<button ng-click="onRunCode(true)" class="btn btn-success" id="savecode" >   Save   </button>				
+					</div>
+				
+			</div>
+		</div>
+	
+	<div class="row" style="padding-left:30px;padding-right:30px;" id="logWnd">
+	</div>
+</div>
+<script>
+
+</script>
+
