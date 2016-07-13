@@ -175,7 +175,7 @@ angular.module('NPLCAD_App', ['ngStorage'])
     $scope.onRunCode = function (bSave) {
         $("#logWnd").html("");
         var text = code_editor.getValue();
-        $http.get("ajax/nplcad2?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
+        $http.get("ajax/nplcad?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
             if (response && response.data && response.data.result) {
                 if (response.data.success) {
                     var vertices = response.data.result[0];

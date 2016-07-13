@@ -105,17 +105,14 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\main.css">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css</Filter>
     </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page">
-      <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad2.page">
-      <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
-    </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\FileSaver.min.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
     </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\STLExporter.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page">
+      <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
     </None>
   </ItemGroup>
 </Project>

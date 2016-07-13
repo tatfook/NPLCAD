@@ -113,7 +113,6 @@
     <None Include="Mod\NPLCAD\Helper.lua" />
     <None Include="Mod\NPLCAD\main.lua" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad2.page" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\dark.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\light.css" />
