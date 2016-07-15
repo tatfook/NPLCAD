@@ -162,7 +162,8 @@ angular.module('NPLCAD_App', ['ngStorage'])
         stl += 'endsolid'
 
         if (download) {
-            document.location = 'data:Application/octet-stream, ' + encodeURIComponent(stl)
+            //document.location = 'data:Application/octet-stream, ' + encodeURIComponent(stl)
+			saveAs(stl, 'download' + '.stl');
         }
 
         return stl
