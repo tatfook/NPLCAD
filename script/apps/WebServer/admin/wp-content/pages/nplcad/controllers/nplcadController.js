@@ -163,7 +163,8 @@ angular.module('NPLCAD_App', ['ngStorage'])
 
         if (download) {
             //document.location = 'data:Application/octet-stream, ' + encodeURIComponent(stl)
-			saveAs(stl, 'download' + '.stl');
+			var blob = new Blob([stl], {type: 'text/plain'});
+			saveAs(blob, 'download' + '.stl');
         }
 
         return stl
