@@ -135,41 +135,45 @@ end
 		</div>
 		<div id="right" class="col-md-6" style="background-color:white; boder-style:none">
 			<div>
-				<button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed">Read Code guide</button>
+				<button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Read coding guide</button>
 				<hr>
 				<div uib-collapse="isCollapsed">
-					<div class="well well-lg">Write code guide here</div>
+					<div class="well well-lg">Write coding guide here</div>
 				</div>
 			</div>
-			<div id="code_editor" style="boder-color:#a9a9a9">--code here
-				NPL.load("(gl)script/ide/CSG/CSG.lua");
-				local cube_center = {0,1,0};
-				local cube_radius = {10,2,1};
+			<button type="button" class="btn btn-info" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal; isCollapsed = !isCollapsed">Code here</button>
+			<hr>
+			<div uib-collapse="isCollapsedHorizontal">
+				
+				<div id="code_editor" style="boder-color:#a9a9a9">--code here
+					NPL.load("(gl)script/ide/CSG/CSG.lua");
+					local cube_center = {0,1,0};
+					local cube_radius = {10,2,1};
 
-				local sphere_center = {0,0,0};
-				local sphere_radius = 4;
-				local sphere_slices = 16;
-				local sphere_stacks = 8;
+					local sphere_center = {0,0,0};
+					local sphere_radius = 4;
+					local sphere_slices = 16;
+					local sphere_stacks = 8;
 
-				local cube_options = {
-					center = cube_center,
-					radius = cube_radius,
-				}
-				local sphere_options = {
-					center = sphere_center,
-					radius = sphere_radius,
-					slices = sphere_slices,
-					stacks = sphere_stacks,
-				}
+					local cube_options = {
+						center = cube_center,
+						radius = cube_radius,
+					}
+					local sphere_options = {
+						center = sphere_center,
+						radius = sphere_radius,
+						slices = sphere_slices,
+						stacks = sphere_stacks,
+					}
 
-				local CSG = commonlib.gettable("CSG.CSG");
-				local cube = CSG.cube(cube_options);
-				local sphere = CSG.sphere(sphere_options);
-				local csg_node = cube:union(sphere);
-				local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-				return {vertices,indices,normals,colors}; 
+					local CSG = commonlib.gettable("CSG.CSG");
+					local cube = CSG.cube(cube_options);
+					local sphere = CSG.sphere(sphere_options);
+					local csg_node = cube:union(sphere);
+					local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+					return {vertices,indices,normals,colors}; 
+				</div>
 			</div>
-			
 			</br>
 				<div class="col-md-4">
 					<button ng-click="onRunCode()" class="btn btn-primary" id="runcode" >Compile</button>
