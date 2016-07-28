@@ -1,5 +1,6 @@
-angular.module('NPLCAD_App', ['ngStorage'])
-.controller('nplcadController', function ($scope, $http) {
+angular.module('NPLCAD_App', ['ngStorage','ngAnimate', 'ui.bootstrap']).controller('nplcadController', function ($scope, $http) {
+	$scope.isCollapsed = true;
+	$scope.isCollapsedHorizontal = false;
     if (Page)
         Page.ShowSideBar(false);
     window.URL = window.URL || window.webkitURL;
@@ -83,7 +84,6 @@ angular.module('NPLCAD_App', ['ngStorage'])
     }
     function stlFromGeometry(geometry, options) {
 
-        // calculate the faces and normals if they are not yet present
         geometry.computeFaceNormals()
 
         var addX = 0
@@ -162,7 +162,6 @@ angular.module('NPLCAD_App', ['ngStorage'])
         stl += 'endsolid'
 
         if (download) {
-            //document.location = 'data:Application/octet-stream, ' + encodeURIComponent(stl)
 			var blob = new Blob([stl], {type: 'text/plain'});
 			saveAs(blob, 'download' + '.stl');
         }
@@ -201,3 +200,30 @@ angular.module('NPLCAD_App', ['ngStorage'])
     }
     onWindowResize();
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

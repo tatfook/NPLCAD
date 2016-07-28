@@ -1,1 +1,1 @@
-angular.module('NPLCAD_App', ['ui.bootstrap']);
+angular.module('NPLCAD_App', ['ui.bootstrap','ngAnimate', 'ui.bootstrap']);
