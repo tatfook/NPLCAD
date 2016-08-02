@@ -112,67 +112,86 @@ end
 		width:100%;
 		height: 30px;
 	}
-	#right{
-		border:5px solid #eee;
-		width:560px;
-		padding:0px;
-		background:#eee;
-	}
 
 </style>
 <script>
 	$(function(){
 		
 	});
-</script>
+	
+</script> 
 <div class="title">NPLCAD</div></br>
 <div ng-app="NPLCAD_App" ng-controller="nplcadController" class="container-fluid">
 	<div class="row" >
-		<div class="col-md-6">
+		<div id="left" class="col-md-6">
 			<div id="view_container" style="min-height:560px;"></div>
 				<div class="col-md-4">
-				<button ng-click="onRunCode()" class="btn btn-primary" id="runcode" >Compile</button>
+				<button ng-click="onRunCode()" class="btn btn-primary" id="runcode" >Compile</button>			
 				</div>
 				<div class="col-md-4">
 				<button ng-click="onRunCode(true)" class="btn btn-success" id="savecode" >   Save   </button>		
 				</div>
+				<div class="col-md-4">
+
+					<div class="btn-group" uib-dropdown is-open="status.isopen">
+					  <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+						Code example <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+						<li role="menuitem" ng-click="changeEditorContent(1)"><a href="#">Example one</a></li>
+						<li role="menuitem" ng-click="changeEditorContent(2)"><a href="#">Example two</a></li>
+						<li role="menuitem" ng-click="changeEditorContent(3)"><a href="#">Example three</a></li>
+						<li class="divider"></li>
+						<li role="menuitem" ng-click="changeEditorContent(4)"><a href="#">Example four</a></li>
+					  </ul>
+					</div>
+				</div>	
+				
 		</div>
 		<div id="right" class="col-md-6" style="background-color:white; boder-style:none">
 			<div>
-				<button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Read coding guide</button>
+				<div>
+					<button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Read coding guide</button>
+				</div>
+
+				
 				<div uib-collapse="isCollapsed">
-					<div class="well well-lg" style="min-height:560px;">Write coding guide here</div>
+					<div class="well well-lg" style="min-height:560px;">
+						Write coding guide here
+					</div>
+					
 				</div>
 			</div>
+			
 			<div uib-collapse="isCollapsedHorizontal">
 				
-				<div id="code_editor" style="boder-color:#a9a9a9">--code here
-					NPL.load("(gl)script/ide/CSG/CSG.lua");
-					local cube_center = {0,1,0};
-					local cube_radius = {10,2,1};
+				<div id="code_editor" >--code here
+	NPL.load("(gl)script/ide/CSG/CSG.lua");
+	local cube_center = {0,1,0};
+	local cube_radius = {10,2,1};
 
-					local sphere_center = {0,0,0};
-					local sphere_radius = 4;
-					local sphere_slices = 16;
-					local sphere_stacks = 8;
+	local sphere_center = {0,0,0};
+	local sphere_radius = 4;
+	local sphere_slices = 16;
+	local sphere_stacks = 8;
 
-					local cube_options = {
-						center = cube_center,
-						radius = cube_radius,
-					}
-					local sphere_options = {
-						center = sphere_center,
-						radius = sphere_radius,
-						slices = sphere_slices,
-						stacks = sphere_stacks,
-					}
+	local cube_options = {
+		center = cube_center,
+		radius = cube_radius,
+	}
+	local sphere_options = {
+		center = sphere_center,
+		radius = sphere_radius,
+		slices = sphere_slices,
+		stacks = sphere_stacks,
+	}
 
-					local CSG = commonlib.gettable("CSG.CSG");
-					local cube = CSG.cube(cube_options);
-					local sphere = CSG.sphere(sphere_options);
-					local csg_node = cube:union(sphere);
-					local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-					return {vertices,indices,normals,colors}; 
+	local CSG = commonlib.gettable("CSG.CSG");
+	local cube = CSG.cube(cube_options);
+	local sphere = CSG.sphere(sphere_options);
+	local csg_node = cube:union(sphere);
+	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+	return {vertices,indices,normals,colors}; 
 				</div>
 			</div>
 			</br>
@@ -183,5 +202,87 @@ end
 		</div>
 	</div>
 </div>
-			
+<div id="code_example1" hidden="hidden">--code here1
+	NPL.load("(gl)script/ide/CSG/CSG.lua");
+	local cube_center = {0,1,0};
+	local cube_radius = {10,2,1};
 
+	local sphere_center = {0,0,0};
+	local sphere_radius = 4;
+	local sphere_slices = 16;
+	local sphere_stacks = 8;
+
+	local cube_options = {
+	center = cube_center,
+	radius = cube_radius,
+	}
+	local sphere_options = {
+	center = sphere_center,
+	radius = sphere_radius,
+	slices = sphere_slices,
+	stacks = sphere_stacks,
+	}
+
+	local CSG = commonlib.gettable("CSG.CSG");
+	local cube = CSG.cube(cube_options);
+	local sphere = CSG.sphere(sphere_options);
+	local csg_node = cube:union(sphere);
+	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+	return {vertices,indices,normals,colors}; 
+</div>			
+<div id="code_example2" hidden="hidden">--code here222
+	NPL.load("(gl)script/ide/CSG/CSG.lua");
+	local cube_center = {0,1,0};
+	local cube_radius = {10,2,1};
+
+	local sphere_center = {0,0,0};
+	local sphere_radius = 4;
+	local sphere_slices = 16;
+	local sphere_stacks = 8;
+
+	local cube_options = {
+	center = cube_center,
+	radius = cube_radius,
+	}
+	local sphere_options = {
+	center = sphere_center,
+	radius = sphere_radius,
+	slices = sphere_slices,
+	stacks = sphere_stacks,
+	}
+
+	local CSG = commonlib.gettable("CSG.CSG");
+	local cube = CSG.cube(cube_options);
+	local sphere = CSG.sphere(sphere_options);
+	local csg_node = cube:union(sphere);
+	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+	return {vertices,indices,normals,colors}; 
+</div>	
+<div id="code_example3" hidden="hidden">--code here333
+	NPL.load("(gl)script/ide/CSG/CSG.lua");
+	local cube_center = {0,2,0};
+	local cube_radius = {10,2,1};
+
+	local sphere_center = {0,0,0};
+	local sphere_radius = 4;
+	local sphere_slices = 16;
+	local sphere_stacks = 8;
+
+	local cube_options = {
+	center = cube_center,
+	radius = cube_radius,
+	}
+	local sphere_options = {
+	center = sphere_center,
+	radius = sphere_radius,
+	slices = sphere_slices,
+	stacks = sphere_stacks,
+	}
+
+	local CSG = commonlib.gettable("CSG.CSG");
+	local cube = CSG.cube(cube_options);
+	local sphere = CSG.sphere(sphere_options);
+	local csg_node = sphere:subtract(cube);
+	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+	return {vertices,indices,normals,colors}; 
+</div>	

@@ -1,6 +1,24 @@
-angular.module('NPLCAD_App', ['ngStorage','ngAnimate', 'ui.bootstrap']).controller('nplcadController', function ($scope, $http) {
+angular.module('NPLCAD_App', ['ngStorage','ngAnimate', 'ui.bootstrap'])
+ .controller('nplcadController', function ($scope, $http, $log) {
 	$scope.isCollapsed = true;
 	$scope.isCollapsedHorizontal = false;
+	
+	  $scope.status = {
+    isopen: false
+  };
+
+  $scope.toggled = function(open) {
+    $log.log('Dropdown is now: ', open);
+  };
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.status.isopen = !$scope.status.isopen;
+  };
+
+  $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+		
     if (Page)
         Page.ShowSideBar(false);
     window.URL = window.URL || window.webkitURL;
@@ -168,10 +186,30 @@ angular.module('NPLCAD_App', ['ngStorage','ngAnimate', 'ui.bootstrap']).controll
 
         return stl
     }
-    var code_editor = ace.edit("code_editor");
+    
+	
+	
+	var code_editor = ace.edit("code_editor");
     code_editor.setTheme("ace/theme/github");
     code_editor.getSession().setMode("ace/mode/lua");
     code_editor.setShowPrintMargin(false);
+	
+	$scope.changeEditorContent = function(num) { 
+	if(num == 1){
+	var sContent = angular.element(document.getElementById('code_example1')).text();
+    code_editor.setValue(sContent) ;
+	}
+	if(num == 2){
+	var sContent = angular.element(document.getElementById('code_example2')).text();
+    code_editor.setValue(sContent) ;
+	}
+	if(num == 3){
+	var sContent = angular.element(document.getElementById('code_example3')).text();
+    code_editor.setValue(sContent) ;
+	}
+
+	
+}  
 
     $scope.onRunCode = function (bSave) {
         $("#logWnd").html("");
@@ -198,6 +236,7 @@ angular.module('NPLCAD_App', ['ngStorage','ngAnimate', 'ui.bootstrap']).controll
             }
         });
     }
+
     onWindowResize();
 });
 
