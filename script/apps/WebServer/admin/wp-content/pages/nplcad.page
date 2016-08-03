@@ -101,7 +101,7 @@ end
     }
     
 	button{
-		position: releative;
+		
 		width:100%;
 		height: 30px;
 	}
@@ -130,27 +130,12 @@ end
 			<div id="view_container" style="min-height:560px;"></div>
 
 				<div class="col-md-4">
-				<button ng-click="onRunCode()" class="btn btn-primary" id="runcode" >Compile</button>			
+				<button ng-click="onRunCode()"  id="runcode" >Compile</button>			
 				</div>
-				<div class="col-md-4">
 
-					<div class="btn-group" uib-dropdown is-open="status.isopen">
-					  <button id="single-button" type="button" class="btn btn-success" uib-dropdown-toggle ng-disabled="disabled">
-						Code example <span class="caret"></span>
-					  </button>
-					  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-						<li role="menuitem" ng-click="changeEditorContent(1)"><a href="#">Cube, sphere and cylinder</a></li>
-						<li role="menuitem" ng-click="changeEditorContent(2)"><a href="#">Subtract</a></li>
-						<li role="menuitem" ng-click="changeEditorContent(3)"><a href="#">Intersect</a></li>
-						<li role="menuitem" ng-click="changeEditorContent(4)"><a href="#">Comparsion</a></li>
-						<li class="divider"></li>
-						
-						<li role="menuitem" ng-click="changeEditorContent(5)"><a href="#">Example five</a></li>
-					  </ul>
-					</div>
-				</div>	
+				<br>
 				<section id="text-demo">
-				<br><h3>Saving 3D geometry </h3>
+				<p>Save 3D geometry: </p>
 				
 				<form id="text-options">
 					<label>Filename: 
@@ -161,18 +146,35 @@ end
 		</div>
 		<div id="right" class="col-md-6" style="background-color:white; boder-style:none">
 			<div>
-				<div>
-					<button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Read coding guide</button>
+				<div class="col-md-6">	
+					<button type="button" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Read coding guide</button>
 				</div>
-
 				
-				<div uib-collapse="isCollapsed">
-					<div class="well well-lg" style="min-height:560px;">
-						Write coding guide here
-					</div>
+
+				<div class="col-md-6"uib-dropdown is-open="status.isopen">
+				  <button id="single-button" type="button"  uib-dropdown-toggle ng-disabled="disabled">
+					Code example <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+					<li role="menuitem" ng-click="changeEditorContent(1)"><a href="#">Cube, sphere and cylinder</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(2)"><a href="#">Subtract</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(3)"><a href="#">Intersect</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(4)"><a href="#">Comparsion</a></li>
+					<li class="divider"></li>
 					
+					<li role="menuitem" ng-click="changeEditorContent(5)"><a href="#">Example five</a></li>
+				  </ul>
 				</div>
+				
 			</div>
+			<hr>
+			<div uib-collapse="isCollapsed">
+				<div class="well well-lg" style="min-height:560px;">
+					Write coding guide here
+				</div>
+				
+			</div>
+			
 			
 			<div uib-collapse="isCollapsedHorizontal">
 				
