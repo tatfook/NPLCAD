@@ -18,12 +18,14 @@ wp_enqueue_script("nplcadController",			"/wp-content/pages/nplcad/controllers/np
 
 wp_enqueue_style("nplcad_light",				"/wp-content/pages/nplcad/assets/css/light.css");
 
+
 wp_enqueue_script("nplcad_threejs",				"/wp-content/pages/nplcad/js/libs/three.min.js"); 
 wp_enqueue_script("nplcad_FileSaver",			"/wp-content/pages/nplcad/js/libs/FileSaver.min.js"); 
 wp_enqueue_script("nplcad_angular-animate",		"/wp-content/pages/nplcad/js/libs/angular-animate.js"); 
 wp_enqueue_script("nplcad_signals",				"/wp-content/pages/nplcad/js/libs/signals.min.js"); 
 wp_enqueue_script("nplcad_ui",					"/wp-content/pages/nplcad/js/libs/ui.js"); 
 wp_enqueue_script("nplcad_ui_three",			"/wp-content/pages/nplcad/js/libs/ui.three.js"); 
+wp_enqueue_script("nplcad_Blob",				"/wp-content/pages/nplcad/js/libs/Blob.js"); 
 
 wp_enqueue_script("nplcad_editor",				"/wp-content/pages/nplcad/js/Editor.js"); 
 wp_enqueue_script("nplcad_viewport",			"/wp-content/pages/nplcad/js/Viewport.js"); 
@@ -31,6 +33,7 @@ wp_enqueue_script("nplcad_viewport_info",		"/wp-content/pages/nplcad/js/Viewport
 
 wp_enqueue_script("nplcad_editorcontrols",		"/wp-content/pages/nplcad/js/controls/EditorControls.js"); 
 wp_enqueue_script("nplcad_transformcontrols",	"/wp-content/pages/nplcad/js/controls/TransformControls.js"); 
+
 
 
 local code = request:get("code");
@@ -125,6 +128,15 @@ end
 	<div class="row" >
 		<div id="left" class="col-md-6">
 			<div id="view_container" style="min-height:560px;"></div>
+			<section id="text-demo">
+				<h2>Saving 3D geometry </h2>
+				
+				<form id="text-options">
+					<label>Filename: 
+					<input type="text" class="filename" id="wtf" placeholder="File name"/>.stl</label>
+					<input type="submit" ng-click="onRunCode(true)" value="Save"/>
+				</form>
+			</section>
 				<div class="col-md-4">
 				<button ng-click="onRunCode()" class="btn btn-primary" id="runcode" >Compile</button>			
 				</div>
@@ -202,7 +214,7 @@ end
 		</div>
 	</div>
 </div>
-<div id="code_example1" hidden="hidden">--code here1
+<div id="code_example1" hidden="hidden">--code example1
 	NPL.load("(gl)script/ide/CSG/CSG.lua");
 	local cube_center = {0,1,0};
 	local cube_radius = {10,2,1};
@@ -230,7 +242,7 @@ end
 	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
 	return {vertices,indices,normals,colors}; 
 </div>			
-<div id="code_example2" hidden="hidden">--code here222
+<div id="code_example2" hidden="hidden">--code example2
 	NPL.load("(gl)script/ide/CSG/CSG.lua");
 	local cube_center = {0,1,0};
 	local cube_radius = {10,2,1};
@@ -258,7 +270,7 @@ end
 	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
 	return {vertices,indices,normals,colors}; 
 </div>	
-<div id="code_example3" hidden="hidden">--code here333
+<div id="code_example3" hidden="hidden">--code example3
 	NPL.load("(gl)script/ide/CSG/CSG.lua");
 	local cube_center = {0,2,0};
 	local cube_radius = {10,2,1};

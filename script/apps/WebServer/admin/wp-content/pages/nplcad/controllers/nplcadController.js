@@ -180,8 +180,12 @@ angular.module('NPLCAD_App', ['ngStorage','ngAnimate', 'ui.bootstrap'])
         stl += 'endsolid'
 
         if (download) {
-			var blob = new Blob([stl], {type: 'text/plain'});
-			saveAs(blob, 'download' + '.stl');
+			var sFileName = document.getElementById('wtf').value;
+			if (sFileName){
+				var blob = new Blob([stl], {type: 'text/plain'});
+				saveAs(blob, sFileName + '.stl');
+			}
+			else alert("Please enter file name!");
         }
 
         return stl
