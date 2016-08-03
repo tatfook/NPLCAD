@@ -197,20 +197,17 @@ angular.module('NPLCAD_App', ['ngStorage','ngAnimate', 'ui.bootstrap'])
     code_editor.setTheme("ace/theme/github");
     code_editor.getSession().setMode("ace/mode/lua");
     code_editor.setShowPrintMargin(false);
+
 	
 	$scope.changeEditorContent = function(num) { 
-	if(num == 1){
-	var sContent = angular.element(document.getElementById('code_example1')).text();
-    code_editor.setValue(sContent) ;
+	if(num){
+	var sContent = angular.element(document.getElementById('code_example'+num)).text();
+	if(sContent){
+		code_editor.setValue(sContent) ;
 	}
-	if(num == 2){
-	var sContent = angular.element(document.getElementById('code_example2')).text();
-    code_editor.setValue(sContent) ;
+	else alert("Can't find code example");
 	}
-	if(num == 3){
-	var sContent = angular.element(document.getElementById('code_example3')).text();
-    code_editor.setValue(sContent) ;
-	}
+
 
 	
 }  

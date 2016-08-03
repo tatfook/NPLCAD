@@ -128,37 +128,36 @@ end
 	<div class="row" >
 		<div id="left" class="col-md-6">
 			<div id="view_container" style="min-height:560px;"></div>
-			<section id="text-demo">
-				<h2>Saving 3D geometry </h2>
-				
-				<form id="text-options">
-					<label>Filename: 
-					<input type="text" class="filename" id="wtf" placeholder="File name"/>.stl</label>
-					<input type="submit" ng-click="onRunCode(true)" value="Save"/>
-				</form>
-			</section>
+
 				<div class="col-md-4">
 				<button ng-click="onRunCode()" class="btn btn-primary" id="runcode" >Compile</button>			
 				</div>
 				<div class="col-md-4">
-				<button ng-click="onRunCode(true)" class="btn btn-success" id="savecode" >   Save   </button>		
-				</div>
-				<div class="col-md-4">
 
 					<div class="btn-group" uib-dropdown is-open="status.isopen">
-					  <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+					  <button id="single-button" type="button" class="btn btn-success" uib-dropdown-toggle ng-disabled="disabled">
 						Code example <span class="caret"></span>
 					  </button>
 					  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-						<li role="menuitem" ng-click="changeEditorContent(1)"><a href="#">Example one</a></li>
-						<li role="menuitem" ng-click="changeEditorContent(2)"><a href="#">Example two</a></li>
-						<li role="menuitem" ng-click="changeEditorContent(3)"><a href="#">Example three</a></li>
+						<li role="menuitem" ng-click="changeEditorContent(1)"><a href="#">Cube, sphere and cylinder</a></li>
+						<li role="menuitem" ng-click="changeEditorContent(2)"><a href="#">Subtract</a></li>
+						<li role="menuitem" ng-click="changeEditorContent(3)"><a href="#">Intersect</a></li>
+						<li role="menuitem" ng-click="changeEditorContent(4)"><a href="#">Comparsion</a></li>
 						<li class="divider"></li>
-						<li role="menuitem" ng-click="changeEditorContent(4)"><a href="#">Example four</a></li>
+						
+						<li role="menuitem" ng-click="changeEditorContent(5)"><a href="#">Example five</a></li>
 					  </ul>
 					</div>
 				</div>	
+				<section id="text-demo">
+				<br><h3>Saving 3D geometry </h3>
 				
+				<form id="text-options">
+					<label>Filename: 
+					<input type="text" class="filename" id="wtf" placeholder="File name"/> .stl</label>
+					<input type="submit" ng-click="onRunCode(true)" value="Save"/>
+				</form>
+				</section>
 		</div>
 		<div id="right" class="col-md-6" style="background-color:white; boder-style:none">
 			<div>
@@ -214,87 +213,178 @@ end
 		</div>
 	</div>
 </div>
-<div id="code_example1" hidden="hidden">--code example1
-	NPL.load("(gl)script/ide/CSG/CSG.lua");
-	local cube_center = {0,1,0};
-	local cube_radius = {10,2,1};
+<div id="example" hidden="hidden">
 
-	local sphere_center = {0,0,0};
+	<div id="code_example1">--Cube, sphere and cylinder
+	NPL.load("(gl)script/ide/CSG/CSG.lua");
+	
+	--set cube parameters: center and radius.
+	local cube_center = {0,1,8};
+	local cube_radius = {10,2,1};
+	
+	--Set sphere parameters: center, radius, slices, stacks.The slices 
+	--and stacks parameters control the tessellation along 
+	--the longitude and latitude directions.
+	local sphere_center = {0,0,1};
 	local sphere_radius = 4;
 	local sphere_slices = 16;
 	local sphere_stacks = 8;
-
+	
+	--Set cylinder parameters: start, end, radius, slice.The slices 
+	--parameter controls the tessellation.
+	local cylinder_start = {0,-4,-8};
+	local cylinder_end = {0,4,-8};
+	local cylinder_radius = 4;
+	local cylinder_slice = 8;
+	
+	--Get all parameters in a table.
 	local cube_options = {
-	center = cube_center,
-	radius = cube_radius,
+		center = cube_center,
+		radius = cube_radius,
 	}
 	local sphere_options = {
-	center = sphere_center,
-	radius = sphere_radius,
-	slices = sphere_slices,
-	stacks = sphere_stacks,
+		center = sphere_center,
+		radius = sphere_radius,
+		slices = sphere_slices,
+		stacks = sphere_stacks,
+	}	
+	local cylinder_options = {
+		["from"] = cylinder_start,
+	    ["to"] = cylinder_end,
+		radius = cylinder_radius,
+		slice = cylinder_slice,
 	}
-
+	--Render 3D geometry.
 	local CSG = commonlib.gettable("CSG.CSG");
 	local cube = CSG.cube(cube_options);
 	local sphere = CSG.sphere(sphere_options);
+	local cylinder = CSG.cylinder(cylinder_options);
 	local csg_node = cube:union(sphere);
+	csg_node = csg_node:union(cylinder);
 	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
 	return {vertices,indices,normals,colors}; 
-</div>			
-<div id="code_example2" hidden="hidden">--code example2
-	NPL.load("(gl)script/ide/CSG/CSG.lua");
-	local cube_center = {0,1,0};
-	local cube_radius = {10,2,1};
+	</div>			
+	<div id="code_example2" >--Subtract
+		-- A:subtract(B)
+		-- Return a new CSG solid representing space in this solid but 
+		-- not in the solid `csg`. Neither this solid nor the solid
+		-- `csg` are modified.
+		-- 
+		--     +-------+            +-------+
+		--     |       |            |       |
+		--     |   A   |            |       |
+		--     |    +--+----+   =   |    +--+
+		--     +----+--+    |       +----+
+		--          |   B   |
+		--          |       |
+		--          +-------+
+		-- 	
+		NPL.load("(gl)script/ide/CSG/CSG.lua");
+		local cube_center = {0,1,0};
+		local cube_radius = {10,2,1};
 
-	local sphere_center = {0,0,0};
-	local sphere_radius = 4;
-	local sphere_slices = 16;
-	local sphere_stacks = 8;
+		local sphere_center = {0,0,0};
+		local sphere_radius = 4;
+		local sphere_slices = 16;
+		local sphere_stacks = 8;
 
-	local cube_options = {
-	center = cube_center,
-	radius = cube_radius,
-	}
-	local sphere_options = {
-	center = sphere_center,
-	radius = sphere_radius,
-	slices = sphere_slices,
-	stacks = sphere_stacks,
-	}
+		local cube_options = {
+		center = cube_center,
+		radius = cube_radius,
+		}
+		local sphere_options = {
+		center = sphere_center,
+		radius = sphere_radius,
+		slices = sphere_slices,
+		stacks = sphere_stacks,
+		}
 
-	local CSG = commonlib.gettable("CSG.CSG");
-	local cube = CSG.cube(cube_options);
-	local sphere = CSG.sphere(sphere_options);
-	local csg_node = cube:union(sphere);
-	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-	return {vertices,indices,normals,colors}; 
-</div>	
-<div id="code_example3" hidden="hidden">--code example3
-	NPL.load("(gl)script/ide/CSG/CSG.lua");
-	local cube_center = {0,2,0};
-	local cube_radius = {10,2,1};
+		local CSG = commonlib.gettable("CSG.CSG");
+		local cube = CSG.cube(cube_options);
+		local sphere = CSG.sphere(sphere_options);
+		local csg_node = cube:subtract(sphere);
+		local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+		return {vertices,indices,normals,colors}; 
+	</div>	
+	<div id="code_example3">--Intersect
+	-- Return a new CSG solid representing space both this solid and
+	-- in the solid `csg`. Neither this solid nor the solid `csg` 
+	-- are modified.
+	--
+	--     A:intersect(B)
+	-- 
+	--     +-------+
+	--     |       |
+	--     |   A   |
+	--     |    +--+----+   =   +--+
+	--     +----+--+    |       +--+
+	--          |   B   |
+	--          |       |
+	--          +-------+
+	-- 
+		NPL.load("(gl)script/ide/CSG/CSG.lua");
+		local cube_center = {0,2,0};
+		local cube_radius = {10,2,1};
 
-	local sphere_center = {0,0,0};
-	local sphere_radius = 4;
-	local sphere_slices = 16;
-	local sphere_stacks = 8;
+		local sphere_center = {0,0,0};
+		local sphere_radius = 4;
+		local sphere_slices = 16;
+		local sphere_stacks = 8;
 
-	local cube_options = {
-	center = cube_center,
-	radius = cube_radius,
-	}
-	local sphere_options = {
-	center = sphere_center,
-	radius = sphere_radius,
-	slices = sphere_slices,
-	stacks = sphere_stacks,
-	}
+		local cube_options = {
+		center = cube_center,
+		radius = cube_radius,
+		}
+		local sphere_options = {
+		center = sphere_center,
+		radius = sphere_radius,
+		slices = sphere_slices,
+		stacks = sphere_stacks,
+		}
 
-	local CSG = commonlib.gettable("CSG.CSG");
-	local cube = CSG.cube(cube_options);
-	local sphere = CSG.sphere(sphere_options);
-	local csg_node = sphere:subtract(cube);
-	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-	return {vertices,indices,normals,colors}; 
-</div>	
+		local CSG = commonlib.gettable("CSG.CSG");
+		local cube = CSG.cube(cube_options);
+		local sphere = CSG.sphere(sphere_options);
+		local csg_node = sphere:intersect(cube);
+		local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+		return {vertices,indices,normals,colors}; 
+	</div>	
+		<div id="code_example4">
+
+		NPL.load("(gl)script/ide/CSG/CSG.lua");
+
+		local CSG = commonlib.gettable("CSG.CSG");
+		
+        local a = CSG.cube({ center= {-0.25, -0.25, -0.25} });
+        local b = CSG.sphere({ radius = 1.3, center = {0.25, 0.25, 0.25} });
+	
+	    local c = CSG.cube({ center= {-4.25, -0.25, -0.25} });
+        local d = CSG.sphere({ radius = 1.3, center = {-3.75, 0.25, 0.25} });
+	
+	    local e = CSG.cube({ center= {3.75, -0.25, -0.25} });
+        local f = CSG.sphere({ radius = 1.3, center = {4.25, 0.25, 0.25} });
+	
+        local csg_node =(c:subtract(d)):union(a:union(b)):union(e:intersect(f));
+				
+		local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+		return {vertices,indices,normals,colors}; 
+		
+		</div>
+	<div id="code_example5">
+		NPL.load("(gl)script/ide/CSG/CSG.lua");
+
+		local CSG = commonlib.gettable("CSG.CSG");
+		
+        local a = CSG.cube();
+        local b = CSG.sphere({ radius = 1.35, stacks = 12 });
+        local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
+        local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
+        local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });		
+        local csg_node = a:intersect(b):subtract(c:union(d):union(e));
+		
+		
+		
+		local vertices,indices,normals,colors = CSG.toMesh(csg_node);
+		return {vertices,indices,normals,colors}; 
+	</div>
+</div>
