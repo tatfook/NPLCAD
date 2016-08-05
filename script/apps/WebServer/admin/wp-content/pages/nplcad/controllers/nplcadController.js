@@ -207,10 +207,19 @@ angular.module('NPLCAD_App', ['ngStorage','ngAnimate', 'ui.bootstrap'])
 	}
 	else alert("Can't find code example");
 	}
-
-
-	
-}  
+	}
+	$scope.editText = function(check) { 
+	var oInput = angular.element(document.getElementsByName(check+'Input'));
+	var atxt = new Array();
+	if(oInput){
+		for (var i=0;i<oInput.length;i++){
+			atxt[i]=oInput[i].value
+		}
+		var txt = "{ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = {"+atxt[3]+","+atxt[4]+","+atxt[5]+"}};"
+		alert (txt);
+	}
+	else return
+	}  
 
     $scope.onRunCode = function (bSave) {
         $("#logWnd").html("");

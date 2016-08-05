@@ -115,7 +115,20 @@ end
 		width:100%;
 		height: 30px;
 	}
-
+	div.paraDiv{
+		position: releative;
+		background:#ffffff;
+		width:240px;
+		font-size:9pt;
+		text-align:center;
+		border:2 ridge threedshadow;
+		border-right:inset threedhighlight;
+		border-bottom:inset threedhighlight; 
+	} 
+	input.paraInput{
+		text-align:center;
+		border-width:0; 
+	} 
 </style>
 <script>
 	$(function(){
@@ -139,18 +152,21 @@ end
 				
 				<form id="text-options">
 					<label>Filename: 
-					<input type="text" class="filename" id="wtf" placeholder="File name"/> .stl</label>
+					<input type="text" class="filename" id="wtf" placeholder="Enter Filename"/> .stl</label>
 					<input type="submit" ng-click="onRunCode(true)" value="Save"/>
 				</form>
 				</section>
 		</div>
+		<!-- Right side-->
 		<div id="right" class="col-md-6" style="background-color:white; boder-style:none">
+			<!-- Right top two button-->
 			<div>
+				<!-- First button-->
 				<div class="col-md-6">	
 					<button type="button" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Read coding guide</button>
 				</div>
 				
-
+				<!-- Second button-->
 				<div class="col-md-6"uib-dropdown is-open="status.isopen">
 				  <button id="single-button" type="button"  uib-dropdown-toggle ng-disabled="disabled">
 					Code example <span class="caret"></span>
@@ -168,16 +184,56 @@ end
 				
 			</div>
 			<hr>
+			<!-- Hidden Code guide -->
 			<div uib-collapse="isCollapsed">
 				<div class="well well-lg" style="min-height:560px;">
-					Write coding guide here
+					<form id="cube-options">
+						<label><h3>Cube:</h3>						
+							Center:
+							<div class="paraDiv" id="cubeCenter">
+								
+								<input class="paraInput" name="cubeInput" type="text" size="3"  >,
+								<input class="paraInput" name="cubeInput" type="text" size="3"  >,
+								<input class="paraInput" name="cubeInput" type="text" size="3"  >
+							</div>
+						</label>
+						<label>
+							Radius:
+							<div class="paraDiv" id="cubeRadius">
+								<input class="paraInput" name="cubeInput" type="text" size="3" >,
+								<input class="paraInput" name="cubeInput" type="text" size="3" >,
+								<input class="paraInput" name="cubeInput" type="text" size="3" >
+							</div>
+						</label>
+					<input type="submit" ng-click="onRunCode(true)" value="Add"/>
+					</form>
+					<form id="Sphere-options">
+						<label><h3>Sphere: </h3>
+						Center:			
+						<div class="paraDiv" id="sphereCenter">
+							
+							<input class="paraInput" name="sphereInput" type="text" size="3" maxlength="3" >,
+							<input class="paraInput" name="sphereInput" type="text" size="3" maxlength="3" >,
+							<input class="paraInput" name="sphereInput" type="text" size="3" maxlength="3" >
+						</div>
+						<div class="" id="sphereThree">
+							Radius:
+							<input class="paraDiv" name="sphereInput" type="text" size="3" maxlength="3" >
+							slices:
+							<input class="paraDiv" name="sphereInput" type="text" size="3" maxlength="3" >
+							stacks:
+							<input class="paraDiv" name="sphereInput" type="text" size="3" maxlength="3" >
+						</div>
+						</label>
+						<input type="submit" ng-click="onRunCode(true)" value="Add"/>
+					</form>
 				</div>
 				
 			</div>
 			
 			
 			<div uib-collapse="isCollapsedHorizontal">
-				
+
 				<div id="code_editor" >--code here
 	NPL.load("(gl)script/ide/CSG/CSG.lua");
 	local cube_center = {0,1,0};
@@ -365,7 +421,8 @@ end
 	
 	    local e = CSG.cube({ center= {3.75, -0.25, -0.25} });
         local f = CSG.sphere({ radius = 1.3, center = {4.25, 0.25, 0.25} });
-	
+		
+		-- Compare the difference between:subtract, union, intersect, from left to right
         local csg_node =(c:subtract(d)):union(a:union(b)):union(e:intersect(f));
 				
 		local vertices,indices,normals,colors = CSG.toMesh(csg_node);
