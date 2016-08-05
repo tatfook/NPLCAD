@@ -31,12 +31,6 @@
     <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers">
       <UniqueIdentifier>{8bb4d692-61df-4498-8487-bfdd1cc41c16}</UniqueIdentifier>
     </Filter>
-    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\models">
-      <UniqueIdentifier>{04f0cc09-0b7d-4ffd-9af2-9f987b67bbf4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\pages">
-      <UniqueIdentifier>{e3066064-0832-4fae-810e-8ceb5a391f67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js">
       <UniqueIdentifier>{e890e579-7f7f-4de1-ba06-390ce4e8866a}</UniqueIdentifier>
     </Filter>
@@ -52,18 +46,12 @@
     <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css">
       <UniqueIdentifier>{189a8339-6071-4106-b43a-f1be271ee785}</UniqueIdentifier>
     </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates">
+      <UniqueIdentifier>{3d848f5e-a9ed-4b69-954d-5b4f8fb51724}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Mod\NPLCAD\Helper.lua">
-      <Filter>Mod\NPLCAD</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\main.lua">
-      <Filter>Mod\NPLCAD</Filter>
-    </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\routes.page">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad</Filter>
     </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\nplcadController.js">
@@ -113,6 +101,12 @@
     </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page">
       <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\NplCadCompiler.lua">
+      <Filter>Mod\NPLCAD</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\nplcadTemplate.html">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\templates</Filter>
     </None>
   </ItemGroup>
 </Project>

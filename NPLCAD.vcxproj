@@ -110,8 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="Mod\NPLCAD\Helper.lua" />
-    <None Include="Mod\NPLCAD\main.lua" />
+    <None Include="Mod\NPLCAD\NplCadCompiler.lua" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\dark.css" />
@@ -129,7 +128,7 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ui.three.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.Info.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\routes.page" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\nplcadTemplate.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
