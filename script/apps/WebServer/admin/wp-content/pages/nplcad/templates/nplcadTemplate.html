@@ -1,29 +1,38 @@
-<div class="title">NPLCAD</div>
-<br/>
-<div>
-	<div class="row" >
-		<div id="left" class="col-md-6">
-			<div id="view_container" style="min-height:560px;"></div>
 
-				<div class="col-md-4">
-				<button ng-click="onRunCode()"  id="runcode" >Compile</button>			
-				</div>
-				<div class="col-md-4">
-				<input type="submit" ng-click="editText('compile')" value="compile"/>
-				</div>
-				<br>
-				<section id="text-demo">
-				<p>Save 3D geometry: </p>
-				
-				<form id="text-options">
-					<label>Filename: 
-					<input type="text" class="filename" id="wtf" placeholder="Enter Filename"/> .stl</label>
-					<input type="submit" ng-click="onRunCode(true)" value="Save"/>
-				</form>
-				</section>
-		</div>
-		<!-- Right side-->
-		<div id="right" class="col-md-6" style="background-color:white; boder-style:none">
+<div class="row">
+<section id="panel" class="panel">
+  <header>
+	<h1>
+	  NPLCAD
+	</h1>
+	<span id="showcode" class="showcode">
+	  <i class="ion-eye icon-yepcode"></i>
+	  <i class="ion-eye-disabled icon-nocode"></i>
+	</span>
+  </header>
+  <article >
+	<div class="col-md-12" style="height:100%; width: 100%;">
+			<div id="left" >
+				<div id="view_container"></div>
+
+					<div class="col-md-4">
+					<button ng-click="onRunCode()"  id="runcode" >Compile</button>			
+					</div>
+					<section class="col-md-6" id="text-demo">				
+						<form id="text-options">
+							<label>Filename: 
+							<input type="text" class="filename" id="wtf" placeholder="Enter Filename"/> .stl</label>
+							<input type="submit" ng-click="onRunCode(true)" value="Save"/>
+						</form>
+					</section>
+			</div>
+	</div>
+
+
+
+	<div class="code" >
+				<!-- Right side-->
+		<div id="right" style="background-color:white; boder-style:none">
 			<!-- Right top two button-->
 			<div>
 				<!-- First button-->
@@ -50,125 +59,139 @@
 				
 			</div>
 			<hr>
-			<!-- Hidden Code guide -->
-			<div uib-collapse="isCollapsed">
-				<div class="well well-lg" style="min-height:560px;">
-					<form id="cube-options">
-						<h3>Cube:</h3>						
-						<label>Center:
-							<div class="paraDiv" id="cubeCenter">
-								
-								<input class="paraInput" name="cubeInput" type="text" size="3" value="2" >,
-								<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
-								<input class="paraInput" name="cubeInput" type="text" size="3" value="2" >
-							</div>
-						</label>
-						<label>
-							Radius:
-							<div class="paraDiv" id="cubeRadius">
-								<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
-								<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
-								<input class="paraInput" name="cubeInput" type="text" size="3" value="2">
-							</div>
-						</label>
-					<input type="submit" ng-click="editText('cube')" value="Add"/>
-					</form>
-					<form id="Sphere-options">
-						<h3>Sphere: </h3>
-						<label>Center:			
-						<div class="paraDiv" id="sphereCenter">
-							
-							<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
-							<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
-							<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >
-						</div>
-						<label>
-						</label>
-						<div class="paraDiv" id="sphereThree">
-							Radius:
-							<input class="paraInput" name="sphereInput" type="text" size="3" value="2" >
-							slices:
-							<input class="paraInput" name="sphereInput" type="text" size="3" value="12" >
-							stacks:
-							<input class="paraInput" name="sphereInput" type="text" size="3" value="8" >
-						</div>
-						</label>
-						<input type="submit" ng-click="editText('sphere')" value="Add"/>
-					</form>
-					<form id="cylinder-options">
-						<h3>Cylinder: </h3>
-						<label>
-						Start:			
-						<div class="paraDiv" id="cylinderCenter">
-							
-							<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >,
-							<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >,
-							<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >
-						</div>
-						</label>
-						<label>End:
-						<div class="paraDiv" id="cylinderCenter">
-							
-							<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >,
-							<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >,
-							<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >
-						</div>
-						</label>
-						<label>
-						<div class="paraDiv" id="sphereThree">
-							Radius:
-							<input class="paraInput" name="cylinderInput" type="text" size="3" value="2" >
-							slices:
-							<input class="paraInput" name="cylinderInput" type="text" size="3" value="8" >
-						</div>
-						</label>
-						<input type="submit" ng-click="editText('cylinder')" value="Add"/>
-					</form>
+	<!-- Hidden Code guide -->
+
+	<div uib-collapse="isCollapsed">
+		<div class="well well-lg" style="min-height:560px;">
+			<form id="cube-options">
+				<h3>Cube:</h3>						
+				<label>Center:
+					<div class="paraDiv" id="cubeCenter">
+						
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2" >,
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2" >
+					</div>
+				</label>
+				<label>
+					Radius:
+					<div class="paraDiv" id="cubeRadius">
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">
+					</div>
+				</label>
+			<input type="submit" ng-click="editText('cube')" value="Add"/>
+			</form>
+			<form id="Sphere-options">
+				<h3>Sphere: </h3>
+				<label>Center:			
+				<div class="paraDiv" id="sphereCenter">
+					
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >
 				</div>
-				
-			</div>
-			
-			
-			<div uib-collapse="isCollapsedHorizontal">
-
-				<div id="code_editor" >--code here
-	NPL.load("(gl)script/ide/CSG/CSG.lua");
-	local cube_center = {0,1,0};
-	local cube_radius = {10,2,1};
-
-	local sphere_center = {0,0,0};
-	local sphere_radius = 4;
-	local sphere_slices = 16;
-	local sphere_stacks = 8;
-
-	local cube_options = {
-		center = cube_center,
-		radius = cube_radius,
-	}
-	local sphere_options = {
-		center = sphere_center,
-		radius = sphere_radius,
-		slices = sphere_slices,
-		stacks = sphere_stacks,
-	}
-
-	local CSG = commonlib.gettable("CSG.CSG");
-	local cube = CSG.cube(cube_options);
-	local sphere = CSG.sphere(sphere_options);
-	local csg_node = cube:union(sphere);
-	local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-	return {vertices,indices,normals,colors}; 
+				<label>
+				</label>
+				<div class="paraDiv" id="sphereThree">
+					Radius:
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="2" >
+					slices:
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="12" >
+					stacks:
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="8" >
 				</div>
-			</div>
-			</br>
-				
+				</label>
+				<input type="submit" ng-click="editText('sphere')" value="Add"/>
+			</form>
+			<form id="cylinder-options">
+
+				<h3>Cylinder: </h3>
+				<label>
+				Start:			
+				<div class="paraDiv" id="cylinderCenter">
+					
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >,
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >,
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >
+				</div>
+				</label>
+				<label>End:
+				<div class="paraDiv" id="cylinderCenter">
+					
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >,
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >,
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >
+				</div>
+				</label>
+				<label>
+				<div class="paraDiv" id="sphereThree">
+					Radius:
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="2" >
+					slices:
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="8" >
+				</div>
+				</label>
+				<input type="submit" ng-click="editText('cylinder')" value="Add"/>
+			</form>
+			<div class="col-md-6">
+		
+				<div>
+				  <material-picker ng-model="color" hover-model="hoverColor" size="size"></material-picker>
+				  R: <input ng-model="color.r" name="getColor" class="form-control" maxlength="3" ng-blur="correct()" /> 
+				  G: <input ng-model="color.g" name="getColor" class="form-control" maxlength="3" ng-blur="correct()" /> 
+				  B: <input ng-model="color.b" name="getColor" class="form-control" maxlength="3" ng-blur="correct()" />
+				  <div ng-bind="color.name"></div>
+				  <div class="colorpicker-preview" ng-style="{background: color.hex}"></div>
+				  <button class="btn btn-info" ng-click="setColor()">Set to White</button>
+				  <button class="btn btn-info" ng-click="color.hex='#000000'">Set to Black</button>
+				  <button class="btn btn-info" ng-click="color.hex='#FF6F00'">Set to Orange</button>
+				  <!--
+				  <div ng-show="hoverColor !== null">
+					R: {{hoverColor.r}} G: {{hoverColor.g}} B: {{hoverColor.b}} Name: {{hoverColor.name}} 
+				  </div>
+				  -->
+				</div>
+			</div>				
 		</div>
 		
-		<div class="row" style="padding-left:30px;padding-right:30px;" id="logWnd">
+	</div>
+
+
+	<div uib-collapse="isCollapsedHorizontal">
+
+		<div id="code_editor" >
+	function main()
+	local a = CSG.cube();
+	local b = CSG.sphere({ radius = 1.35, stacks = 12 });
+	local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
+	local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
+	local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
+	a:SetColor({255,255,0});
+	b:SetColor({0,255,255});
+	c:SetColor({255,0,0});
+	local csg_node = a:intersect(b):subtract(c:union(d):union(e));
+	echo(csg_node);
+	echo(c)
+	end
 		</div>
 	</div>
+	</br>
+		
+	</div>
+
+	<div class="row" style="padding-left:30px;padding-right:30px;" id="logWnd">
+	</div>
+	</div>
+
+  </article>
+
+</section>
 </div>
+
 <div id="example" hidden="hidden">
+
 
     <div id="code_example1">
         --Cube, sphere and cylinder
@@ -358,5 +381,8 @@ function main()
     local csg_node = a:intersect(b):subtract(c:union(d):union(e));
     echo(csg_node);
     echo(c)
+	end
     </div>
 </div>
+
+

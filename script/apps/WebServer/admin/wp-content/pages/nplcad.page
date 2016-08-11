@@ -15,9 +15,11 @@ wp_enqueue_script("bootstrap-css",				"/wp-includes/js/bootstrap/css/bootstrap.m
 
 wp_enqueue_script("NPLCAD_App",					"/wp-content/pages/nplcad/app.js");
 wp_enqueue_script("nplcadController",			"/wp-content/pages/nplcad/controllers/nplcadController.js");
+wp_enqueue_script("nplcad_zhedie",			"/wp-content/pages/nplcad/controllers/controller.js");
 
 wp_enqueue_style("nplcad_light",				"/wp-content/pages/nplcad/assets/css/light.css");
-
+wp_enqueue_style("nplcad_index",				"/wp-content/pages/nplcad/assets/css/index.css");
+wp_enqueue_style("nplcad_index",				"http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css");
 
 wp_enqueue_script("nplcad_threejs",				"/wp-content/pages/nplcad/js/libs/three.min.js"); 
 wp_enqueue_script("nplcad_FileSaver",			"/wp-content/pages/nplcad/js/libs/FileSaver.min.js"); 
@@ -33,6 +35,7 @@ wp_enqueue_script("nplcad_viewport_info",		"/wp-content/pages/nplcad/js/Viewport
 
 wp_enqueue_script("nplcad_editorcontrols",		"/wp-content/pages/nplcad/js/controls/EditorControls.js"); 
 wp_enqueue_script("nplcad_transformcontrols",	"/wp-content/pages/nplcad/js/controls/TransformControls.js"); 
+wp_enqueue_script("nplcad_colorPicker",			"/wp-content/pages/nplcad/js/controls/ui.bootstrap.materialPicker.js"); 
 
 
 NPL.load("(gl)Mod/NPLCAD/NplCadCompiler.lua");
@@ -67,6 +70,70 @@ end
 		width:100%;
 		height: 30px;
 	}
+	
+	div.paraDiv{
+	position: releative;
+	background:#ffffff;
+	width:240px;
+	font-size:9pt;
+	text-align:center;
+	border:2 ridge threedshadow;
+	border-right:inset threedhighlight;
+	border-bottom:inset threedhighlight; 
+	} 
+	
+	input.paraInput{
+		text-align:center;
+		border-width:0; 
+	}
+
+	.materialpicker-colors {
+	  -webkit-user-select: none;
+	  user-select: none;
+	  position: relative;
+	  border: 1px solid #FFF;
+	  border-radius: 2px;
+	  display: inline-block;
+	  box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+	  cursor: default;
+	}
+	.materialpicker-colors div.selected {
+	  position: relative;
+	  z-index: 2;
+	  box-shadow: 0 0 4px #000;
+	  border: 2px solid #FFF;
+	}
+	div.materialpicker-white.selected {
+	  border-color: #78909C;
+	}
+	.colorpicker-preview {
+	  width: 40px;
+	  height: 40px;
+	  border-radius: 2px;
+	  display: inline-block;
+	  vertical-align: middle;
+	}
+	.materialpicker.ng-invalid .materialpicker-colors {
+	  border-color: #a94442;
+	  box-shadow: 0 1px 5px #a94442;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </style>
 
 <div ng-app="NPLCAD_App">
