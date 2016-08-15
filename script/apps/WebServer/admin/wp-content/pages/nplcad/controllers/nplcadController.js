@@ -217,9 +217,8 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 					var mesh = new THREE.Mesh(geometry, material);
 					editor.addObject(mesh);
 					meshes.push(mesh);
-					alert("success")
 				}
-				else alert(data)
+				else alert('Loading failed')
 				};
 			}
 			$scope.addStl = function(){
@@ -254,13 +253,17 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 				}
 				if(check == 'cube'){
 				counter[0]++;
-				txt += "\tlocal "+check+counter[0]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = {"+atxt[3]+","+atxt[4]+","+atxt[5]+"}});\n\techo("+check+counter[0]+");\n"
-				writeCode (txt);					
+				txt += "\tlocal "+check+counter[0]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = {"+atxt[3]+","+atxt[4]+","+atxt[5]+"}});\n"
+				txt += changeColor(check+counter[0]);
+				txt += "\techo("+check+counter[0]+");\n";
+				writeCode (txt);			
 				}
 				if(check == 'sphere'){
 				counter[1]++;
-				txt += "\tlocal "+check+counter[1]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = "+atxt[3]+", slices = "+atxt[4]+", stacks = "+atxt[5]+"});\n\techo("+check+counter[1]+");\n"
-				writeCode (txt);					
+				txt += "\tlocal "+check+counter[1]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = "+atxt[3]+", slices = "+atxt[4]+", stacks = "+atxt[5]+"});\n"
+				txt += changeColor(check+counter[1]);
+				txt += "\techo("+check+counter[1]+");\n";
+				writeCode (txt);			
 				}
 				if(check == 'cylinder'){
 				counter[2]++;
@@ -268,22 +271,18 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 				
 				txt += changeColor(check+counter[2]);
 				txt += "\techo("+check+counter[2]+");\n";
-				writeCode (txt);					
+				writeCode (txt);				
 				}
-				if(check == 'compile'){
-
-				}
-
 			}
 			else return
 			}
-			var sCode = code_editor.getValue(sCode) ;
+			
 			function writeCode(txt){
-					alert (txt);
-					sCode=sCode.replace(/end/g,txt) 
+				var	sCode = "function main()\n";
+					sCode += txt; 
 					sCode += "end";
 					code_editor.setValue(sCode) ;
-					alert (sCode);
+					onRunCode();
 			}	
 
 			// Color Picker
@@ -313,16 +312,15 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 			  }
 			};
 			function changeColor(name){
-				var aColor = angular.element(document.getElementsByName('getColor'));
-				var r = aColor[0].value;
-				var g = aColor[1].value;
-				var b = aColor[2].value;
-				var sContent = "\t"+name+": SetColor({"+r+","+g+","+b+"});\n"
-				alert(sContent);
+				
+				var r = $scope.color['r'];
+				var g = $scope.color['g'];
+				var b = $scope.color['b'];
+				var sContent = "\t"+name+": SetColor({\n\t"+r/255+",\n\t"+g/255+",\n\t"+b/255+"});\n"
 				return sContent;
 				
 			} 
-            $scope.onRunCode = function (bSave) {
+            function onRunCode(bSave) {
                 $("#logWnd").html("");
                 var text = code_editor.getValue();
                 $http.get("ajax/nplcad?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
@@ -355,7 +353,9 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                     }
                 });
             }
-
+			$scope.onRunCode = function(bSave){
+				onRunCode(bSave);
+			}
             onWindowResize();
         }
     })
