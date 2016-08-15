@@ -1,5 +1,5 @@
-
-<div class="row">
+<div class="container-fluid">
+<div class="row" >
 <section id="panel" class="panel">
   <header>
 	<h1>
@@ -10,39 +10,44 @@
 	  <i class="ion-eye-disabled icon-nocode"></i>
 	</span>
   </header>
-  <article >
-	<div class="col-md-12" style="height:100%; width: 100%;">
-			<div id="left" >
-				<div id="view_container"></div>
-
-					<div class="col-md-4">
-					<button ng-click="onRunCode()"  id="runcode" >Compile</button>			
-					</div>
-					<section class="col-md-6" id="text-demo">				
-						<form id="text-options">
-							<label>Filename: 
-							<input type="text" class="filename" id="wtf" placeholder="Enter Filename"/> .stl</label>
-							<input type="submit" ng-click="onRunCode(true)" value="Save"/>
-						</form>
-					</section>
-			</div>
+  <article>
+	<div>
+			
+		<div class="col-lg-12" id="view_container"></div>
+			
+		<button class="col-md-2" ng-click="onRunCode()"  id="runcode" >Compile</button>	
+		<section id="text-demo">
+		<form id="text-options" class="col-md-5">
+			
+			<input class="col-md-7"	id="stlFile" type="file"  accept=".stl"/>			
+			<button class="col-md-5" id="loadStl" type="submit" ng-click="addStl()"><i class="glyphicon glyphicon-upload"></i> Add</button>
+		</form>
+		<form id="text-options" class="col-md-5">
+			<label>Filename: 
+			<input 	id="wtf"	 type="text" class="filename"  placeholder="Enter Filename"/> .stl</label>
+			
+			<button id="saveStl" type="submit" ng-click="onRunCode(true)"><i class="glyphicon glyphicon-download"></i> Save</button>
+		</form>
+		</section>
+				
+			
 	</div>
 
 
 
-	<div class="code" >
+	<div class="code" style="max-width:480px">
 				<!-- Right side-->
 		<div id="right" style="background-color:white; boder-style:none">
 			<!-- Right top two button-->
-			<div>
+			
 				<!-- First button-->
 				<div class="col-md-6">	
-					<button type="button" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Read coding guide</button>
+					<button class="largeButton" type="button" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Add ploygon by button</button>
 				</div>
 				
 				<!-- Second button-->
 				<div class="col-md-6"uib-dropdown is-open="status.isopen">
-				  <button id="single-button" type="button"  uib-dropdown-toggle ng-disabled="disabled">
+				  <button class="largeButton" id="single-button" type="button"  uib-dropdown-toggle ng-disabled="disabled">
 					Code example <span class="caret"></span>
 				  </button>
 				  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -57,12 +62,12 @@
 				  </ul>
 				</div>
 				
-			</div>
 			<hr>
 	<!-- Hidden Code guide -->
 
 	<div uib-collapse="isCollapsed">
-		<div class="well well-lg" style="min-height:560px;">
+		<div class="well well-lg">
+			<div  class="col-md-6">
 			<form id="cube-options">
 				<h3>Cube:</h3>						
 				<label>Center:
@@ -72,8 +77,7 @@
 						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
 						<input class="paraInput" name="cubeInput" type="text" size="3" value="2" >
 					</div>
-				</label>
-				<label>
+
 					Radius:
 					<div class="paraDiv" id="cubeRadius">
 						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
@@ -95,17 +99,17 @@
 				<label>
 				</label>
 				<div class="paraDiv" id="sphereThree">
-					Radius:
-					<input class="paraInput" name="sphereInput" type="text" size="3" value="2" >
-					slices:
-					<input class="paraInput" name="sphereInput" type="text" size="3" value="12" >
-					stacks:
+					<p>Radius, slices, stacks:</p> 
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="2" >					
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="12">					
 					<input class="paraInput" name="sphereInput" type="text" size="3" value="8" >
-				</div>
+			 	</div>
 				</label>
 				<input type="submit" ng-click="editText('sphere')" value="Add"/>
 			</form>
-			<form id="cylinder-options">
+			</div>
+
+			<form id="cylinder-options" class="col-md-6">
 
 				<h3>Cylinder: </h3>
 				<label>
@@ -127,9 +131,8 @@
 				</label>
 				<label>
 				<div class="paraDiv" id="sphereThree">
-					Radius:
+					Radius, slices:
 					<input class="paraInput" name="cylinderInput" type="text" size="3" value="2" >
-					slices:
 					<input class="paraInput" name="cylinderInput" type="text" size="3" value="8" >
 				</div>
 				</label>
@@ -189,6 +192,8 @@
 
 </section>
 </div>
+</div>
+
 
 <div id="example" hidden="hidden">
 

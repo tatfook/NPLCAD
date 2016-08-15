@@ -94,6 +94,7 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                 var material = new THREE.MeshBasicMaterial({
                     color: 0xffffff, vertexColors: THREE.VertexColors
                 });
+				
                 var mesh = new THREE.Mesh(geometry, material);
                 editor.addObject(mesh);
                 meshes.push(mesh);
@@ -197,7 +198,34 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                 }
                 return stl;
             }
-	
+
+			// Stl to geometry
+			function stlToGeometry(){
+				var stlFile = document.getElementById('stlFile').files[0];
+				var loader = new THREE.STLLoader();
+				var reader = new FileReader();
+				reader.readAsArrayBuffer(stlFile);
+				
+				reader.onload = function(){
+				var data = reader.result;
+				if(data){
+					var geometry = loader.parse(data);
+					var material = new THREE.MeshBasicMaterial({
+                    color: 0xffffff, vertexColors: THREE.VertexColors
+					});
+				
+					var mesh = new THREE.Mesh(geometry, material);
+					editor.addObject(mesh);
+					meshes.push(mesh);
+					alert("success")
+				}
+				else alert(data)
+				};
+			}
+			$scope.addStl = function(){
+				stlToGeometry();
+				
+			}
             var code_editor = ace.edit("code_editor");
             code_editor.setTheme("ace/theme/github");
             code_editor.getSession().setMode("ace/mode/lua");

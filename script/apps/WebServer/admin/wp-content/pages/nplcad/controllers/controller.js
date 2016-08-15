@@ -10,7 +10,7 @@ var panel = document.getElementById('panel'),
 
     showcode.addEventListener('click', _toggleCode);
 
-    selectPos.addEventListener('change', switchPos);
+   
 
     function _toggleCode() {
       panel.classList.toggle('viewCode');
