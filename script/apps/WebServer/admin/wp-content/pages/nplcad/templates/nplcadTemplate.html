@@ -1,102 +1,199 @@
-<div class="title">NPLCAD</div>
-<br/>
-<div>
-    <div class="row">
-        <div id="left" class="col-md-6">
-            <div id="view_container" style="min-height:560px;"></div>
-
-            <div class="col-md-4">
-                <button ng-click="onRunCode()" id="runcode">Compile</button>
-            </div>
-
-            <br>
-            <section id="text-demo">
-                <p>Save 3D geometry: </p>
-
-                <form id="text-options">
-                    <label>
-                        Filename:
-                        <input type="text" class="filename" id="wtf" placeholder="File name" /> .stl
-                    </label>
-                    <input type="submit" ng-click="onRunCode(true)" value="Save" />
-                </form>
-            </section>
-        </div>
-        <div id="right" class="col-md-6" style="background-color:white; boder-style:none">
-            <div>
-                <div class="col-md-6">
-                    <button type="button" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Read coding guide</button>
-                </div>
-
-
-                <div class="col-md-6" uib-dropdown is-open="status.isopen">
-                    <button id="single-button" type="button" uib-dropdown-toggle ng-disabled="disabled">
-                        Code example <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                        <li role="menuitem" ng-click="changeEditorContent(1)"><a href="#">Cube, sphere and cylinder</a></li>
-                        <li role="menuitem" ng-click="changeEditorContent(2)"><a href="#">Subtract</a></li>
-                        <li role="menuitem" ng-click="changeEditorContent(3)"><a href="#">Intersect</a></li>
-                        <li role="menuitem" ng-click="changeEditorContent(4)"><a href="#">Comparsion</a></li>
-                        <li class="divider"></li>
-
-                        <li role="menuitem" ng-click="changeEditorContent(5)"><a href="#">Example five</a></li>
-                        <li role="menuitem" ng-click="changeEditorContent(6)"><a href="#">Example six</a></li>
-                    </ul>
-                </div>
-
-            </div>
-            <hr>
-            <div uib-collapse="isCollapsed">
-                <div class="well well-lg" style="min-height:560px;">
-                    Write coding guide here
-                </div>
-
-            </div>
+<div class="container-fluid">
+<div class="row" >
+<section id="panel" class="panel">
+  <header>
+	<h1>
+	  NPLCAD
+	</h1>
+	<span id="showcode" class="showcode">
+	  <i class="ion-eye icon-yepcode"></i>
+	  <i class="ion-eye-disabled icon-nocode"></i>
+	</span>
+  </header>
+  <article>
+	<div>
+			
+		<div class="col-lg-12" id="view_container"></div>
+			
+		<button class="col-md-2" ng-click="onRunCode()"  id="runcode" >Compile</button>	
+		<section id="text-demo">
+		<form id="text-options" class="col-md-5">
+			
+			<input class="col-md-5"	id="stlFile" type="file"  accept=".stl"/>			
+			<button class="col-md-3" id="loadStl" type="submit" ng-click="addStl()"><i class="glyphicon glyphicon-upload"></i> Add</button>
+			<button class="col-md-4" id="clearMesh" ng-click="clearMesh()"> Clear all</button>
+		</form>
+		<form id="text-options" class="col-md-5">
+			<label>Filename: 
+			<input 	id="wtf"	 type="text" class="filename"  placeholder="Enter Filename"/> .stl</label>
+			
+			<button id="saveStl" type="submit" ng-click="onSaveCode()"><i class="glyphicon glyphicon-download"></i> Save</button>
+		</form>
+		</section>
+				
+			
+	</div>
 
 
-            <div uib-collapse="isCollapsedHorizontal">
 
-                <div id="code_editor">
-                    --code here
-                    NPL.load("(gl)script/ide/CSG/CSG.lua");
-                    local cube_center = {0,1,0};
-                    local cube_radius = {10,2,1};
+	<div class="code" style="max-width:480px">
+				<!-- Right side-->
+		<div id="right" style="background-color:inherit; boder-style:none">
+			<!-- Right top two button-->
+			
+				<!-- First button-->
+				<div class="col-md-6">	
+					<button class="largeButton" type="button" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Add ploygon by button</button>
+				</div>
+				
+				<!-- Second button-->
+				<div class="col-md-6"uib-dropdown is-open="status.isopen">
+				  <button class="largeButton" id="single-button" type="button"  uib-dropdown-toggle ng-disabled="disabled">
+					Code example <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+					<li role="menuitem" ng-click="changeEditorContent(1)"><a href="#">Cube, sphere and cylinder</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(2)"><a href="#">Subtract</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(3)"><a href="#">Intersect</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(4)"><a href="#">Comparsion</a></li>
+					<li class="divider"></li>
+					
+					<li role="menuitem" ng-click="changeEditorContent(5)"><a href="#">Example five</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(6)"><a href="#">Example Six</a></li>
+				  </ul>
+				</div>
+			<hr/>	
+			
+	<!-- Hidden Code guide -->
 
-                    local sphere_center = {0,0,0};
-                    local sphere_radius = 4;
-                    local sphere_slices = 16;
-                    local sphere_stacks = 8;
+	<div uib-collapse="isCollapsed" class="col-md-12">
+			<form id="cube-options" class="col-md-6">
+				<br/>
+				<div class="ploygonName blue">
+				<h3>Cube</h3>
+				</div>						
+				<label>Center:
+					<div class="paraDiv" id="cubeCenter">
+						
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2" >,
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2" >
+					</div>
 
-                    local cube_options = {
-                    center = cube_center,
-                    radius = cube_radius,
-                    }
-                    local sphere_options = {
-                    center = sphere_center,
-                    radius = sphere_radius,
-                    slices = sphere_slices,
-                    stacks = sphere_stacks,
-                    }
+					Radius:
+					<div class="paraDiv" id="cubeRadius">
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
+						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">
+					</div>
+				</label>
+			<input type="submit" ng-click="editText('cube')" value="Add"/>
+			</form>
+			<form id="Sphere-options" class="col-md-6">
+				<br/>
+				<div class="ploygonName blue">
+				<h3>Sphere</h3>
+				</div>
+				<label>Center:		
+				<div class="paraDiv" id="sphereCenter">
+					
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >
+				</div>
+				</label class="col-md-12">
+				<label>Radius, slices, stacks:
+				<div class="paraDiv" id="sphereThree">
+					
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="2" >					
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="12">					
+					<input class="paraInput" name="sphereInput" type="text" size="3" value="8" >
+			 	</div>
+				</label>
+				<input type="submit" ng-click="editText('sphere')" value="Add"/>
+			</form>
+			<form id="cylinder-options" class="col-md-6">
+				<br/>
+				<div class="ploygonName blue">
+				<h3>Cylinder</h3>
+				</div>
+				<label>
+				Start:			
+				<div class="paraDiv" id="cylinderCenter">
+					
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >,
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >,
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >
+				</div>
+				</label>
+				<label>End:
+				<div class="paraDiv" id="cylinderCenter">
+					
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >,
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >,
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >
+				</div>
+				</label>
+				<label>
+				<div class="paraDiv" id="sphereThree">
+					Radius, slices:
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="2" >
+					<input class="paraInput" name="cylinderInput" type="text" size="3" value="8" >
+				</div>
+				</label>
+				<input type="submit" ng-click="editText('cylinder')" value="Add"/>
+			</form>
+			<div class="col-md-6"> 
+			<br/>
+			<div class="ploygonName blue">
+			<h3>Color Picker</h3>
+			</div>
+			<br/>
+			<material-picker ng-model="color" hover-model="hoverColor" size="size"></material-picker>
+			</div>	
+						
+		
+	</div>
 
-                    local CSG = commonlib.gettable("CSG.CSG");
-                    local cube = CSG.cube(cube_options);
-                    local sphere = CSG.sphere(sphere_options);
-                    local csg_node = cube:union(sphere);
-                    local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-                    return {vertices,indices,normals,colors};
-                </div>
-            </div>
-        </div>
-        <div class="row" style="padding-left:30px;padding-right:30px;" id="logWnd">
-        </div>
-    </div>
+
+	<div uib-collapse="isCollapsedHorizontal">
+
+		<div id="code_editor" >
+	function main()
+		local a = CSG.cube();
+		local b = CSG.sphere({ radius = 1.35, stacks = 12 });
+		local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
+		local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
+		local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
+		a:SetColor({255,255,0});
+		b:SetColor({0,255,255});
+		c:SetColor({255,0,0});
+		local csg_node = a:intersect(b):subtract(c:union(d):union(e));
+		echo(csg_node);
+	end
+		</div>
+	</div>
+	</br>
+		
+	</div>
+
+	<div class="row" style="padding-left:30px;padding-right:30px;" id="logWnd">
+	</div>
+	</div>
+
+  </article>
+
+</section>
 </div>
+</div>
+
+
 <div id="example" hidden="hidden">
+
 
     <div id="code_example1">
         --Cube, sphere and cylinder
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
+    function main()
 
         --set cube parameters: center and radius.
         local cube_center = {0,1,8};
@@ -135,14 +232,13 @@
         slice = cylinder_slice,
         }
         --Render 3D geometry.
-        local CSG = commonlib.gettable("CSG.CSG");
         local cube = CSG.cube(cube_options);
         local sphere = CSG.sphere(sphere_options);
         local cylinder = CSG.cylinder(cylinder_options);
-        local csg_node = cube:union(sphere);
-        csg_node = csg_node:union(cylinder);
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+        echo(cube);
+		echo(sphere);
+		echo(cylinder);
+    end
     </div>
     <div id="code_example2">
         --Subtract
@@ -160,7 +256,7 @@
         --          |       |
         --          +-------+
         --
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
+    function main()
         local cube_center = {0,1,0};
         local cube_radius = {10,2,1};
 
@@ -180,12 +276,11 @@
         stacks = sphere_stacks,
         }
 
-        local CSG = commonlib.gettable("CSG.CSG");
         local cube = CSG.cube(cube_options);
         local sphere = CSG.sphere(sphere_options);
-        local csg_node = cube:subtract(sphere);
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+        local polygon = cube:subtract(sphere);
+        echo(polygon);
+	end
     </div>
     <div id="code_example3">
         --Intersect
@@ -204,7 +299,7 @@
         --          |       |
         --          +-------+
         --
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
+    function main()
         local cube_center = {0,2,0};
         local cube_radius = {10,2,1};
 
@@ -224,18 +319,15 @@
         stacks = sphere_stacks,
         }
 
-        local CSG = commonlib.gettable("CSG.CSG");
         local cube = CSG.cube(cube_options);
         local sphere = CSG.sphere(sphere_options);
-        local csg_node = sphere:intersect(cube);
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+        local polygon = sphere:intersect(cube);
+        echo(polygon);
+	end
     </div>
     <div id="code_example4">
 
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
-
-        local CSG = commonlib.gettable("CSG.CSG");
+	function main()
 
         local a = CSG.cube({ center= {-0.25, -0.25, -0.25} });
         local b = CSG.sphere({ radius = 1.3, center = {0.25, 0.25, 0.25} });
@@ -245,17 +337,18 @@
 
         local e = CSG.cube({ center= {3.75, -0.25, -0.25} });
         local f = CSG.sphere({ radius = 1.3, center = {4.25, 0.25, 0.25} });
-
-        local csg_node =(c:subtract(d)):union(a:union(b)):union(e:intersect(f));
-
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+		
+		local subtract = c:subtract(d);
+		local union = a:union(b);
+		local intersect = e:intersect(f);
+        echo(subtract);
+		echo(union);
+		echo(intersect);
+	end
 
     </div>
     <div id="code_example5">
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
-
-        local CSG = commonlib.gettable("CSG.CSG");
+	function main()
 
         local a = CSG.cube();
         local b = CSG.sphere({ radius = 1.35, stacks = 12 });
@@ -263,11 +356,8 @@
         local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
         local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
         local csg_node = a:intersect(b):subtract(c:union(d):union(e));
-
-
-
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+        echo(csg_node);
+	end
     </div>
     <div id="code_example6">
 function main()
@@ -282,6 +372,8 @@ function main()
     local csg_node = a:intersect(b):subtract(c:union(d):union(e));
     echo(csg_node);
     echo(c)
-end
+	end
     </div>
 </div>
+
+

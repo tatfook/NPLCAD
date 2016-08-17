@@ -1,4 +1,4 @@
-angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap'])
+angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.bootstrap.materialPicker'])
 .component("nplcad", {
     templateUrl: "/wp-content/pages/nplcad/templates/nplcadTemplate.html",
     controller:function ($scope, $http, $log) {
@@ -69,8 +69,18 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap'])
                 for (var i = 0; i < meshes.length; i++) {
                     editor.removeObject(meshes[i]);
                 }
+				//array.slice()并不删除数组
                 meshes.slice();
             }
+			$scope.clearMesh = function(){
+				for (var i = 0; i < meshes.length; i++) {
+                    editor.removeObject(meshes[i]);
+                }
+				//array.slice()并不删除数组
+                meshes.splice(0,meshes.length);
+			}
+			
+			// convert data calculated by CSG.lua to THREE.js, render
             function createMesh(vertices, indices, normals, colors) {
                 var geometry = new THREE.BufferGeometry();
                 var vertices_arr = [];
@@ -94,12 +104,14 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap'])
                 var material = new THREE.MeshBasicMaterial({
                     color: 0xffffff, vertexColors: THREE.VertexColors
                 });
+				
                 var mesh = new THREE.Mesh(geometry, material);
                 editor.addObject(mesh);
                 meshes.push(mesh);
                 geometry = new THREE.Geometry().fromBufferGeometry(geometry);
                 return geometry;
             }
+			//save several geometries in one stl file
             function stlFromGeometries(geometries, options) {
                 // start bulding the STL string
                 var stl = ''
@@ -197,13 +209,41 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap'])
                 }
                 return stl;
             }
-	
+
+			// Stl to geometry
+			var aStlGeometry;
+			function stlToGeometry(bGet){
+				var stlFile = document.getElementById('stlFile').files[0];
+				var loader = new THREE.STLLoader();
+				var reader = new FileReader();
+				reader.readAsArrayBuffer(stlFile);
+				
+				reader.onload = function(){
+				var data = reader.result;
+				if(data){
+					var geometry = loader.parse(data);
+					aStlGeometry = geometry;
+					var material = new THREE.MeshBasicMaterial({
+                    color: 0xffffff, vertexColors: THREE.VertexColors
+					});
+				
+					var mesh = new THREE.Mesh(geometry, material);
+					editor.addObject(mesh);
+					meshes.push(mesh);
+				}
+				else alert('Loading failed')
+				};
+			}
+			$scope.addStl = function(){
+				stlToGeometry();
+				
+			}
             var code_editor = ace.edit("code_editor");
             code_editor.setTheme("ace/theme/github");
             code_editor.getSession().setMode("ace/mode/lua");
             code_editor.setShowPrintMargin(false);
 
-	
+			//get CSG code examples from nplcadTemplate div and send it to code_editor
             $scope.changeEditorContent = function(num) { 
                 if(num){
                     var sContent = angular.element(document.getElementById('code_example'+num)).text();
@@ -212,12 +252,91 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap'])
                     }
                     else alert("Can't find code example");
                 }
+            }
+			
+			var counter = [0,0,0];
+			var txt = "";
+			$scope.editText = function(check) { 
+			var oInput = angular.element(document.getElementsByName(check+'Input'));
+			var atxt = new Array();
+			if(oInput){
+				// get polygon parameters
+				for (var i=0;i<oInput.length;i++){
+					atxt[i]=oInput[i].value||0;
+				}
+				if(check == 'cube'){
+				counter[0]++;
+				// local cube1 = CSG.cube({},{});
+				txt += "\tlocal "+check+counter[0]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = {"+atxt[3]+","+atxt[4]+","+atxt[5]+"}});\n"
+				txt += changeColor(check+counter[0]);
+				txt += "\techo("+check+counter[0]+");\n";
+				writeCode (txt);			
+				}
+				if(check == 'sphere'){
+				counter[1]++;
+				txt += "\tlocal "+check+counter[1]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = "+atxt[3]+", slices = "+atxt[4]+", stacks = "+atxt[5]+"});\n"
+				txt += changeColor(check+counter[1]);
+				txt += "\techo("+check+counter[1]+");\n";
+				writeCode (txt);			
+				}
+				if(check == 'cylinder'){
+				counter[2]++;
+				txt += "\tlocal "+check+counter[2]+" = CSG."+check+"({ [\"from\"] = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, [\"to\"] = {"+atxt[3]+","+atxt[4]+","+atxt[5]+"}, radius="+atxt[6]+" });\n"
+				
+				txt += changeColor(check+counter[2]);
+				txt += "\techo("+check+counter[2]+");\n";
+				writeCode (txt);				
+				}
+			}
+			else return
+			}
+			
+			function writeCode(txt){
+				var	sCode = "function main()\n";
+					sCode += txt; 
+					sCode += "end";
+					code_editor.setValue(sCode) ;
+					onRunCode();
+			}	
 
+			// Color Picker
+			'$scope',
+			$scope.color = {
+			  hex: '#263238'
+			};
+			$scope.hoverColor = null;
+			$scope.size = 10;
+			
+			// Correct input errors
+			$scope.correct = function () {
+			  var m = null;
+			  if (m = $scope.color.hex.match(/^#([0-9A-F])([0-9A-F])([0-9A-F])$/i)) {
+				$scope.color.hex = m[1] + m[1] + m[2] + m[2] + m[3] + m[3];
+			  } else {
+				var c = ['r', 'g', 'b'];
+				for (var i = 0; i < 3; i++) {
+				  var part = +$scope.color[c[i]];
+				  if (part > 255) {
+					$scope.color[c[i]] = 255;
+				  } else if (part <= 0) {
+					$scope.color[c[i]] = 0;
+				  }
+				}
+				
+			  }
+			};
+			function changeColor(name){
+				// Write CSG sentence like: 'Cube : SetColor({0,1,1});'
 
-	
-            }  
-
-            $scope.onRunCode = function (bSave) {
+				var r = $scope.color['r'];
+				var g = $scope.color['g'];
+				var b = $scope.color['b'];
+				var sContent = "\t"+name+": SetColor({\n\t"+r/255+",\n\t"+g/255+",\n\t"+b/255+"});\n"
+				return sContent;
+				
+			} 
+			var aGeometries = [];
+            function onRunCode() {
                 $("#logWnd").html("");
                 var text = code_editor.getValue();
                 $http.get("ajax/nplcad?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
@@ -226,7 +345,7 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap'])
                         clearMeshes();
                         if (response.data.success) {
                             var csg_node_values = response.data.csg_node_values;
-                            var geometries = [];
+                            
                             for (var i = 0; i < csg_node_values.length; i++) {
                                 var value = csg_node_values[i];
                                 var vertices = value.vertices;
@@ -235,12 +354,8 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap'])
                                 var colors = value.colors;
 
                                 var geometry = createMesh(vertices, indices, normals, colors);
-                                geometries.push(geometry);
+                                aGeometries.push(geometry);
                             }
-                            if (bSave) {
-                                stlFromGeometries(geometries, { download: true })
-                            }
-
                         }else{
                             $("#logWnd").html(response);
                         }
@@ -250,15 +365,23 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap'])
                     }
                 });
             }
-
+			$scope.onRunCode = function(){
+				onRunCode();
+			}
+			$scope.onSaveCode = function(){
+				if(aGeometries){
+					if(aStlGeometry){
+						aGeometries.push(aStlGeometry);	
+					}				
+					stlFromGeometries(aGeometries, { download: true });
+				}
+				else{
+					alert("Please compile the code before save.")
+				}
+			}			
             onWindowResize();
         }
     })
-
-
-
-
-
 
 
 

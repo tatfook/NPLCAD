@@ -15,9 +15,11 @@ wp_enqueue_script("bootstrap-css",				"/wp-includes/js/bootstrap/css/bootstrap.m
 
 wp_enqueue_script("NPLCAD_App",					"/wp-content/pages/nplcad/app.js");
 wp_enqueue_script("nplcadController",			"/wp-content/pages/nplcad/controllers/nplcadController.js");
+wp_enqueue_script("nplcad_zhedie",			"/wp-content/pages/nplcad/controllers/controller.js");
 
 wp_enqueue_style("nplcad_light",				"/wp-content/pages/nplcad/assets/css/light.css");
-
+wp_enqueue_style("nplcad_index",				"/wp-content/pages/nplcad/assets/css/index.css");
+wp_enqueue_style("easyui_icon", 				"/wp-includes/js/jeasyui/themes/icon.css");
 
 wp_enqueue_script("nplcad_threejs",				"/wp-content/pages/nplcad/js/libs/three.min.js"); 
 wp_enqueue_script("nplcad_FileSaver",			"/wp-content/pages/nplcad/js/libs/FileSaver.min.js"); 
@@ -26,6 +28,7 @@ wp_enqueue_script("nplcad_signals",				"/wp-content/pages/nplcad/js/libs/signals
 wp_enqueue_script("nplcad_ui",					"/wp-content/pages/nplcad/js/libs/ui.js"); 
 wp_enqueue_script("nplcad_ui_three",			"/wp-content/pages/nplcad/js/libs/ui.three.js"); 
 wp_enqueue_script("nplcad_Blob",				"/wp-content/pages/nplcad/js/libs/Blob.js"); 
+wp_enqueue_script("nplcad_STLLoader",			"/wp-content/pages/nplcad/js/libs/STLLoader.js"); 
 
 wp_enqueue_script("nplcad_editor",				"/wp-content/pages/nplcad/js/Editor.js"); 
 wp_enqueue_script("nplcad_viewport",			"/wp-content/pages/nplcad/js/Viewport.js"); 
@@ -33,6 +36,7 @@ wp_enqueue_script("nplcad_viewport_info",		"/wp-content/pages/nplcad/js/Viewport
 
 wp_enqueue_script("nplcad_editorcontrols",		"/wp-content/pages/nplcad/js/controls/EditorControls.js"); 
 wp_enqueue_script("nplcad_transformcontrols",	"/wp-content/pages/nplcad/js/controls/TransformControls.js"); 
+wp_enqueue_script("nplcad_colorPicker",			"/wp-content/pages/nplcad/js/controls/ui.bootstrap.materialPicker.js"); 
 
 
 NPL.load("(gl)Mod/NPLCAD/NplCadCompiler.lua");
@@ -61,28 +65,17 @@ if(is_ajax()) then
 	return;
 end
 ?>
-<style type="text/css" media="screen">
-	#view_container { 
-		position: releative;
-		width:100%;
-    }
-	button{
-		
-		width:100%;
-		height: 30px;
-	}
-	 #code_editor { 
-		position: releative;
-		width:100%;
-		min-height:560px;
-    }
-	#savecode{
-		position: releative;
-		width:100%;
-		height: 30px;
-	}
+<style>
+.ploygonName{padding:0.01em 16px}
+.w3-input{padding:8px;display:block;border:none;border-bottom:1px solid #808080;width:100%}
+.w3-label{color:#009688}
+.w3-input:not(:valid)~
+.ploygonName:after,
+.blue,.hover-blue:hover{color:#fff!important;background-color:#2196F3!important}
+h3,h5{font-family:"Segoe UI",Arial,sans-serif}
+h3{font-weight:400;margin:10px 0;font-size:30px}
+h3 a{font-weight:inherit}
 </style>
-
 <div ng-app="NPLCAD_App">
 	<nplcad></nplcad>
 </div>
