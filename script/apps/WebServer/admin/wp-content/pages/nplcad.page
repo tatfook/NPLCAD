@@ -50,7 +50,7 @@ local v = request:get("v");
 if(is_ajax()) then
 	add_action('wp_ajax_runcode', function()
 		local output;
-		if(v)then
+		if(v == "2")then
 			local scene = DomCompiler.loadStr(code);
 			local render_list = DomCompiler.getRenderList(scene);
 			output = {

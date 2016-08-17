@@ -336,10 +336,14 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 				
 			} 
 			var aGeometries = [];
-            function onRunCode() {
+            function onRunCode(isNewVersion) {
                 $("#logWnd").html("");
                 var text = code_editor.getValue();
-                $http.get("ajax/nplcad?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
+                var v = 1;
+                if (isNewVersion) {
+                    v = 2;
+                }
+                $http.get("ajax/nplcad?action=runcode&v=" + v + "&code=" + encodeURIComponent(text)).then(function (response) {
                     if (response && response.data && response.data.csg_node_values) {
                         //console.log(response.data);
                         clearMeshes();
@@ -365,8 +369,8 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                     }
                 });
             }
-			$scope.onRunCode = function(){
-				onRunCode();
+            $scope.onRunCode = function (isNewVersion) {
+                onRunCode(isNewVersion);
 			}
 			$scope.onSaveCode = function(){
 				if(aGeometries){
