@@ -327,6 +327,7 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 			};
 			function changeColor(name){
 				// Write CSG sentence like: 'Cube : SetColor({0,1,1});'
+
 				var r = $scope.color['r'];
 				var g = $scope.color['g'];
 				var b = $scope.color['b'];
