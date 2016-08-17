@@ -365,7 +365,6 @@ nplcadModule.component("nplcad", {
             }
 			$scope.onRunCode = function(){
 				onRunCode();
-				_toggleCode();
 			}
 			$scope.onSaveCode = function(){
 				if(aGeometries){
