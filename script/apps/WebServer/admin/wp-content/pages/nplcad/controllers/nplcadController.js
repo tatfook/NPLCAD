@@ -1,5 +1,5 @@
-angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.bootstrap.materialPicker'])
-.component("nplcad", {
+var nplcadModule = angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.bootstrap.materialPicker']);
+nplcadModule.component("nplcad", {
     templateUrl: "/wp-content/pages/nplcad/templates/nplcadTemplate.html",
     controller:function ($scope, $http, $log) {
             $scope.isCollapsed = true;
@@ -223,9 +223,7 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 				if(data){
 					var geometry = loader.parse(data);
 					aStlGeometry = geometry;
-					var material = new THREE.MeshBasicMaterial({
-                    color: 0xffffff, vertexColors: THREE.VertexColors
-					});
+					var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
 				
 					var mesh = new THREE.Mesh(geometry, material);
 					editor.addObject(mesh);
@@ -369,8 +367,14 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                     }
                 });
             }
+<<<<<<< HEAD
             $scope.onRunCode = function (isNewVersion) {
                 onRunCode(isNewVersion);
+=======
+			$scope.onRunCode = function(){
+				onRunCode();
+				_toggleCode();
+>>>>>>> a81cb664c0b7ea87934eb3c4bc41ac632d8d0ba8
 			}
 			$scope.onSaveCode = function(){
 				if(aGeometries){
@@ -387,14 +391,60 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
         }
     })
 
+nplcadModule.component("first",{
+	templateUrl: "/wp-content/pages/nplcad/templates/first.html",
+    controller:function () {
+		window.onload = function(){
+		var panel = document.getElementById('panel'),
+        menu = document.getElementById('menu'),
+        showcode = document.getElementById('showcode'),
+		runcode = document.getElementById('runcode'),
+        selectFx = document.getElementById('selections-fx'),
+        selectPos = document.getElementById('selections-pos'),
+        // demo defaults
+        effect = 'mfb-zoomin',
+        pos = 'mfb-component--br';
+
+    showcode.addEventListener('click', _toggleCode);
+	runcode.addEventListener('click', _hiddeCode);
+
+   
+
+    function _toggleCode() {
+      panel.classList.toggle('viewCode');
+    }
+	function _hiddeCode(){
+		if(document.getElementById('viewCode')){
+			panel.classList.toggle('viewCode');
+		}
+		else return
+	}
+    function switchEffect(e){
+      effect = this.options[this.selectedIndex].value;
+      renderMenu();
+    }
+
+    function switchPos(e){
+      pos = this.options[this.selectedIndex].value;
+      renderMenu();
+    }
+
+    function renderMenu() {
+      menu.style.display = 'none';
+      // ?:-)
+      setTimeout(function() {
+        menu.style.display = 'block';
+        menu.className = pos + effect;
+      },1);
+    }
+}
+	}
+})
 
 
-
-
-
-
-
-
+nplcadModule.component("example",{
+	templateUrl: "/wp-content/pages/nplcad/templates/example.html"
+})
 
 
 

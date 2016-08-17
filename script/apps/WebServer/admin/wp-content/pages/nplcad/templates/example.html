@@ -1,0 +1,187 @@
+<div id="example" hidden="hidden">
+
+
+    <div id="code_example1">
+        --Cube, sphere and cylinder
+    function main()
+
+        --set cube parameters: center and radius.
+        local cube_center = {0,1,8};
+        local cube_radius = {10,2,1};
+
+        --Set sphere parameters: center, radius, slices, stacks.The slices
+        --and stacks parameters control the tessellation along
+        --the longitude and latitude directions.
+        local sphere_center = {0,0,1};
+        local sphere_radius = 4;
+        local sphere_slices = 16;
+        local sphere_stacks = 8;
+
+        --Set cylinder parameters: start, end, radius, slice.The slices
+        --parameter controls the tessellation.
+        local cylinder_start = {0,-4,-8};
+        local cylinder_end = {0,4,-8};
+        local cylinder_radius = 4;
+        local cylinder_slice = 8;
+
+        --Get all parameters in a table.
+        local cube_options = {
+        center = cube_center,
+        radius = cube_radius,
+        }
+        local sphere_options = {
+        center = sphere_center,
+        radius = sphere_radius,
+        slices = sphere_slices,
+        stacks = sphere_stacks,
+        }
+        local cylinder_options = {
+        ["from"] = cylinder_start,
+        ["to"] = cylinder_end,
+        radius = cylinder_radius,
+        slice = cylinder_slice,
+        }
+        --Render 3D geometry.
+        local cube = CSG.cube(cube_options);
+        local sphere = CSG.sphere(sphere_options);
+        local cylinder = CSG.cylinder(cylinder_options);
+        echo(cube);
+		echo(sphere);
+		echo(cylinder);
+    end
+    </div>
+    <div id="code_example2">
+        --Subtract
+        -- A:subtract(B)
+        -- Return a new CSG solid representing space in this solid but
+        -- not in the solid `csg`. Neither this solid nor the solid
+        -- `csg` are modified.
+        --
+        --     +-------+            +-------+
+        --     |       |            |       |
+        --     |   A   |            |       |
+        --     |    +--+----+   =   |    +--+
+        --     +----+--+    |       +----+
+        --          |   B   |
+        --          |       |
+        --          +-------+
+        --
+    function main()
+        local cube_center = {0,1,0};
+        local cube_radius = {10,2,1};
+
+        local sphere_center = {0,0,0};
+        local sphere_radius = 4;
+        local sphere_slices = 16;
+        local sphere_stacks = 8;
+
+        local cube_options = {
+        center = cube_center,
+        radius = cube_radius,
+        }
+        local sphere_options = {
+        center = sphere_center,
+        radius = sphere_radius,
+        slices = sphere_slices,
+        stacks = sphere_stacks,
+        }
+
+        local cube = CSG.cube(cube_options);
+        local sphere = CSG.sphere(sphere_options);
+        local polygon = cube:subtract(sphere);
+        echo(polygon);
+	end
+    </div>
+    <div id="code_example3">
+        --Intersect
+        -- Return a new CSG solid representing space both this solid and
+        -- in the solid `csg`. Neither this solid nor the solid `csg`
+        -- are modified.
+        --
+        --     A:intersect(B)
+        --
+        --     +-------+
+        --     |       |
+        --     |   A   |
+        --     |    +--+----+   =   +--+
+        --     +----+--+    |       +--+
+        --          |   B   |
+        --          |       |
+        --          +-------+
+        --
+    function main()
+        local cube_center = {0,2,0};
+        local cube_radius = {10,2,1};
+
+        local sphere_center = {0,0,0};
+        local sphere_radius = 4;
+        local sphere_slices = 16;
+        local sphere_stacks = 8;
+
+        local cube_options = {
+        center = cube_center,
+        radius = cube_radius,
+        }
+        local sphere_options = {
+        center = sphere_center,
+        radius = sphere_radius,
+        slices = sphere_slices,
+        stacks = sphere_stacks,
+        }
+
+        local cube = CSG.cube(cube_options);
+        local sphere = CSG.sphere(sphere_options);
+        local polygon = sphere:intersect(cube);
+        echo(polygon);
+	end
+    </div>
+    <div id="code_example4">
+
+	function main()
+
+        local a = CSG.cube({ center= {-0.25, -0.25, -0.25} });
+        local b = CSG.sphere({ radius = 1.3, center = {0.25, 0.25, 0.25} });
+
+        local c = CSG.cube({ center= {-4.25, -0.25, -0.25} });
+        local d = CSG.sphere({ radius = 1.3, center = {-3.75, 0.25, 0.25} });
+
+        local e = CSG.cube({ center= {3.75, -0.25, -0.25} });
+        local f = CSG.sphere({ radius = 1.3, center = {4.25, 0.25, 0.25} });
+		
+		local subtract = c:subtract(d);
+		local union = a:union(b);
+		local intersect = e:intersect(f);
+        echo(subtract);
+		echo(union);
+		echo(intersect);
+	end
+
+    </div>
+    <div id="code_example5">
+	function main()
+
+        local a = CSG.cube();
+        local b = CSG.sphere({ radius = 1.35, stacks = 12 });
+        local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
+        local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
+        local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
+        local csg_node = a:intersect(b):subtract(c:union(d):union(e));
+        echo(csg_node);
+	end
+    </div>
+    <div id="code_example6">
+function main()
+    local a = CSG.cube();
+    local b = CSG.sphere({ radius = 1.35, stacks = 12 });
+    local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
+    local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
+    local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
+    a:SetColor({255,255,0});
+    b:SetColor({0,255,255});
+    c:SetColor({255,0,0});
+    local csg_node = a:intersect(b):subtract(c:union(d):union(e));
+    echo(csg_node);
+    echo(c)
+	end
+    </div>
+</div>

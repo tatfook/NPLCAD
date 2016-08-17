@@ -1,34 +1,30 @@
 <div class="container-fluid">
 <div class="row" >
 <section id="panel" class="panel">
-  <header>
-	<h1>
-	  NPLCAD
-	</h1>
-	<span id="showcode" class="showcode">
-	  <i class="ion-eye icon-yepcode"></i>
-	  <i class="ion-eye-disabled icon-nocode"></i>
-	</span>
-  </header>
+
   <article>
 	<div>
 			
 		<div class="col-lg-12" id="view_container"></div>
 			
+<<<<<<< HEAD
 		<button class="col-md-2" ng-click="onRunCode()"  id="runcode" >Compile</button>	
 		<button class="col-md-2" ng-click="onRunCode(true)"  id="runcode" >Compile2</button>	
+=======
+		<button class="col-md-2" ng-click="onRunCode()"  id="runcode" ><i class="glyphicon glyphicon-play"></i>   Compile</button>	
+>>>>>>> a81cb664c0b7ea87934eb3c4bc41ac632d8d0ba8
 		<section id="text-demo">
 		<form id="text-options" class="col-md-5">
 			
 			<input class="col-md-5"	id="stlFile" type="file"  accept=".stl"/>			
-			<button class="col-md-3" id="loadStl" type="submit" ng-click="addStl()"><i class="glyphicon glyphicon-upload"></i> Add</button>
-			<button class="col-md-4" id="clearMesh" ng-click="clearMesh()"> Clear all</button>
+			<button class="col-md-3" id="loadStl" type="submit" ng-click="addStl()"><i class="glyphicon glyphicon-send"></i> Add</button>
+			<button class="col-md-4" id="clearMesh" ng-click="clearMesh()"> <i class="glyphicon glyphicon-remove"></i> Clear all</button>
 		</form>
 		<form id="text-options" class="col-md-5">
 			<label>Filename: 
 			<input 	id="wtf"	 type="text" class="filename"  placeholder="Enter Filename"/> .stl</label>
 			
-			<button id="saveStl" type="submit" ng-click="onSaveCode()"><i class="glyphicon glyphicon-download"></i> Save</button>
+			<button id="saveStl" type="submit" ng-click="onSaveCode()"><i class="glyphicon glyphicon-download-alt"></i> Save</button>
 		</form>
 		</section>
 				
@@ -190,137 +186,12 @@
 </div>
 
 
-<div id="example" hidden="hidden">
 
 
-    <div id="code_example1">
-        --Cube, sphere and cylinder
-    function main()
 
-        --set cube parameters: center and radius.
-        local cube_center = {0,1,8};
-        local cube_radius = {10,2,1};
 
-        --Set sphere parameters: center, radius, slices, stacks.The slices
-        --and stacks parameters control the tessellation along
-        --the longitude and latitude directions.
-        local sphere_center = {0,0,1};
-        local sphere_radius = 4;
-        local sphere_slices = 16;
-        local sphere_stacks = 8;
 
-        --Set cylinder parameters: start, end, radius, slice.The slices
-        --parameter controls the tessellation.
-        local cylinder_start = {0,-4,-8};
-        local cylinder_end = {0,4,-8};
-        local cylinder_radius = 4;
-        local cylinder_slice = 8;
-
-        --Get all parameters in a table.
-        local cube_options = {
-        center = cube_center,
-        radius = cube_radius,
-        }
-        local sphere_options = {
-        center = sphere_center,
-        radius = sphere_radius,
-        slices = sphere_slices,
-        stacks = sphere_stacks,
-        }
-        local cylinder_options = {
-        ["from"] = cylinder_start,
-        ["to"] = cylinder_end,
-        radius = cylinder_radius,
-        slice = cylinder_slice,
-        }
-        --Render 3D geometry.
-        local cube = CSG.cube(cube_options);
-        local sphere = CSG.sphere(sphere_options);
-        local cylinder = CSG.cylinder(cylinder_options);
-        echo(cube);
-		echo(sphere);
-		echo(cylinder);
-    end
-    </div>
-    <div id="code_example2">
-        --Subtract
-        -- A:subtract(B)
-        -- Return a new CSG solid representing space in this solid but
-        -- not in the solid `csg`. Neither this solid nor the solid
-        -- `csg` are modified.
-        --
-        --     +-------+            +-------+
-        --     |       |            |       |
-        --     |   A   |            |       |
-        --     |    +--+----+   =   |    +--+
-        --     +----+--+    |       +----+
-        --          |   B   |
-        --          |       |
-        --          +-------+
-        --
-    function main()
-        local cube_center = {0,1,0};
-        local cube_radius = {10,2,1};
-
-        local sphere_center = {0,0,0};
-        local sphere_radius = 4;
-        local sphere_slices = 16;
-        local sphere_stacks = 8;
-
-        local cube_options = {
-        center = cube_center,
-        radius = cube_radius,
-        }
-        local sphere_options = {
-        center = sphere_center,
-        radius = sphere_radius,
-        slices = sphere_slices,
-        stacks = sphere_stacks,
-        }
-
-        local cube = CSG.cube(cube_options);
-        local sphere = CSG.sphere(sphere_options);
-        local polygon = cube:subtract(sphere);
-        echo(polygon);
-	end
-    </div>
-    <div id="code_example3">
-        --Intersect
-        -- Return a new CSG solid representing space both this solid and
-        -- in the solid `csg`. Neither this solid nor the solid `csg`
-        -- are modified.
-        --
-        --     A:intersect(B)
-        --
-        --     +-------+
-        --     |       |
-        --     |   A   |
-        --     |    +--+----+   =   +--+
-        --     +----+--+    |       +--+
-        --          |   B   |
-        --          |       |
-        --          +-------+
-        --
-    function main()
-        local cube_center = {0,2,0};
-        local cube_radius = {10,2,1};
-
-        local sphere_center = {0,0,0};
-        local sphere_radius = 4;
-        local sphere_slices = 16;
-        local sphere_stacks = 8;
-
-        local cube_options = {
-        center = cube_center,
-        radius = cube_radius,
-        }
-        local sphere_options = {
-        center = sphere_center,
-        radius = sphere_radius,
-        slices = sphere_slices,
-        stacks = sphere_stacks,
-        }
-
+<<<<<<< HEAD
         local cube = CSG.cube(cube_options);
         local sphere = CSG.sphere(sphere_options);
         local polygon = sphere:intersect(cube);
@@ -380,5 +251,7 @@ function main()
 
     </div>
 </div>
+=======
+>>>>>>> a81cb664c0b7ea87934eb3c4bc41ac632d8d0ba8
 
 
