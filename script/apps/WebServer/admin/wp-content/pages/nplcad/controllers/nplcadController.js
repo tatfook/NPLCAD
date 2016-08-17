@@ -367,14 +367,9 @@ nplcadModule.component("nplcad", {
                     }
                 });
             }
-<<<<<<< HEAD
             $scope.onRunCode = function (isNewVersion) {
                 onRunCode(isNewVersion);
-=======
-			$scope.onRunCode = function(){
-				onRunCode();
-				_toggleCode();
->>>>>>> a81cb664c0b7ea87934eb3c4bc41ac632d8d0ba8
+                _toggleCode();
 			}
 			$scope.onSaveCode = function(){
 				if(aGeometries){
