@@ -179,8 +179,7 @@ code{
 	
 	div.paraDiv{
 	position: releative;
-	background:inherit;
-	width:200px;
+	background:white;
 	font-size:9pt;
 	text-align:center;
 	border:2 ridge threedshadow;
@@ -189,7 +188,7 @@ code{
 	} 
 	
 	input.paraInput{
-		background:#F5F5F5;
+		background:white;
 		text-align:center;
 		border-width:0; 
 	}

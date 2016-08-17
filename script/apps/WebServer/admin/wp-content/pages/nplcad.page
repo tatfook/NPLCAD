@@ -51,7 +51,17 @@ if(is_ajax()) then
 	return;
 end
 ?>
-
+<style>
+.ploygonName{padding:0.01em 16px}
+.w3-input{padding:8px;display:block;border:none;border-bottom:1px solid #808080;width:100%}
+.w3-label{color:#009688}
+.w3-input:not(:valid)~
+.ploygonName:after,
+.blue,.hover-blue:hover{color:#fff!important;background-color:#2196F3!important}
+h3,h5{font-family:"Segoe UI",Arial,sans-serif}
+h3{font-weight:400;margin:10px 0;font-size:30px}
+h3 a{font-weight:inherit}
+</style>
 <div ng-app="NPLCAD_App">
 	<nplcad></nplcad>
 </div>

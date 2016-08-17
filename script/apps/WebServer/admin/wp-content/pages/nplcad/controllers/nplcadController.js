@@ -69,8 +69,18 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                 for (var i = 0; i < meshes.length; i++) {
                     editor.removeObject(meshes[i]);
                 }
+				//array.slice()并不删除数组
                 meshes.slice();
             }
+			$scope.clearMesh = function(){
+				for (var i = 0; i < meshes.length; i++) {
+                    editor.removeObject(meshes[i]);
+                }
+				//array.slice()并不删除数组
+                meshes.splice(0,meshes.length);
+			}
+			
+			// convert data calculated by CSG.lua to THREE.js, render
             function createMesh(vertices, indices, normals, colors) {
                 var geometry = new THREE.BufferGeometry();
                 var vertices_arr = [];
@@ -101,6 +111,7 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                 geometry = new THREE.Geometry().fromBufferGeometry(geometry);
                 return geometry;
             }
+			//save several geometries in one stl file
             function stlFromGeometries(geometries, options) {
                 // start bulding the STL string
                 var stl = ''
@@ -200,7 +211,8 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
             }
 
 			// Stl to geometry
-			function stlToGeometry(){
+			var aStlGeometry;
+			function stlToGeometry(bGet){
 				var stlFile = document.getElementById('stlFile').files[0];
 				var loader = new THREE.STLLoader();
 				var reader = new FileReader();
@@ -210,6 +222,7 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 				var data = reader.result;
 				if(data){
 					var geometry = loader.parse(data);
+					aStlGeometry = geometry;
 					var material = new THREE.MeshBasicMaterial({
                     color: 0xffffff, vertexColors: THREE.VertexColors
 					});
@@ -217,9 +230,8 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 					var mesh = new THREE.Mesh(geometry, material);
 					editor.addObject(mesh);
 					meshes.push(mesh);
-					alert("success")
 				}
-				else alert(data)
+				else alert('Loading failed')
 				};
 			}
 			$scope.addStl = function(){
@@ -231,7 +243,7 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
             code_editor.getSession().setMode("ace/mode/lua");
             code_editor.setShowPrintMargin(false);
 
-	
+			//get CSG code examples from nplcadTemplate div and send it to code_editor
             $scope.changeEditorContent = function(num) { 
                 if(num){
                     var sContent = angular.element(document.getElementById('code_example'+num)).text();
@@ -254,13 +266,18 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 				}
 				if(check == 'cube'){
 				counter[0]++;
-				txt += "\tlocal "+check+counter[0]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = {"+atxt[3]+","+atxt[4]+","+atxt[5]+"}});\n\techo("+check+counter[0]+");\n"
-				writeCode (txt);					
+				// local cube1 = CSG.cube({},{});
+				txt += "\tlocal "+check+counter[0]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = {"+atxt[3]+","+atxt[4]+","+atxt[5]+"}});\n"
+				txt += changeColor(check+counter[0]);
+				txt += "\techo("+check+counter[0]+");\n";
+				writeCode (txt);			
 				}
 				if(check == 'sphere'){
 				counter[1]++;
-				txt += "\tlocal "+check+counter[1]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = "+atxt[3]+", slices = "+atxt[4]+", stacks = "+atxt[5]+"});\n\techo("+check+counter[1]+");\n"
-				writeCode (txt);					
+				txt += "\tlocal "+check+counter[1]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = "+atxt[3]+", slices = "+atxt[4]+", stacks = "+atxt[5]+"});\n"
+				txt += changeColor(check+counter[1]);
+				txt += "\techo("+check+counter[1]+");\n";
+				writeCode (txt);			
 				}
 				if(check == 'cylinder'){
 				counter[2]++;
@@ -268,22 +285,18 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 				
 				txt += changeColor(check+counter[2]);
 				txt += "\techo("+check+counter[2]+");\n";
-				writeCode (txt);					
+				writeCode (txt);				
 				}
-				if(check == 'compile'){
-
-				}
-
 			}
 			else return
 			}
-			var sCode = code_editor.getValue(sCode) ;
+			
 			function writeCode(txt){
-					alert (txt);
-					sCode=sCode.replace(/end/g,txt) 
+				var	sCode = "function main()\n";
+					sCode += txt; 
 					sCode += "end";
 					code_editor.setValue(sCode) ;
-					alert (sCode);
+					onRunCode();
 			}	
 
 			// Color Picker
@@ -313,16 +326,16 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
 			  }
 			};
 			function changeColor(name){
-				var aColor = angular.element(document.getElementsByName('getColor'));
-				var r = aColor[0].value;
-				var g = aColor[1].value;
-				var b = aColor[2].value;
-				var sContent = "\t"+name+": SetColor({"+r+","+g+","+b+"});\n"
-				alert(sContent);
+				// Write CSG sentence like: 'Cube : SetColor({0,1,1});'
+				var r = $scope.color['r'];
+				var g = $scope.color['g'];
+				var b = $scope.color['b'];
+				var sContent = "\t"+name+": SetColor({\n\t"+r/255+",\n\t"+g/255+",\n\t"+b/255+"});\n"
 				return sContent;
 				
 			} 
-            $scope.onRunCode = function (bSave) {
+			var aGeometries = [];
+            function onRunCode() {
                 $("#logWnd").html("");
                 var text = code_editor.getValue();
                 $http.get("ajax/nplcad?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
@@ -331,7 +344,7 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                         clearMeshes();
                         if (response.data.success) {
                             var csg_node_values = response.data.csg_node_values;
-                            var geometries = [];
+                            
                             for (var i = 0; i < csg_node_values.length; i++) {
                                 var value = csg_node_values[i];
                                 var vertices = value.vertices;
@@ -340,12 +353,8 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                                 var colors = value.colors;
 
                                 var geometry = createMesh(vertices, indices, normals, colors);
-                                geometries.push(geometry);
+                                aGeometries.push(geometry);
                             }
-                            if (bSave) {
-                                stlFromGeometries(geometries, { download: true })
-                            }
-
                         }else{
                             $("#logWnd").html(response);
                         }
@@ -355,7 +364,20 @@ angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.boots
                     }
                 });
             }
-
+			$scope.onRunCode = function(){
+				onRunCode();
+			}
+			$scope.onSaveCode = function(){
+				if(aGeometries){
+					if(aStlGeometry){
+						aGeometries.push(aStlGeometry);	
+					}				
+					stlFromGeometries(aGeometries, { download: true });
+				}
+				else{
+					alert("Please compile the code before save.")
+				}
+			}			
             onWindowResize();
         }
     })

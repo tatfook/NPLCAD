@@ -19,14 +19,15 @@
 		<section id="text-demo">
 		<form id="text-options" class="col-md-5">
 			
-			<input class="col-md-7"	id="stlFile" type="file"  accept=".stl"/>			
-			<button class="col-md-5" id="loadStl" type="submit" ng-click="addStl()"><i class="glyphicon glyphicon-upload"></i> Add</button>
+			<input class="col-md-5"	id="stlFile" type="file"  accept=".stl"/>			
+			<button class="col-md-3" id="loadStl" type="submit" ng-click="addStl()"><i class="glyphicon glyphicon-upload"></i> Add</button>
+			<button class="col-md-4" id="clearMesh" ng-click="clearMesh()"> Clear all</button>
 		</form>
 		<form id="text-options" class="col-md-5">
 			<label>Filename: 
 			<input 	id="wtf"	 type="text" class="filename"  placeholder="Enter Filename"/> .stl</label>
 			
-			<button id="saveStl" type="submit" ng-click="onRunCode(true)"><i class="glyphicon glyphicon-download"></i> Save</button>
+			<button id="saveStl" type="submit" ng-click="onSaveCode()"><i class="glyphicon glyphicon-download"></i> Save</button>
 		</form>
 		</section>
 				
@@ -37,7 +38,7 @@
 
 	<div class="code" style="max-width:480px">
 				<!-- Right side-->
-		<div id="right" style="background-color:white; boder-style:none">
+		<div id="right" style="background-color:inherit; boder-style:none">
 			<!-- Right top two button-->
 			
 				<!-- First button-->
@@ -61,15 +62,16 @@
 					<li role="menuitem" ng-click="changeEditorContent(6)"><a href="#">Example Six</a></li>
 				  </ul>
 				</div>
-				
-			<hr>
+			<hr/>	
+			
 	<!-- Hidden Code guide -->
 
-	<div uib-collapse="isCollapsed">
-		<div class="well well-lg">
-			<div  class="col-md-6">
-			<form id="cube-options">
-				<h3>Cube:</h3>						
+	<div uib-collapse="isCollapsed" class="col-md-12">
+			<form id="cube-options" class="col-md-6">
+				<br/>
+				<div class="ploygonName blue">
+				<h3>Cube</h3>
+				</div>						
 				<label>Center:
 					<div class="paraDiv" id="cubeCenter">
 						
@@ -87,19 +89,22 @@
 				</label>
 			<input type="submit" ng-click="editText('cube')" value="Add"/>
 			</form>
-			<form id="Sphere-options">
-				<h3>Sphere: </h3>
-				<label>Center:			
+			<form id="Sphere-options" class="col-md-6">
+				<br/>
+				<div class="ploygonName blue">
+				<h3>Sphere</h3>
+				</div>
+				<label>Center:		
 				<div class="paraDiv" id="sphereCenter">
 					
 					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
 					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
 					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >
 				</div>
-				<label>
-				</label>
+				</label class="col-md-12">
+				<label>Radius, slices, stacks:
 				<div class="paraDiv" id="sphereThree">
-					<p>Radius, slices, stacks:</p> 
+					
 					<input class="paraInput" name="sphereInput" type="text" size="3" value="2" >					
 					<input class="paraInput" name="sphereInput" type="text" size="3" value="12">					
 					<input class="paraInput" name="sphereInput" type="text" size="3" value="8" >
@@ -107,11 +112,11 @@
 				</label>
 				<input type="submit" ng-click="editText('sphere')" value="Add"/>
 			</form>
-			</div>
-
 			<form id="cylinder-options" class="col-md-6">
-
-				<h3>Cylinder: </h3>
+				<br/>
+				<div class="ploygonName blue">
+				<h3>Cylinder</h3>
+				</div>
 				<label>
 				Start:			
 				<div class="paraDiv" id="cylinderCenter">
@@ -138,26 +143,15 @@
 				</label>
 				<input type="submit" ng-click="editText('cylinder')" value="Add"/>
 			</form>
-			<div class="col-md-6">
-		
-				<div>
-				  <material-picker ng-model="color" hover-model="hoverColor" size="size"></material-picker>
-				  R: <input ng-model="color.r" name="getColor" class="form-control" maxlength="3" ng-blur="correct()" /> 
-				  G: <input ng-model="color.g" name="getColor" class="form-control" maxlength="3" ng-blur="correct()" /> 
-				  B: <input ng-model="color.b" name="getColor" class="form-control" maxlength="3" ng-blur="correct()" />
-				  <div ng-bind="color.name"></div>
-				  <div class="colorpicker-preview" ng-style="{background: color.hex}"></div>
-				  <button class="btn btn-info" ng-click="setColor()">Set to White</button>
-				  <button class="btn btn-info" ng-click="color.hex='#000000'">Set to Black</button>
-				  <button class="btn btn-info" ng-click="color.hex='#FF6F00'">Set to Orange</button>
-				  <!--
-				  <div ng-show="hoverColor !== null">
-					R: {{hoverColor.r}} G: {{hoverColor.g}} B: {{hoverColor.b}} Name: {{hoverColor.name}} 
-				  </div>
-				  -->
-				</div>
-			</div>				
-		</div>
+			<div class="col-md-6"> 
+			<br/>
+			<div class="ploygonName blue">
+			<h3>Color Picker</h3>
+			</div>
+			<br/>
+			<material-picker ng-model="color" hover-model="hoverColor" size="size"></material-picker>
+			</div>	
+						
 		
 	</div>
 
@@ -166,17 +160,16 @@
 
 		<div id="code_editor" >
 	function main()
-	local a = CSG.cube();
-	local b = CSG.sphere({ radius = 1.35, stacks = 12 });
-	local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
-	local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
-	local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
-	a:SetColor({255,255,0});
-	b:SetColor({0,255,255});
-	c:SetColor({255,0,0});
-	local csg_node = a:intersect(b):subtract(c:union(d):union(e));
-	echo(csg_node);
-	echo(c)
+		local a = CSG.cube();
+		local b = CSG.sphere({ radius = 1.35, stacks = 12 });
+		local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
+		local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
+		local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
+		a:SetColor({255,255,0});
+		b:SetColor({0,255,255});
+		c:SetColor({255,0,0});
+		local csg_node = a:intersect(b):subtract(c:union(d):union(e));
+		echo(csg_node);
 	end
 		</div>
 	</div>
@@ -200,7 +193,7 @@
 
     <div id="code_example1">
         --Cube, sphere and cylinder
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
+    function main()
 
         --set cube parameters: center and radius.
         local cube_center = {0,1,8};
@@ -239,14 +232,13 @@
         slice = cylinder_slice,
         }
         --Render 3D geometry.
-        local CSG = commonlib.gettable("CSG.CSG");
         local cube = CSG.cube(cube_options);
         local sphere = CSG.sphere(sphere_options);
         local cylinder = CSG.cylinder(cylinder_options);
-        local csg_node = cube:union(sphere);
-        csg_node = csg_node:union(cylinder);
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+        echo(cube);
+		echo(sphere);
+		echo(cylinder);
+    end
     </div>
     <div id="code_example2">
         --Subtract
@@ -264,7 +256,7 @@
         --          |       |
         --          +-------+
         --
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
+    function main()
         local cube_center = {0,1,0};
         local cube_radius = {10,2,1};
 
@@ -284,12 +276,11 @@
         stacks = sphere_stacks,
         }
 
-        local CSG = commonlib.gettable("CSG.CSG");
         local cube = CSG.cube(cube_options);
         local sphere = CSG.sphere(sphere_options);
-        local csg_node = cube:subtract(sphere);
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+        local polygon = cube:subtract(sphere);
+        echo(polygon);
+	end
     </div>
     <div id="code_example3">
         --Intersect
@@ -308,7 +299,7 @@
         --          |       |
         --          +-------+
         --
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
+    function main()
         local cube_center = {0,2,0};
         local cube_radius = {10,2,1};
 
@@ -328,18 +319,15 @@
         stacks = sphere_stacks,
         }
 
-        local CSG = commonlib.gettable("CSG.CSG");
         local cube = CSG.cube(cube_options);
         local sphere = CSG.sphere(sphere_options);
-        local csg_node = sphere:intersect(cube);
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+        local polygon = sphere:intersect(cube);
+        echo(polygon);
+	end
     </div>
     <div id="code_example4">
 
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
-
-        local CSG = commonlib.gettable("CSG.CSG");
+	function main()
 
         local a = CSG.cube({ center= {-0.25, -0.25, -0.25} });
         local b = CSG.sphere({ radius = 1.3, center = {0.25, 0.25, 0.25} });
@@ -349,17 +337,18 @@
 
         local e = CSG.cube({ center= {3.75, -0.25, -0.25} });
         local f = CSG.sphere({ radius = 1.3, center = {4.25, 0.25, 0.25} });
-
-        local csg_node =(c:subtract(d)):union(a:union(b)):union(e:intersect(f));
-
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+		
+		local subtract = c:subtract(d);
+		local union = a:union(b);
+		local intersect = e:intersect(f);
+        echo(subtract);
+		echo(union);
+		echo(intersect);
+	end
 
     </div>
     <div id="code_example5">
-        NPL.load("(gl)script/ide/CSG/CSG.lua");
-
-        local CSG = commonlib.gettable("CSG.CSG");
+	function main()
 
         local a = CSG.cube();
         local b = CSG.sphere({ radius = 1.35, stacks = 12 });
@@ -367,11 +356,8 @@
         local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
         local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
         local csg_node = a:intersect(b):subtract(c:union(d):union(e));
-
-
-
-        local vertices,indices,normals,colors = CSG.toMesh(csg_node);
-        return {vertices,indices,normals,colors};
+        echo(csg_node);
+	end
     </div>
     <div id="code_example6">
 function main()
