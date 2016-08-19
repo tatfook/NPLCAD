@@ -237,7 +237,7 @@ nplcadModule.component("nplcad", {
 				
 			}
             var code_editor = ace.edit("code_editor");
-            code_editor.setTheme("ace/theme/github");
+            code_editor.setTheme("ace/theme/github1");
             code_editor.getSession().setMode("ace/mode/lua");
             code_editor.setShowPrintMargin(false);
 

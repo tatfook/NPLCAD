@@ -1,22 +1,21 @@
 <div class="container-fluid">
-<div class="row" >
+<div  class="row" >
 <section id="panel" class="panel">
-
+		<div class="col-lg-12" id="view_container"></div>
   <article>
 	<div>
 			
-		<div class="col-lg-12" id="view_container"></div>
-		<button class="col-md-1" ng-click="onRunCode()"  id="runcode" ><i class="glyphicon glyphicon-play"></i>Run</button>	
-		<button class="col-md-1" ng-click="onRunCode(true)"  id="runcode" >Compile2</button>	
+
+
 
 		<section id="text-demo">
-		<form id="text-options" class="col-md-5">
+		<form id="text-options" class="col-md-6">
 			
-			<input class="col-md-5"	id="stlFile" type="file"  accept=".stl"/>			
-			<button class="col-md-3" id="loadStl" type="submit" ng-click="addStl()"><i class="glyphicon glyphicon-send"></i> Add</button>
-			<button class="col-md-4" id="clearMesh" ng-click="clearMesh()"> <i class="glyphicon glyphicon-remove"></i> Clear all</button>
+			<input class="col-md-6"	id="stlFile" type="file"  accept=".stl"/>			
+			<button class="col-md-3" id="loadStl" type="submit" ng-click="addStl()"><i class="glyphicon glyphicon-send"></i> Load</button>
+			<button class="col-md-3" id="clearMesh" ng-click="clearMesh()"> <i class="glyphicon glyphicon-remove"></i> Clear all</button>
 		</form>
-		<form id="text-options" class="col-md-5">
+		<form id="text-options" class="col-md-6">
 			<label>Filename: 
 			<input 	id="wtf"	 type="text" class="filename"  placeholder="Enter Filename"/> .stl</label>
 			
@@ -29,7 +28,7 @@
 
 
 
-	<div class="code" style="max-width:480px">
+	<div class="code" style="max-width:480px; " >
 				<!-- Right side-->
 		<div id="right" style="background-color:inherit; boder-style:none">
 			<!-- Right top two button-->
@@ -152,7 +151,7 @@
 
 	<div uib-collapse="isCollapsedHorizontal">
 
-		<div id="code_editor" >
+		<div id="code_editor" style="background-color: rgba(0,0,0, 0);">
 	function main()
 		local a = CSG.cube();
 		local b = CSG.sphere({ radius = 1.35, stacks = 12 });
@@ -166,8 +165,11 @@
 		echo(csg_node);
 	end
 		</div>
+		<br/>
+		<button class="col-md-6" ng-click="onRunCode()"  id="runcode" ><i class="glyphicon glyphicon-play"></i>Run</button>	
+		<button class="col-md-6" ng-click="onRunCode(true)"  id="runcode" >Compile2</button>
 	</div>
-		
+	
 	</div>
 
 	<div class="row" style="padding-left:30px;padding-right:30px;" id="logWnd">
