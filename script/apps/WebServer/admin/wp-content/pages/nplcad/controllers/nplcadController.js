@@ -81,13 +81,20 @@ nplcadModule.component("nplcad", {
 			}
 			
 			// convert data calculated by CSG.lua to THREE.js, render
-            function createMesh(vertices, indices, normals, colors) {
+            function createMesh(vertices, indices, normals, colors, world_matrix) {
                 var geometry = new THREE.BufferGeometry();
                 var vertices_arr = [];
                 var indices_arr = [];
                 var colors_arr = [];
                 for (var i = 0; i < vertices.length; i++) {
-                    vertices_arr.push(vertices[i][0], vertices[i][1], vertices[i][2]);
+                    var x = vertices[i][0];
+                    var y = vertices[i][1];
+                    var z = vertices[i][2];
+                    var pos = new THREE.Vector3(x, y, z);
+                    if (world_matrix) {
+                        pos.applyMatrix4(world_matrix);
+                    }
+                    vertices_arr.push(pos.x, pos.y, pos.z);
                 }
                 for (var i = 0; i < indices.length; i++) {
                     indices_arr.push(indices[i] - 1);
@@ -343,7 +350,7 @@ nplcadModule.component("nplcad", {
                 }
                 $http.get("ajax/nplcad?action=runcode&v=" + v + "&code=" + encodeURIComponent(text)).then(function (response) {
                     if (response && response.data && response.data.csg_node_values) {
-                        //console.log(response.data);
+                        console.log(response.data);
                         clearMeshes();
                         if (response.data.success) {
                             var csg_node_values = response.data.csg_node_values;
@@ -354,8 +361,12 @@ nplcadModule.component("nplcad", {
                                 var indices = value.indices;
                                 var normals = value.normals;
                                 var colors = value.colors;
-
-                                var geometry = createMesh(vertices, indices, normals, colors);
+                                var world_matrix;
+                                if (value.world_matrix) {
+                                    world_matrix = new THREE.Matrix4();
+                                    world_matrix = world_matrix.fromArray(value.world_matrix);
+                                }
+                                var geometry = createMesh(vertices, indices, normals, colors, world_matrix);
                                 aGeometries.push(geometry);
                             }
                         }else{
@@ -369,7 +380,6 @@ nplcadModule.component("nplcad", {
             }
             $scope.onRunCode = function (isNewVersion) {
                 onRunCode(isNewVersion);
-                _toggleCode();
 			}
 			$scope.onSaveCode = function(){
 				if(aGeometries){

@@ -7,8 +7,6 @@
 			
 		<div class="col-lg-12" id="view_container"></div>
 			
-		<button class="col-md-2" ng-click="onRunCode()"  id="runcode" >Compile</button>	
-		<button class="col-md-2" ng-click="onRunCode(true)"  id="runcode" >Compile2</button>	
 		<button class="col-md-2" ng-click="onRunCode()"  id="runcode" ><i class="glyphicon glyphicon-play"></i>   Compile</button>	
 		<section id="text-demo">
 		<form id="text-options" class="col-md-5">
@@ -154,18 +152,27 @@
 	<div uib-collapse="isCollapsedHorizontal">
 
 		<div id="code_editor" >
-	function main()
-		local a = CSG.cube();
-		local b = CSG.sphere({ radius = 1.35, stacks = 12 });
-		local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
-		local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
-		local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
-		a:SetColor({255,255,0});
-		b:SetColor({0,255,255});
-		c:SetColor({255,0,0});
-		local csg_node = a:intersect(b):subtract(c:union(d):union(e));
-		echo(csg_node);
-	end
+pushNode();
+    rotate(45,0,0);
+    cube({ center = {0,3,0}, radius = {1,1,1}, color = {1,0,0}, });
+popNode();
+
+sphere({ center = {-3,0,0}, radius = 1, slices = 16, stacks = 16, color = {1,1,0}, });
+translate(2,0,3);
+	cylinder({ from = {0,-1,0}, to = {0,1,0}, radius = 1, slices = 16, color = {0,0,1}, });
+    cube({center = {5,0,0}});
+
+beginUnion();
+	--Todo
+endUnion();
+
+beginDifference();
+	--Todo
+endDifference();
+
+beginIntersection();
+	--Todo
+endIntersection();
 		</div>
 	</div>
 		

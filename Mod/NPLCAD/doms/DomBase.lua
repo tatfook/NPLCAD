@@ -10,7 +10,7 @@ local DomBase = commonlib.gettable("Mod.NPLCAD.doms.DomBase");
 ------------------------------------------------------------
 ]]
 NPL.load("(gl)script/ide/math/vector.lua");
-NPL.load("(gl)Mod/NPLCAD/doms/DomCompiler.lua");
+NPL.load("(gl)Mod/NPLCAD/doms/DomParser.lua");
 local DomCompiler = commonlib.gettable("Mod.NPLCAD.doms.DomCompiler");
 local vector3d = commonlib.gettable("mathlib.vector3d");
 local DomBase = commonlib.inherit(nil, commonlib.gettable("Mod.NPLCAD.doms.DomBase"));
@@ -53,3 +53,5 @@ end
 function DomBase:getColor(v)
 	return self:getXYZ(v)
 end
+
+

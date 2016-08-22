@@ -1,12 +1,12 @@
 --[[
-Title: DomCompiler
+Title: DomParser
 Author(s):  leio
 Date: 2016/8/17
 Desc: 
 use the lib:
 ------------------------------------------------------------
-NPL.load("(gl)Mod/NPLCAD/doms/DomCompiler.lua");
-local DomCompiler = commonlib.gettable("Mod.NPLCAD.doms.DomCompiler");
+NPL.load("(gl)Mod/NPLCAD/doms/DomParser.lua");
+local DomParser = commonlib.gettable("Mod.NPLCAD.doms.DomParser");
 ------------------------------------------------------------
 ]]
 NPL.load("(gl)script/ide/XPath.lua");
@@ -16,38 +16,40 @@ NPL.load("(gl)Mod/NPLCAD/doms/DomCSGModel.lua");
 local DomScene = commonlib.gettable("Mod.NPLCAD.doms.DomScene");
 local DomNode = commonlib.gettable("Mod.NPLCAD.doms.DomNode");
 local DomCSGModel = commonlib.gettable("Mod.NPLCAD.doms.DomCSGModel");
-local DomCompiler = commonlib.gettable("Mod.NPLCAD.doms.DomCompiler");
-DomCompiler.parsers = {};
-function DomCompiler.initParser()
-	if(not DomCompiler.is_init)then
-		DomCompiler.is_init = true;
+local DomParser = commonlib.gettable("Mod.NPLCAD.doms.DomParser");
+DomParser.parsers = {};
+function DomParser.initParser()
+	if(not DomParser.is_init)then
+		DomParser.is_init = true;
 		
-		DomCompiler.parsers["Scene"] = DomScene:new();
-		DomCompiler.parsers["Node"] = DomNode:new();
-		DomCompiler.parsers["Model"] = DomCSGModel:new();
+		DomParser.parsers["Scene"] = DomScene:new();
+		DomParser.parsers["Node"] = DomNode:new();
+		DomParser.parsers["Model"] = DomCSGModel:new();
+
+
 	end
 end
-function DomCompiler.getParser(name)
+function DomParser.getParser(name)
 	if(not name)then
 		return;
 	end
-	return DomCompiler.parsers[name];
+	return DomParser.parsers[name];
 end
-function DomCompiler.loadStr(content)
+function DomParser.loadStr(content)
 	local xmlRoot = ParaXML.LuaXML_ParseString(content);
-	return DomCompiler.loadScene(xmlRoot);
+	return DomParser.loadScene(xmlRoot);
 end
-function DomCompiler.load(filename)
+function DomParser.load(filename)
 	local xmlRoot = ParaXML.LuaXML_ParseFile(filename);
-	return DomCompiler.loadScene(xmlRoot);
+	return DomParser.loadScene(xmlRoot);
 end
-function DomCompiler.loadScene(xmlRoot)
-	DomCompiler.initParser();
+function DomParser.loadScene(xmlRoot)
+	DomParser.initParser();
 	local scene = nil;
 	if(xmlRoot) then
 		local scene_item;
 		for scene_item in commonlib.XPath.eachNode(xmlRoot, "/Scene") do
-			local p = DomCompiler.getParser(scene_item.name);
+			local p = DomParser.getParser(scene_item.name);
 			if(p)then
 				scene = p:read(scene_item);
 			end
@@ -56,7 +58,7 @@ function DomCompiler.loadScene(xmlRoot)
 	end
 	return scene;
 end
-function DomCompiler.getRenderList(scene)
+function DomParser.getRenderList(scene)
 	if(not scene)then
 		return
 	end
