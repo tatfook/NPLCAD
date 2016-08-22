@@ -151,13 +151,21 @@
 
 	<div uib-collapse="isCollapsedHorizontal">
 
-		<div id="code_editor" style="background-color: rgba(0,0,0, 0);">
-	function main()
+		<div id="code_editor" style="background-color: rgba(0,0,0, 0);">function main()
 		local a = CSG.cube();
 		local b = CSG.sphere({ radius = 1.35, stacks = 12 });
-		local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
-		local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
-		local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
+		local c = CSG.cylinder({ 
+								radius= 0.7, 
+								["from"] = {-1, 0, 0}, 
+								["to"] = {1, 0, 0} });
+		local d = CSG.cylinder({ 
+								radius= 0.7, 
+								["from"] = {0, -1, 0}, 
+								["to"] = {0, 1, 0} });
+		local e = CSG.cylinder({ 
+								radius= 0.7, 
+								["from"] = {0, 0, -1}, 
+								["to"] = {0, 0, 1} });
 		a:SetColor({255,255,0});
 		b:SetColor({0,255,255});
 		c:SetColor({255,0,0});

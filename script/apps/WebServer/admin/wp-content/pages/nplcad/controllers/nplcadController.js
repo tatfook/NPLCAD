@@ -54,11 +54,16 @@ nplcadModule.component("nplcad", {
             editor.setTheme("css/light.css");
 
             //light
+			
             var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
             hemiLight.color.setHSL(0.6, 1, 0.6);
             hemiLight.groundColor.setHSL(0.095, 1, 0.75);
             hemiLight.position.set(0, 500, 0);
-            editor.addObject(hemiLight);
+           // editor.addObject(hemiLight);
+			
+			var light = new THREE.AmbientLight( 0xffffff );
+			editor.addObject( light );
+			//editor.addObject(directionalLight);
 
             function onWindowResize(event) {
                 editor.signals.windowResize.dispatch();
@@ -101,14 +106,13 @@ nplcadModule.component("nplcad", {
                 geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(colors_arr), 3));
                 geometry.computeBoundingSphere();
 
-                var material = new THREE.MeshBasicMaterial({
-                    color: 0xffffff, vertexColors: THREE.VertexColors
-                });
+                //var material = new THREE.MeshLambertMaterial({color: 0x00ced1});
+				var material = new THREE.MeshNormalMaterial( { overdraw: 0.5 } );
 				
                 var mesh = new THREE.Mesh(geometry, material);
                 editor.addObject(mesh);
                 meshes.push(mesh);
-                geometry = new THREE.Geometry().fromBufferGeometry(geometry);
+                
                 return geometry;
             }
 			//save several geometries in one stl file
@@ -134,6 +138,7 @@ nplcadModule.component("nplcad", {
                 return stl
             }
             function stlFromGeometry(geometry, options) {
+				geometry = new THREE.Geometry().fromBufferGeometry(geometry);
                 geometry.computeFaceNormals()
                 var addX = 0
                 var addY = 0
@@ -394,26 +399,25 @@ nplcadModule.component("first",{
 		var panel = document.getElementById('panel'),
         menu = document.getElementById('menu'),
         showcode = document.getElementById('showcode'),
-		runcode = document.getElementById('runcode'),
+		view_container = document.getElementById('view_container'),
         selectFx = document.getElementById('selections-fx'),
         selectPos = document.getElementById('selections-pos'),
         // demo defaults
         effect = 'mfb-zoomin',
         pos = 'mfb-component--br';
-
+	var isBlock;
     showcode.addEventListener('click', _toggleCode);
-	runcode.addEventListener('click', _hiddeCode);
-
+	view_container.addEventListener('click', hideCode);
    
-
+	
     function _toggleCode() {
-      panel.classList.toggle('viewCode');
+		isBlock = panel.classList.toggle('viewCode');
+	 
     }
-	function _hiddeCode(){
-		if(document.getElementById('viewCode')){
-			panel.classList.toggle('viewCode');
+	function hideCode(){
+		if(isBlock){
+			isBlock = panel.classList.toggle('viewCode');
 		}
-		else return
 	}
     function switchEffect(e){
       effect = this.options[this.selectedIndex].value;
