@@ -58,29 +58,5 @@ function DomParser.loadScene(xmlRoot)
 	end
 	return scene;
 end
-function DomParser.getRenderList(scene)
-	if(not scene)then
-		return
-	end
-	local render_list = {};
-	scene:visit(function(node)
-		if(node)then
-			local drawable = node:getDrawable();
-			if(drawable and drawable.getCSGNode)then
-				local csg_node = drawable:getCSGNode();
-				if(csg_node)then
-					local vertices,indices,normals,colors = drawable:toMesh();
-					local world_matrix = node:getWorldMatrix();
-					table.insert(render_list,{
-						world_matrix = world_matrix,
-						vertices = vertices,
-						indices = indices,
-						normals = normals,
-						colors = colors,
-					});
-				end
-			end
-		end
-	end);
-	return render_list;
-end
+
+

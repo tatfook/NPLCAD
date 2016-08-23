@@ -25,27 +25,21 @@ function DomCSGModel:read(xmlnode,parentObj)
 	if(model_type == "cube"  or model_type == "c")then
 		options.center = self:getXYZ(xmlnode.attr["center"] or "0,0,0");
 		options.radius = self:getXYZ(xmlnode.attr["radius"] or "1,1,1");
-		local color = self:getColor(xmlnode.attr["color"] or "1,1,1");
 		model = CSGModel.createCube(options);
-		model:setColor(color);
 	elseif(model_type == "sphere" or model_type == "s")then
 		options.center = self:getXYZ(xmlnode.attr["center"] or "0,0,0");
 		options.radius = self:getNumber(xmlnode.attr["radius"] or "1");
 		options.slices = self:getNumber(xmlnode.attr["slices"] or "16");
 		options.stacks = self:getNumber(xmlnode.attr["stacks"] or "8");
-		local color = self:getColor(xmlnode.attr["color"] or "1,1,1");
 
 		model = CSGModel.createSphere(options);
-		model:setColor(color);
 	elseif(model_type == "cylinder" or model_type == "c")then
 		options.from = self:getXYZ(xmlnode.attr["from"] or "0,-1,0");
 		options.to = self:getXYZ(xmlnode.attr["to"] or "0,1,0");
 		options.radius = self:getNumber(xmlnode.attr["radius"] or "1");
 		options.slices = self:getNumber(xmlnode.attr["slices"] or "16");
-		local color = self:getColor(xmlnode.attr["color"] or "1,1,1");
 
 		model = CSGModel.createCylinder(options);
-		model:setColor(color);
 	end
 	parentObj:setDrawable(model);
 	return model;

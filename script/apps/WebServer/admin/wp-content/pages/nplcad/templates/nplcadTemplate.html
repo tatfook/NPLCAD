@@ -148,31 +148,23 @@
 		
 	</div>
 
-
 	<div uib-collapse="isCollapsedHorizontal">
 
 		<div id="code_editor" >
-pushNode();
-    rotate(45,0,0);
-    cube({ center = {0,3,0}, radius = {1,1,1}, color = {1,0,0}, });
-popNode();
-
-sphere({ center = {-3,0,0}, radius = 1, slices = 16, stacks = 16, color = {1,1,0}, });
+color(1,0,0);
 translate(2,0,3);
-	cylinder({ from = {0,-1,0}, to = {0,1,0}, radius = 1, slices = 16, color = {0,0,1}, });
-    cube({center = {5,0,0}});
-
-beginUnion();
-	--Todo
-endUnion();
-
-beginDifference();
-	--Todo
-endDifference();
-
-beginIntersection();
-	--Todo
-endIntersection();
+push();
+    rotate(45,0,0);
+    color(1,1,0);
+    cube({1,1,1},{0,3,0});
+    push()
+        translate(5,0,0);
+        cube({1,1,1},{0,6,0});
+    pop();
+pop();
+sphere(1,16,16,{-3,0,0});
+cylinder({0,-1,0},{0,1,0},1,16);
+cube(nil,{5,0,0});
 		</div>
 	</div>
 		
@@ -187,66 +179,4 @@ endIntersection();
 </section>
 </div>
 </div>
-
-
-
-
-
-
-
-
-    <div id="code_example4">
-
-	function main()
-
-        local a = CSG.cube({ center= {-0.25, -0.25, -0.25} });
-        local b = CSG.sphere({ radius = 1.3, center = {0.25, 0.25, 0.25} });
-
-        local c = CSG.cube({ center= {-4.25, -0.25, -0.25} });
-        local d = CSG.sphere({ radius = 1.3, center = {-3.75, 0.25, 0.25} });
-
-        local e = CSG.cube({ center= {3.75, -0.25, -0.25} });
-        local f = CSG.sphere({ radius = 1.3, center = {4.25, 0.25, 0.25} });
-		
-		local subtract = c:subtract(d);
-		local union = a:union(b);
-		local intersect = e:intersect(f);
-        echo(subtract);
-		echo(union);
-		echo(intersect);
-	end
-
-    </div>
-    <div id="code_example5">
-	function main()
-
-        local a = CSG.cube();
-        local b = CSG.sphere({ radius = 1.35, stacks = 12 });
-        local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
-        local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
-        local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
-        local csg_node = a:intersect(b):subtract(c:union(d):union(e));
-        echo(csg_node);
-	end
-    </div>
-    <div id="code_example6">
-function main()
-    local a = CSG.cube();
-    local b = CSG.sphere({ radius = 1.35, stacks = 12 });
-    local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
-    local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
-    local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
-    a:SetColor({255,255,0});
-    b:SetColor({0,255,255});
-    c:SetColor({255,0,0});
-    local csg_node = a:intersect(b):subtract(c:union(d):union(e));
-    echo(csg_node);
-    echo(c)
-	end
-    </div>
-    <div id="code_example7">
-
-    </div>
-</div>
-
 

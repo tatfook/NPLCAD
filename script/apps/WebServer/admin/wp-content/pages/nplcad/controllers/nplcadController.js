@@ -352,7 +352,7 @@ nplcadModule.component("nplcad", {
                     if (response && response.data && response.data.csg_node_values) {
                         console.log(response.data);
                         clearMeshes();
-                        if (response.data.success) {
+                        if (response.data.successful) {
                             var csg_node_values = response.data.csg_node_values;
                             
                             for (var i = 0; i < csg_node_values.length; i++) {
@@ -370,7 +370,7 @@ nplcadModule.component("nplcad", {
                                 aGeometries.push(geometry);
                             }
                         }else{
-                            $("#logWnd").html(response);
+                            $("#logWnd").html(response.data.compile_error);
                         }
                 
                     } else {

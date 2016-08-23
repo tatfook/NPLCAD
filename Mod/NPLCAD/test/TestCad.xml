@@ -1,15 +1,19 @@
+
 <Scene>
-  <Node id="1">
-    <Node id="2"/>
-    <Node id="3" position="1,1,1" rotation="30,0,0" scale="1,1,1">
-      <Model center="0,3,0" radius="1,1,1" color="1,0,0"/>
+  <Node >
+    <Node position="1,1,1" rotation="30,0,0" scale="1,1,1" color="1,0,0">
+      <Model center="0,3,0" radius="1,1,1" />
     </Node>
-    <Node>
+    <Node csg_action="union">
+      <Node>
       <Model model_type="sphere" center="-3,0,0" radius="1" slices="16" stacks="8" color="1,1,0"/>
+    </Node>
+      <Node>
+      <Model model_type="cylinder" from="0,-1,0" to="0,1,0" radius="1" slices="16" color="0,0,1"/>
+    </Node>
     </Node>
     <Node>
       <Model model_type="cylinder" from="0,-1,0" to="0,1,0" radius="1" slices="16" color="0,0,1"/>
     </Node>
   </Node>
-  <Node id="4"/>
 </Scene>
