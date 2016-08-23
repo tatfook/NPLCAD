@@ -43,24 +43,12 @@ wp_enqueue_script("nplcad_colorPicker",			"/wp-content/pages/nplcad/js/controls/
 NPL.load("(gl)Mod/NPLCAD/NplCadCompiler.lua");
 local NplCadCompiler = commonlib.gettable("Mod.NPLCAD.NplCadCompiler");
 
-NPL.load("(gl)Mod/NPLCAD/doms/DomCompiler.lua");
-local DomCompiler = commonlib.gettable("Mod.NPLCAD.doms.DomCompiler");
 
 local code = request:get("code");
 local v = request:get("v");
 if(is_ajax()) then
 	add_action('wp_ajax_runcode', function()
-		local output;
-		if(v == "2")then
-			local scene = DomCompiler.loadStr(code);
-			local render_list = DomCompiler.getRenderList(scene);
-			output = {
-				success = true,
-				csg_node_values = render_list,
-			}
-		else
-			output = NplCadCompiler.Build(code);
-		end
+		local output = NplCadCompiler.Build(code);
 		wp_send_json(output,true);
     end)
 	return;

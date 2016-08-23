@@ -16,18 +16,24 @@ NPL.load("(gl)script/ide/CSG/CSG.lua");
 local CSG = commonlib.gettable("CSG.CSG");
 local CSGModel = commonlib.inherit(commonlib.gettable("Mod.NPLCAD.core.Drawable"), commonlib.gettable("Mod.NPLCAD.drawables.CSGModel"));
 function CSGModel.createCube(options)
+	options = options or {};
 	local model = CSGModel:new();
 	model.csg_node = CSG.cube(options);
+	model:setColor(options.color);
 	return model;
 end
 function CSGModel.createSphere(options)
+	options = options or {};
 	local model = CSGModel:new();
 	model.csg_node = CSG.sphere(options);
+	model:setColor(options.color);
 	return model;
 end
 function CSGModel.createCylinder(options)
+	options = options or {};
 	local model = CSGModel:new();
 	model.csg_node = CSG.cylinder(options);
+	model:setColor(options.color);
 	return model;
 end
 function CSGModel:ctor()
@@ -49,8 +55,6 @@ function CSGModel:setColor(color)
 		v.shared = v.shared or {};
 		v.shared.color = color;
 	end
-	commonlib.echo("=======color");
-	commonlib.echo(color);
 end
 function CSGModel:toMesh()
 	if(not self.csg_node)then return end
@@ -74,7 +78,5 @@ function CSGModel:toMesh()
 			table.insert(indices,start_index + i);
 		end
 	end
-	commonlib.echo("=======colors");
-	commonlib.echo(colors);
 	return vertices,indices,normals,colors;
 end

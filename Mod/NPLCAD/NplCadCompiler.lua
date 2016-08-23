@@ -5,99 +5,78 @@ Date: 2016/8/4
 Desc: 
 In nplcad environment one can code like this:
 function main()
-    local a = CSG.cube();
-    local b = CSG.sphere({ radius = 1.35, stacks = 12 });
-    local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
-    local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
-    local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
-    a:SetColor({255,255,0});
-    b:SetColor({0,255,255});
-    c:SetColor({255,0,0});
-    local csg_node = a:intersect(b):subtract(c:union(d):union(e));
-    echo(csg_node);
-    echo(c)
+   
 end
 Note: The entrance of nplcad programme is main function.
 A mesh will be rendered when run echo() once.
 use the lib:
 ------------------------------------------------------------
 NPL.load("(gl)Mod/NPLCAD/NplCadCompiler.lua");
+local DomParser = commonlib.gettable("Mod.NPLCAD.doms.DomParser");
 local NplCadCompiler = commonlib.gettable("Mod.NPLCAD.NplCadCompiler");
+NplCadCompiler.Reset()
+NplCadCompiler.cube()
+NplCadCompiler.cube()
+
+NplCadCompiler.beginUnion();
+	--Todo
+NplCadCompiler.endUnion();
+
+NplCadCompiler.beginDifference();
+	--Todo
+NplCadCompiler.endDifference();
+
+NplCadCompiler.beginIntersection();
+	--Todo
+NplCadCompiler.endIntersection();
+
+local render_list = DomParser.getRenderList(NplCadCompiler.scene)
+commonlib.echo("========render_list");
+commonlib.echo(render_list);
 ------------------------------------------------------------
 ]]
-NPL.load("(gl)script/ide/CSG/CSG.lua");
-local CSG = commonlib.gettable("CSG.CSG");
+
+NPL.load("(gl)script/ide/math/Quaternion.lua");
+NPL.load("(gl)Mod/NPLCAD/core/Transform.lua");
+NPL.load("(gl)Mod/NPLCAD/core/Node.lua");
+NPL.load("(gl)Mod/NPLCAD/core/Scene.lua");
+NPL.load("(gl)Mod/NPLCAD/drawables/CSGModel.lua");
+NPL.load("(gl)Mod/NPLCAD/doms/DomParser.lua");
+local Quaternion = commonlib.gettable("mathlib.Quaternion");
+local Transform = commonlib.gettable("Mod.NPLCAD.core.Transform");
+local Node = commonlib.gettable("Mod.NPLCAD.core.Node");
+local Scene = commonlib.gettable("Mod.NPLCAD.core.Scene");
+local CSGModel = commonlib.gettable("Mod.NPLCAD.drawables.CSGModel");
+local DomParser = commonlib.gettable("Mod.NPLCAD.doms.DomParser");
 
 local NplCadCompiler = commonlib.gettable("Mod.NPLCAD.NplCadCompiler");
--- compiled result
-NplCadCompiler.csg_node_values = nil;
 -- csg environment
 NplCadCompiler.env = nil;
-function NplCadCompiler.CSG_SetColor(csg_node,color)
-	if(not csg_node or not csg_node.polygons)then return end
-	color = color or {};
-	color[1] = color[1] or 255;
-	color[2] = color[2] or 255;
-	color[3] = color[3] or 255;
-	for k,v in ipairs(csg_node.polygons) do
-		v.shared = color
-	end
-end
-function NplCadCompiler.CSG_ToMesh(csg_node)
-	if(not csg_node)then return end
-	local vertices = {};
-	local indices = {};
-	local normals = {};
-	local colors = {};
-	for __,polygon in ipairs(csg_node.polygons) do
-		local start_index = #vertices+1;
-		for __,vertex in ipairs(polygon.vertices) do
-			table.insert(vertices,{vertex.pos.x,vertex.pos.y,vertex.pos.z});
-			table.insert(normals,{vertex.normal.x,vertex.normal.y,vertex.normal.z});
-			table.insert(colors,polygon.shared or {255,255,255});
-		end
-		local size = #(polygon.vertices) - 1;
-		for i = 2,size do
-			table.insert(indices,start_index);
-			table.insert(indices,start_index + i-1);
-			table.insert(indices,start_index + i);
-		end
-	end
-	return vertices,indices,normals,colors;
-end
-function NplCadCompiler.echo(csg_node)
-	if(not csg_node)then return end
-	local vertices,indices,normals,colors = NplCadCompiler.CSG_ToMesh(csg_node);
-	local v = {
-		vertices = vertices,
-		indices = indices,
-		normals = normals,
-		colors = colors,
-	}
-	table.insert(NplCadCompiler.csg_node_values,v);
-end
--- compiled result
--- format is {
---	{vertices = vertices, indices = indices, normals = normals, colors = colors, },
---	{vertices = vertices, indices = indices, normals = normals, colors = colors, },
---  ...
---}
-function NplCadCompiler.GetCompiledResult()
-	return NplCadCompiler.csg_node_values;
-end
+NplCadCompiler.nodes_stack = nil;
 function NplCadCompiler.Reset()
-	CSG.SetColor = nil;
-	NplCadCompiler.csg_node_values = {};
+	NplCadCompiler.nodes_stack = {};
+	NplCadCompiler.scene = Scene.create("nplcad_scene");
 end
 function NplCadCompiler.CreateSandBoxEnv()
 	if(NplCadCompiler.env)then
 		return NplCadCompiler.env;
 	end
-	-- attach a new function to set color
-	CSG.SetColor = NplCadCompiler.CSG_SetColor;
 	local env = {
-		echo = NplCadCompiler.echo,
-		CSG = CSG,
+		pushNode = NplCadCompiler.pushNode,
+		popNode = NplCadCompiler.popNode,
+		beginUnion = NplCadCompiler.beginUnion,
+		endUnion = NplCadCompiler.endUnion,
+		beginDifference = NplCadCompiler.beginDifference,
+		endDifference = NplCadCompiler.endDifference,
+		beginIntersection = NplCadCompiler.beginIntersection,
+		endIntersection = NplCadCompiler.endIntersection,
+		cube = NplCadCompiler.cube,
+		sphere = NplCadCompiler.sphere,
+		cylinder = NplCadCompiler.cylinder,
+		translate = NplCadCompiler.translate,
+		rotate = NplCadCompiler.rotate,
+		scale = NplCadCompiler.scale,
+		color = NplCadCompiler.color,
 	};
 	local meta = {__index = _G};
 	setmetatable (env, meta);
@@ -115,9 +94,8 @@ function NplCadCompiler.Build(code)
 		return;
 	end
 	NplCadCompiler.Reset();
-	local output = {
 
-	}
+	local output = {}
 	local code_func, errormsg = loadstring(code);
 	if(code_func) then
 		local env = NplCadCompiler.CreateSandBoxEnv();
@@ -129,10 +107,122 @@ function NplCadCompiler.Build(code)
 				ok, result = pcall(env.main);
 			end
 		end
+		local render_list = DomParser.getRenderList(NplCadCompiler.scene)
 		output.success = ok;
-		output.csg_node_values = NplCadCompiler.GetCompiledResult();
+		output.csg_node_values = render_list;
 	else
 		output.compile_error =  errormsg;
 	end
 	return output;
+end
+
+function NplCadCompiler.getNode()
+	if(NplCadCompiler.nodes_stack)then
+		local len = #NplCadCompiler.nodes_stack;
+		local node = NplCadCompiler.nodes_stack[len];
+		if(node)then
+			return node;
+		end
+		return NplCadCompiler.scene;
+	end
+end
+function NplCadCompiler.pushNode()
+	local parent = NplCadCompiler.getNode()
+	local node = Node.create("");
+	table.insert(NplCadCompiler.nodes_stack,node);
+
+	parent:addChild(node);
+	return node;
+end
+function NplCadCompiler.popNode()
+	if(NplCadCompiler.nodes_stack)then
+		local len = #NplCadCompiler.nodes_stack;
+		table.remove(NplCadCompiler.nodes_stack,len);
+	end
+end
+function NplCadCompiler.beginUnion()
+	local node = NplCadCompiler.pushNode();
+	if(node)then
+		--node:setCsgAction("union");
+	end
+end
+function NplCadCompiler.endUnion()
+	local node = NplCadCompiler.getNode();
+	if(node)then
+		--node:doCsgAction("union");
+	end
+	NplCadCompiler.popNode()
+end
+function NplCadCompiler.beginDifference()
+	local node = NplCadCompiler.pushNode();
+	if(node)then
+		--node:setCsgAction("difference");
+	end
+end
+function NplCadCompiler.endDifference()
+	local node = NplCadCompiler.getNode();
+	if(node)then
+		--node:doCsgAction("difference");
+	end
+	NplCadCompiler.popNode()
+end
+function NplCadCompiler.beginIntersection()
+	local node = NplCadCompiler.pushNode();
+	if(node)then
+		--node:setCsgAction("intersection");
+	end
+end
+function NplCadCompiler.endIntersection()
+	local node = NplCadCompiler.getNode();
+	if(node)then
+		--node:doCsgAction("intersection");
+	end
+	NplCadCompiler.popNode()
+end
+function NplCadCompiler.cube(options)
+	local parent = NplCadCompiler.getNode();
+	local node = Node.create("");
+	node:setDrawable(CSGModel.createCube(options));
+	parent:addChild(node);
+end
+function NplCadCompiler.sphere(options)
+	local parent = NplCadCompiler.getNode();
+	local node = Node.create("");
+	node:setDrawable(CSGModel.createSphere(options));
+	parent:addChild(node);
+end
+function NplCadCompiler.cylinder(options)
+	local parent = NplCadCompiler.getNode();
+	local node = Node.create("");
+	node:setDrawable(CSGModel.createCylinder(options));
+	parent:addChild(node);
+end
+function NplCadCompiler.translate(x,y,z)
+	if(not x or not y or not z)then
+		return
+	end
+	local node = NplCadCompiler.pushNode();
+	if(node)then
+		node:setTranslation(x,y,z);
+	end
+end
+function NplCadCompiler.rotate(x,y,z)
+	if(not x or not y or not z)then
+		return
+	end
+	local node = NplCadCompiler.pushNode();
+	if(node)then
+		local q =  Quaternion:new();
+		q =  q:FromEulerAngles(x,y,z) 
+		node:setRotation(q[1],q[2],q[3],q[4]);
+	end
+end
+function NplCadCompiler.scale(x,y,z)
+	if(not x or not y or not z)then
+		return
+	end
+	local node = NplCadCompiler.pushNode();
+	if(node)then
+		node:setScale(x,y,z);
+	end
 end

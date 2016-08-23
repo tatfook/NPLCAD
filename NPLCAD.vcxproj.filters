@@ -150,10 +150,13 @@
     <None Include="Mod\NPLCAD\doms\DomBase.lua">
       <Filter>Mod\NPLCAD\doms</Filter>
     </None>
-    <None Include="Mod\NPLCAD\doms\DomCompiler.lua">
+    <None Include="Mod\NPLCAD\test\TestCad.xml">
+      <Filter>Mod\NPLCAD\test</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\doms\DomParser.lua">
       <Filter>Mod\NPLCAD\doms</Filter>
     </None>
-    <None Include="Mod\NPLCAD\test\TestCad.xml">
+    <None Include="Mod\NPLCAD\test\Test.lua">
       <Filter>Mod\NPLCAD\test</Filter>
     </None>
   </ItemGroup>

@@ -38,7 +38,7 @@ Transform.DIRTY_NOTIFY			= DIRTY_NOTIFY;
 --					"TransformChanged"
 function Transform:ctor()
 	-- The scale component of the transform.
-	self.scale			=	vector3d:new();
+	self.scale			=	vector3d:new({1,1,1});
 	-- The rotation component of the transform.
 	self.rotation		=	Quaternion:new():identity();
 	-- The translation component of the transform.
@@ -156,7 +156,8 @@ function Transform:getMatrix()
 			local hasRotation = (not self.rotation:equals(Quaternion.IDENTITY));
 			self.matrix = self.matrix:makeTrans(self.translation[1], self.translation[2], self.translation[3]);
 			if(hasRotation)then
-				self.matrix = self.rotation:ToRotationMatrix(self.matrix);
+				local r_matrix = self.rotation:ToRotationMatrix();
+				self.matrix = r_matrix * self.matrix;
 			end
 			if(hasScale)then
 				self.matrix:setScale(self.scale[1], self.scale[2], self.scale[3]);	
@@ -331,6 +332,9 @@ function Transform:setScale(sx,sy,sz)
 	if(self:isStatic())then
 		return;
 	end
+	if(not sx or not sy or not sz)then
+		return;
+	end
 	self.scale:set({sx,sy,sz});
 	self:dirty(DIRTY_SCALE);
 end
@@ -374,7 +378,7 @@ function Transform:setRotation(qx,qy,qz,qw)
 	self:dirty(DIRTY_ROTATION);
 end
 -- Sets the rotation component for this transform to the rotation from the specified axis and angle.
-function Transform:setRotation(axis,angle)
+function Transform:setRotation2(axis,angle)
 	if(self:isStatic())then
 		return;
 	end
@@ -388,6 +392,9 @@ end
 -- @param tz The translation amount in the z direction.
 function Transform:setTranslation(tx,ty,tz)
 	if(self:isStatic())then
+		return;
+	end
+	if(not tx or not ty or not tz)then
 		return;
 	end
 	self.translation:set({tx,ty,tz});
