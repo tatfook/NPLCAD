@@ -30,6 +30,7 @@ wp_enqueue_script("nplcad_ui_three",			"/wp-content/pages/nplcad/js/libs/ui.thre
 wp_enqueue_script("nplcad_Blob",				"/wp-content/pages/nplcad/js/libs/Blob.js"); 
 wp_enqueue_script("nplcad_STLLoader",			"/wp-content/pages/nplcad/js/libs/STLLoader.js"); 
 
+
 wp_enqueue_script("nplcad_editor",				"/wp-content/pages/nplcad/js/Editor.js"); 
 wp_enqueue_script("nplcad_viewport",			"/wp-content/pages/nplcad/js/Viewport.js"); 
 wp_enqueue_script("nplcad_viewport_info",		"/wp-content/pages/nplcad/js/Viewport.Info.js"); 

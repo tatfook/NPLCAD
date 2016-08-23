@@ -61,7 +61,7 @@ color: black;\
 background: rgb(190, 190, 190);\
 }\
 .ace-github .ace_marker-layer .ace_active-line {\
-background: rgb(245, 245, 245);\
+background: rgb(190, 190, 190);\
 }\
 .ace-github .ace_marker-layer .ace_selection {\
 background: rgb(181, 213, 255);\
