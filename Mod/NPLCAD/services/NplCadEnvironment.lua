@@ -101,49 +101,65 @@ function NplCadEnvironment:intersection__()
 		node:setTag("csg_action","intersection");
 	end
 end
-function NplCadEnvironment.cube(radius,center)
+function NplCadEnvironment.cube(options)
 	local self = getfenv(2);
-	self:cube__(radius,center);
+	self:cube__(options);
 end
-function NplCadEnvironment:cube__(radius,center)
+--[[
 	local options = {
 		radius = radius,
 		center = center,
+		color = color,
 	}
+]]
+function NplCadEnvironment:cube__(options)
+	options = options or {};
 	local parent = self:getNode__();
 	local node = Node.create("");
+	node:setTag("color",options.color);
 	node:setDrawable(CSGModel.createCube(options));
 	parent:addChild(node);
 end
-function NplCadEnvironment.sphere(radius,slices,stacks,center)
+function NplCadEnvironment.sphere(options)
 	local self = getfenv(2);
-	self:sphere__(radius,slices,stacks,center);
+	self:sphere__(options);
 end
-function NplCadEnvironment:sphere__(radius,slices,stacks,center)
+--[[
 	local options = {
 		radius = radius,
 		slices = slices,
 		stacks = stacks,
 		center = center,
+		color = color,
 	}
+--]]
+function NplCadEnvironment:sphere__(options)
+	options = options or {};
 	local parent = self:getNode__();
 	local node = Node.create("");
+	node:setTag("color",options.color);
 	node:setDrawable(CSGModel.createSphere(options));
 	parent:addChild(node);
 end
-function NplCadEnvironment.cylinder(from,to,radius,slices)
+
+function NplCadEnvironment.cylinder(options)
 	local self = getfenv(2);
-	self:cylinder__(from,to,radius,slices);
+	self:cylinder__(options);
 end
-function NplCadEnvironment:cylinder__(from,to,radius,slices)
+--[[
 	local options = {
 		from = from,
 		to = to,
 		radius = radius,
 		slices = slices,
+		color = color,
 	}
+]]
+function NplCadEnvironment:cylinder__(options)
+	options = options or {};
 	local parent = self:getNode__();
 	local node = Node.create("");
+	node:setTag("color",options.color);
 	node:setDrawable(CSGModel.createCylinder(options));
 	parent:addChild(node);
 end

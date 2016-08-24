@@ -295,7 +295,7 @@ var Viewport = function ( editor) {
 
 		}
 
-		renderer.setClearColor( clearColor );
+		//renderer.setClearColor( clearColor );
 
 		render();
 

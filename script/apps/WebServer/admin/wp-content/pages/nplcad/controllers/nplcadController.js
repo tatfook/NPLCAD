@@ -29,67 +29,128 @@ nplcadModule.component("nplcad", {
             Number.prototype.format = function () {
                 return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
             };
-
-            //
-            var rendererTypes = {
-
-                'WebGLRenderer': THREE.WebGLRenderer,
-                'CanvasRenderer': THREE.CanvasRenderer,
-                'SVGRenderer': THREE.SVGRenderer,
-                'SoftwareRenderer': THREE.SoftwareRenderer,
-                'RaytracingRenderer': THREE.RaytracingRenderer
-
-            };
-            var editor = new Editor();
-            var viewport = new Viewport(editor);
-            $("#view_container").append(viewport.dom);
-
-
-            var type = "WebGLRenderer";
-            var renderer = new rendererTypes[type]();
-
+            var container, stats;
+            var camera, scene, renderer;
+            var controls, transformControl;
             var meshes = [];
-            var signals = editor.signals;
-            signals.rendererChanged.dispatch(renderer);
-            editor.setTheme("css/light.css");
+            init();
+            animate();
+            function init() {
+                container = document.createElement('div');
+                container.style["position"] = "relative";
+                container.style["width"] = "100%";
+                container.style["height"] = "560px";
+                $("#view_container").append(container);
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
+                camera.position.set(10, 5, 10);
+                camera.lookAt(new THREE.Vector3());
+                scene.add(camera);
 
-            //light
-			
-            var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
-            hemiLight.color.setHSL(0.6, 1, 0.6);
-            hemiLight.groundColor.setHSL(0.095, 1, 0.75);
-            hemiLight.position.set(0, 500, 0);
-           // editor.addObject(hemiLight);
-			
-			var light = new THREE.AmbientLight( 0xffffff );
-			editor.addObject( light );
-			//editor.addObject(directionalLight);
+                // light
+                scene.add(new THREE.HemisphereLight(0x443333, 0x111122));
+                addShadowedLight(1, 1, 1, 0xffffff, 1.35);
+                addShadowedLight(0.5, 1, -1, 0xffaa00, 1);
 
-            function onWindowResize(event) {
-                editor.signals.windowResize.dispatch();
+                var helper = new THREE.GridHelper(30, 1);
+                helper.material.opacity = 0.25;
+                helper.material.transparent = true;
+                scene.add(helper);
+
+                renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setClearColor(0xf0f0f0);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.gammaInput = true;
+                renderer.gammaOutput = true;
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.renderReverseSided = false;
+                container.appendChild(renderer.domElement);
+
+                // Controls
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.damping = 0.2;
+                controls.addEventListener('change', render);
+
+                transformControl = new THREE.TransformControls(camera, renderer.domElement);
+                transformControl.addEventListener('change', render);
+
+                scene.add(transformControl);
+                window.addEventListener('resize', onWindowResize, false);
+                onWindowResize();
+            }
+            function onWindowResize() {
+
+                var w = container.offsetWidth;
+                var h = container.offsetHeight;
+                //var w = window.innerWidth;
+                //var h = window.innerHeight;
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(w, h);
+
+            }
+            function animate() {
+
+                requestAnimationFrame(animate);
+                render();
+                controls.update();
+                transformControl.update();
+
             }
 
-            window.addEventListener('resize', onWindowResize, false);
+            function render() {
+                renderer.render(scene, camera);
+            }
+            function removeObject(object) {
+                if (object.parent === null) return; 
+                object.parent.remove(object);
+            }
             function clearMeshes(){
                 for (var i = 0; i < meshes.length; i++) {
-                    editor.removeObject(meshes[i]);
+                    removeObject(meshes[i]);
                 }
 				//array.slice()并不删除数组
                 meshes.slice();
             }
 			$scope.clearMesh = function(){
 				for (var i = 0; i < meshes.length; i++) {
-                    editor.removeObject(meshes[i]);
+                    removeObject(meshes[i]);
                 }
 				//array.slice()并不删除数组
                 meshes.splice(0,meshes.length);
 			}
-			
+			function addShadowedLight( x, y, z, color, intensity ) {
+
+			    var directionalLight = new THREE.DirectionalLight( color, intensity );
+			    directionalLight.position.set( x, y, z );
+			    scene.add(directionalLight);
+
+			    directionalLight.castShadow = true;
+
+			    var d = 1;
+			    directionalLight.shadow.camera.left = -d;
+			    directionalLight.shadow.camera.right = d;
+			    directionalLight.shadow.camera.top = d;
+			    directionalLight.shadow.camera.bottom = -d;
+
+			    directionalLight.shadow.camera.near = 1;
+			    directionalLight.shadow.camera.far = 4;
+
+			    directionalLight.shadow.mapSize.width = 1024;
+			    directionalLight.shadow.mapSize.height = 1024;
+
+			    directionalLight.shadow.bias = -0.005;
+
+			}
+
 			// convert data calculated by CSG.lua to THREE.js, render
             function createMesh(vertices, indices, normals, colors, world_matrix) {
                 var geometry = new THREE.BufferGeometry();
                 var vertices_arr = [];
                 var indices_arr = [];
+                var normals_arr = [];
                 var colors_arr = [];
                 for (var i = 0; i < vertices.length; i++) {
                     var x = vertices[i][0];
@@ -104,20 +165,27 @@ nplcadModule.component("nplcad", {
                 for (var i = 0; i < indices.length; i++) {
                     indices_arr.push(indices[i] - 1);
                 }
+                for (var i = 0; i < normals.length; i++) {
+                    normals_arr.push(normals[i][0], normals[i][1], normals[i][2]);
+                }
                 for (var i = 0; i < colors.length; i++) {
                     colors_arr.push(colors[i][0], colors[i][1], colors[i][2]);
                 }
                 var geometry = new THREE.BufferGeometry();
                 geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices_arr), 1));
                 geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices_arr), 3));
+                geometry.addAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals_arr), 3));
                 geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(colors_arr), 3));
                 geometry.computeBoundingSphere();
 
-                //var material = new THREE.MeshLambertMaterial({color: 0x00ced1});
-				var material = new THREE.MeshNormalMaterial( { overdraw: 0.5 } );
+                var material = new THREE.MeshPhongMaterial({ vertexColors: THREE.VertexColors, shininess: 200 });
+                //var material = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: THREE.VertexColors });
 				
                 var mesh = new THREE.Mesh(geometry, material);
-                editor.addObject(mesh);
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                scene.add(mesh);
                 meshes.push(mesh);
                 
                 return geometry;
@@ -238,7 +306,7 @@ nplcadModule.component("nplcad", {
 					var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
 				
 					var mesh = new THREE.Mesh(geometry, material);
-					editor.addObject(mesh);
+					scene.add(mesh);
 					meshes.push(mesh);
 				}
 				else alert('Loading failed')
@@ -397,7 +465,6 @@ nplcadModule.component("nplcad", {
 					alert("Please compile the code before save.")
 				}
 			}			
-            onWindowResize();
         }
     })
 

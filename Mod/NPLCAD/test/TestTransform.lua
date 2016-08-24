@@ -7,7 +7,7 @@ use the lib:
 ------------------------------------------------------------
 NPL.load("(gl)Mod/NPLCAD/test/TestTransform.lua");
 local TestTransform = commonlib.gettable("Mod.NPLCAD.test.TestTransform");
-TestTransform.Test();
+TestTransform.Test_Env();
 ------------------------------------------------------------
 ]]
 NPL.load("(gl)Mod/NPLCAD/core/Transform.lua");
@@ -16,6 +16,7 @@ NPL.load("(gl)Mod/NPLCAD/core/Scene.lua");
 NPL.load("(gl)Mod/NPLCAD/drawables/CSGModel.lua");
 NPL.load("(gl)Mod/NPLCAD/doms/DomParser.lua");
 NPL.load("(gl)Mod/NPLCAD/services/CSGService.lua");
+NPL.load("(gl)Mod/NPLCAD/services/NplCadEnvironment.lua");
 local Transform = commonlib.gettable("Mod.NPLCAD.core.Transform");
 local Node = commonlib.gettable("Mod.NPLCAD.core.Node");
 local Scene = commonlib.gettable("Mod.NPLCAD.core.Scene");
@@ -23,6 +24,7 @@ local CSGModel = commonlib.gettable("Mod.NPLCAD.drawables.CSGModel");
 local TestTransform = commonlib.gettable("Mod.NPLCAD.test.TestTransform");
 local DomParser = commonlib.gettable("Mod.NPLCAD.doms.DomParser");
 local CSGService = commonlib.gettable("Mod.NPLCAD.services.CSGService");
+local NplCadEnvironment = commonlib.gettable("Mod.NPLCAD.services.NplCadEnvironment");
 function TestTransform.Test()
 
 
@@ -51,4 +53,23 @@ function TestTransform.Test2()
 	local scene = DomParser.load("Mod/NPLCAD/test/TestCad.xml");
 	commonlib.echo("=========renderQueues");
 	commonlib.echo(CSGService.getRenderList(scene));
+end
+function TestTransform.Test_Env()
+	local code = [[
+color(1,0,0);
+intersection();
+cube();
+push()
+	difference();
+		sphere({ radius = 1.35, stacks = 12, color = {0,0,1}, });
+	push()
+		union();
+		cylinder({ radius = 0.7, from = {-1,0,0}, to = {1,0,0}, color = {0,1,0}, });
+		cylinder({ radius = 0.7, from = {0,-1,0}, to = {0,1,0}, color = {0,1,0}, });
+		cylinder({ radius = 0.7, from = {0,0,-1}, to = {0,0,1}, color = {0,1,0}, });
+	pop()
+pop()
+	]]
+	local output = CSGService.buildPageContent(code)
+	commonlib.echo(output);
 end
