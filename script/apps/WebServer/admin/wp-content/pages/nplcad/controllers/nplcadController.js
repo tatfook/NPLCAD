@@ -111,7 +111,7 @@ nplcadModule.component("nplcad", {
                 geometry.computeBoundingSphere();
 
                 //var material = new THREE.MeshLambertMaterial({color: 0x00ced1});
-				var material = new THREE.MeshNormalMaterial( { overdraw: 0.5 } );
+				var material = new THREE.MeshBasicMaterial( {color:0xffffff } );
 				
                 var mesh = new THREE.Mesh(geometry, material);
                 editor.addObject(mesh);
