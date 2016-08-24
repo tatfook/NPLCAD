@@ -120,7 +120,8 @@
     <None Include="Mod\NPLCAD\doms\DomNode.lua" />
     <None Include="Mod\NPLCAD\doms\DomScene.lua" />
     <None Include="Mod\NPLCAD\drawables\CSGModel.lua" />
-    <None Include="Mod\NPLCAD\NplCadCompiler.lua" />
+    <None Include="Mod\NPLCAD\services\CSGService.lua" />
+    <None Include="Mod\NPLCAD\services\NplCadEnvironment.lua" />
     <None Include="Mod\NPLCAD\test\Test.lua" />
     <None Include="Mod\NPLCAD\test\TestCad.xml" />
     <None Include="Mod\NPLCAD\test\TestTransform.lua" />

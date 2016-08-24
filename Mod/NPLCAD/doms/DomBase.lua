@@ -11,7 +11,7 @@ local DomBase = commonlib.gettable("Mod.NPLCAD.doms.DomBase");
 ]]
 NPL.load("(gl)script/ide/math/vector.lua");
 NPL.load("(gl)Mod/NPLCAD/doms/DomParser.lua");
-local DomCompiler = commonlib.gettable("Mod.NPLCAD.doms.DomCompiler");
+local DomParser = commonlib.gettable("Mod.NPLCAD.doms.DomParser");
 local vector3d = commonlib.gettable("mathlib.vector3d");
 local DomBase = commonlib.inherit(nil, commonlib.gettable("Mod.NPLCAD.doms.DomBase"));
 function DomBase:ctor()
@@ -21,7 +21,7 @@ end
 function DomBase:write(obj)
 end
 function DomBase:getParser(name)
-	return DomCompiler.getParser(name);
+	return DomParser.getParser(name);
 end
 function DomBase:readChildren(xmlnode,parentObj)
 	local len = #xmlnode;

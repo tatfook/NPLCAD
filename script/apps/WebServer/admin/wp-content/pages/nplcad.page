@@ -40,15 +40,15 @@ wp_enqueue_script("nplcad_transformcontrols",	"/wp-content/pages/nplcad/js/contr
 wp_enqueue_script("nplcad_colorPicker",			"/wp-content/pages/nplcad/js/controls/ui.bootstrap.materialPicker.js"); 
 
 
-NPL.load("(gl)Mod/NPLCAD/NplCadCompiler.lua");
-local NplCadCompiler = commonlib.gettable("Mod.NPLCAD.NplCadCompiler");
 
+NPL.load("(gl)Mod/NPLCAD/services/CSGService.lua");
+local CSGService = commonlib.gettable("Mod.NPLCAD.services.CSGService");
 
 local code = request:get("code");
 local v = request:get("v");
 if(is_ajax()) then
 	add_action('wp_ajax_runcode', function()
-		local output = NplCadCompiler.Build(code);
+		local output = CSGService.buildPageContent(code)
 		wp_send_json(output,true);
     end)
 	return;

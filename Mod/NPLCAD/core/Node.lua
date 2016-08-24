@@ -161,7 +161,7 @@ function Node:getScene()
 	end
 end
 function Node:setTag(name,value)
-	if(name and value)then
+	if(name)then
 		self.tags[name] = value;
 	end
 end

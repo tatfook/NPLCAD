@@ -61,6 +61,9 @@
     <Filter Include="Mod\NPLCAD\doms">
       <UniqueIdentifier>{6b5a6bc3-71bc-4dfe-928f-0545441753f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mod\NPLCAD\services">
+      <UniqueIdentifier>{d70d179a-b814-40bd-b175-846cbff6735d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js">
@@ -114,9 +117,6 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page">
       <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
     </None>
-    <None Include="Mod\NPLCAD\NplCadCompiler.lua">
-      <Filter>Mod\NPLCAD</Filter>
-    </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\nplcadTemplate.html">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\templates</Filter>
     </None>
@@ -158,6 +158,12 @@
     </None>
     <None Include="Mod\NPLCAD\test\Test.lua">
       <Filter>Mod\NPLCAD\test</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\services\CSGService.lua">
+      <Filter>Mod\NPLCAD\services</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\services\NplCadEnvironment.lua">
+      <Filter>Mod\NPLCAD\services</Filter>
     </None>
   </ItemGroup>
 </Project>

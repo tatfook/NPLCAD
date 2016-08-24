@@ -15,12 +15,14 @@ NPL.load("(gl)Mod/NPLCAD/core/Node.lua");
 NPL.load("(gl)Mod/NPLCAD/core/Scene.lua");
 NPL.load("(gl)Mod/NPLCAD/drawables/CSGModel.lua");
 NPL.load("(gl)Mod/NPLCAD/doms/DomParser.lua");
+NPL.load("(gl)Mod/NPLCAD/services/CSGService.lua");
 local Transform = commonlib.gettable("Mod.NPLCAD.core.Transform");
 local Node = commonlib.gettable("Mod.NPLCAD.core.Node");
 local Scene = commonlib.gettable("Mod.NPLCAD.core.Scene");
 local CSGModel = commonlib.gettable("Mod.NPLCAD.drawables.CSGModel");
 local TestTransform = commonlib.gettable("Mod.NPLCAD.test.TestTransform");
 local DomParser = commonlib.gettable("Mod.NPLCAD.doms.DomParser");
+local CSGService = commonlib.gettable("Mod.NPLCAD.services.CSGService");
 function TestTransform.Test()
 
 
@@ -43,10 +45,10 @@ function TestTransform.Test()
 
 	scene:visit(TestTransform.visitMethod);
 	commonlib.echo("=========renderQueues");
-	commonlib.echo(DomParser.getRenderList(scene));
+	commonlib.echo(CSGService.getRenderList(scene));
 end
 function TestTransform.Test2()
 	local scene = DomParser.load("Mod/NPLCAD/test/TestCad.xml");
 	commonlib.echo("=========renderQueues");
-	commonlib.echo(DomParser.getRenderList(scene));
+	commonlib.echo(CSGService.getRenderList(scene));
 end

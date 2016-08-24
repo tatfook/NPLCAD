@@ -21,24 +21,31 @@ function DomNode:read(xmlnode,parentObj)
 		return
 	end
 	self:checkAttr(xmlnode);
-
+	-- id
 	local node = Node.create(xmlnode.attr["id"]);
 	parentObj:addChild(node);
-
+	-- position
 	local position = self:getXYZ(xmlnode.attr["position"]);
 	if(position)then
 		node:setTranslation(position[1],position[2],position[3]);
 	end
+	-- rotation
 	local rotation = self:getXYZ(xmlnode.attr["rotation"]);
 	if(rotation)then
 		local q =  Quaternion:new();
 		q =  q:FromEulerAngles(rotation[1],rotation[2],rotation[3]) 
 		node:setRotation(q[1],q[2],q[3],q[4]);
 	end
-
+	-- scale
 	local scale = self:getXYZ(xmlnode.attr["scale"]);
 	if(scale)then
 		node:setScale(scale[1],scale[2],scale[3]);
+	end
+
+	--color
+	local color = self:getXYZ(xmlnode.attr["color"]);
+	if(color)then
+		node:setTag("color",color);
 	end
 
 	self:readChildren(xmlnode,node);
