@@ -60,10 +60,7 @@ nplcadModule.component("nplcad", {
             hemiLight.groundColor.setHSL(0.095, 1, 0.75);
             hemiLight.position.set(0, 500, 0);
            // editor.addObject(hemiLight);
-			
-			var light = new THREE.AmbientLight( 0xffffff );
-			editor.addObject( light );
-			//editor.addObject(directionalLight);
+		
 
             function onWindowResize(event) {
                 editor.signals.windowResize.dispatch();
@@ -248,6 +245,25 @@ nplcadModule.component("nplcad", {
 				stlToGeometry();
 				
 			}
+			
+			var color = 0xffffff;
+			var intensity = 1;
+
+			var light = new THREE.DirectionalLight( color, intensity );
+			light.name = 'DirectionalLight ';
+			light.target.name = 'DirectionalLight ';
+
+			light.position.set( 5, 10, 7.5 );
+
+			editor.addObject(light);
+			
+			
+			
+			
+			
+			
+			
+			
             var code_editor = ace.edit("code_editor");
             code_editor.setTheme("ace/theme/github1");
             code_editor.getSession().setMode("ace/mode/lua");
