@@ -112,7 +112,7 @@ nplcadModule.component("nplcad", {
                     removeObject(meshes[i]);
                 }
 				//array.slice()并不删除数组
-                meshes.slice();
+                meshes.splice(0,meshes.length);
             }
 			$scope.clearMesh = function(){
 				for (var i = 0; i < meshes.length; i++) {
@@ -294,7 +294,7 @@ nplcadModule.component("nplcad", {
 
 			// Stl to geometry
 			var aStlGeometry;
-			function stlToGeometry(bGet){
+			function stlToGeometry(){
 				var stlFile = document.getElementById('stlFile').files[0];
 				var loader = new THREE.STLLoader();
 				var reader = new FileReader();
@@ -305,7 +305,7 @@ nplcadModule.component("nplcad", {
 				if(data){
 					var geometry = loader.parse(data);
 					aStlGeometry = geometry;
-					var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+					var material = new THREE.MeshPhongMaterial({ vertexColors: THREE.VertexColors, shininess: 200 });
 				
 					var mesh = new THREE.Mesh(geometry, material);
 					scene.add(mesh);
@@ -363,6 +363,10 @@ nplcadModule.component("nplcad", {
                                     world_matrix = world_matrix.fromArray(value.world_matrix);
                                 }
                                 var geometry = createMesh(vertices, indices, normals, colors, world_matrix);
+								aGeometries = [];
+								if(aStlGeometry){
+									aGeometries.push(aStlGeometry);
+								}								
                                 aGeometries.push(geometry);
                             }
                         }else{
