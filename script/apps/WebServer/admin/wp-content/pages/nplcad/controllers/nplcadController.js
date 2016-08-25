@@ -334,87 +334,8 @@ nplcadModule.component("nplcad", {
                 }
             }
 			
-			var counter = [0,0,0];
-			var txt = "";
-			$scope.editText = function(check) { 
-			var oInput = angular.element(document.getElementsByName(check+'Input'));
-			var atxt = new Array();
-			if(oInput){
-				// get polygon parameters
-				for (var i=0;i<oInput.length;i++){
-					atxt[i]=oInput[i].value||0;
-				}
-				if(check == 'cube'){
-				counter[0]++;
-				// local cube1 = CSG.cube({},{});
-				txt += "\tlocal "+check+counter[0]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = {"+atxt[3]+","+atxt[4]+","+atxt[5]+"}});\n"
-				txt += changeColor(check+counter[0]);
-				txt += "\techo("+check+counter[0]+");\n";
-				writeCode (txt);			
-				}
-				if(check == 'sphere'){
-				counter[1]++;
-				txt += "\tlocal "+check+counter[1]+" = CSG."+check+"({ center = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, radius = "+atxt[3]+", slices = "+atxt[4]+", stacks = "+atxt[5]+"});\n"
-				txt += changeColor(check+counter[1]);
-				txt += "\techo("+check+counter[1]+");\n";
-				writeCode (txt);			
-				}
-				if(check == 'cylinder'){
-				counter[2]++;
-				txt += "\tlocal "+check+counter[2]+" = CSG."+check+"({ [\"from\"] = {"+atxt[0]+","+atxt[1]+","+atxt[2]+"}, [\"to\"] = {"+atxt[3]+","+atxt[4]+","+atxt[5]+"}, radius="+atxt[6]+" });\n"
-				
-				txt += changeColor(check+counter[2]);
-				txt += "\techo("+check+counter[2]+");\n";
-				writeCode (txt);				
-				}
-			}
-			else return
-			}
-			
-			function writeCode(txt){
-				var	sCode = "function main()\n";
-					sCode += txt; 
-					sCode += "end";
-					code_editor.setValue(sCode) ;
-					onRunCode();
-			}	
 
-			// Color Picker
-			'$scope',
-			$scope.color = {
-			  hex: '#263238'
-			};
-			$scope.hoverColor = null;
-			$scope.size = 10;
-			
-			// Correct input errors
-			$scope.correct = function () {
-			  var m = null;
-			  if (m = $scope.color.hex.match(/^#([0-9A-F])([0-9A-F])([0-9A-F])$/i)) {
-				$scope.color.hex = m[1] + m[1] + m[2] + m[2] + m[3] + m[3];
-			  } else {
-				var c = ['r', 'g', 'b'];
-				for (var i = 0; i < 3; i++) {
-				  var part = +$scope.color[c[i]];
-				  if (part > 255) {
-					$scope.color[c[i]] = 255;
-				  } else if (part <= 0) {
-					$scope.color[c[i]] = 0;
-				  }
-				}
-				
-			  }
-			};
-			function changeColor(name){
-				// Write CSG sentence like: 'Cube : SetColor({0,1,1});'
-
-				var r = $scope.color['r'];
-				var g = $scope.color['g'];
-				var b = $scope.color['b'];
-				var sContent = "\t"+name+": SetColor({\n\t"+r/255+",\n\t"+g/255+",\n\t"+b/255+"});\n"
-				return sContent;
-				
-			} 
+		
 			var aGeometries = [];
             function onRunCode(isNewVersion) {
                 $("#logWnd").html("");

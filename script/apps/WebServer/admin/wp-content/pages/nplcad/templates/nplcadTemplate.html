@@ -7,7 +7,7 @@
 			
 		<div class="col-lg-12" id="view_container" ></div>
 			
-		<button class="col-md-2" ng-click="onRunCode()"  id="runcode" ><i class="glyphicon glyphicon-play"></i>   Compile</button>	
+			
 		<section id="text-demo">
 		<form id="text-options" class="col-md-5">
 			
@@ -35,7 +35,7 @@
 			
 				<!-- First button-->
 				<div class="col-md-6">	
-					<button class="largeButton" type="button" ng-click="isCollapsed = !isCollapsed; isCollapsedHorizontal = !isCollapsedHorizontal">Add ploygon by button</button>
+					<button class="largeButton" ng-click="onRunCode()"  id="runcode" ><i class="glyphicon glyphicon-play"></i>   Compile</button>
 				</div>
 				
 				<!-- Second button-->
@@ -58,95 +58,6 @@
 			<hr/>	
 			
 	<!-- Hidden Code guide -->
-
-	<div uib-collapse="isCollapsed" class="col-md-12">
-			<form id="cube-options" class="col-md-6">
-				<br/>
-				<div class="ploygonName blue">
-				<h3>Cube</h3>
-				</div>						
-				<label>Center:
-					<div class="paraDiv" id="cubeCenter">
-						
-						<input class="paraInput" name="cubeInput" type="text" size="3" value="2" >,
-						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
-						<input class="paraInput" name="cubeInput" type="text" size="3" value="2" >
-					</div>
-
-					Radius:
-					<div class="paraDiv" id="cubeRadius">
-						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
-						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">,
-						<input class="paraInput" name="cubeInput" type="text" size="3" value="2">
-					</div>
-				</label>
-			<input type="submit" ng-click="editText('cube')" value="Add"/>
-			</form>
-			<form id="Sphere-options" class="col-md-6">
-				<br/>
-				<div class="ploygonName blue">
-				<h3>Sphere</h3>
-				</div>
-				<label>Center:		
-				<div class="paraDiv" id="sphereCenter">
-					
-					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
-					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >,
-					<input class="paraInput" name="sphereInput" type="text" size="3" value="4" >
-				</div>
-				</label class="col-md-12">
-				<label>Radius, slices, stacks:
-				<div class="paraDiv" id="sphereThree">
-					
-					<input class="paraInput" name="sphereInput" type="text" size="3" value="2" >					
-					<input class="paraInput" name="sphereInput" type="text" size="3" value="12">					
-					<input class="paraInput" name="sphereInput" type="text" size="3" value="8" >
-			 	</div>
-				</label>
-				<input type="submit" ng-click="editText('sphere')" value="Add"/>
-			</form>
-			<form id="cylinder-options" class="col-md-6">
-				<br/>
-				<div class="ploygonName blue">
-				<h3>Cylinder</h3>
-				</div>
-				<label>
-				Start:			
-				<div class="paraDiv" id="cylinderCenter">
-					
-					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >,
-					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >,
-					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-4" >
-				</div>
-				</label>
-				<label>End:
-				<div class="paraDiv" id="cylinderCenter">
-					
-					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >,
-					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >,
-					<input class="paraInput" name="cylinderInput" type="text" size="3" value="-2" >
-				</div>
-				</label>
-				<label>
-				<div class="paraDiv" id="sphereThree">
-					Radius, slices:
-					<input class="paraInput" name="cylinderInput" type="text" size="3" value="2" >
-					<input class="paraInput" name="cylinderInput" type="text" size="3" value="8" >
-				</div>
-				</label>
-				<input type="submit" ng-click="editText('cylinder')" value="Add"/>
-			</form>
-			<div class="col-md-6"> 
-			<br/>
-			<div class="ploygonName blue">
-			<h3>Color Picker</h3>
-			</div>
-			<br/>
-			<material-picker ng-model="color" hover-model="hoverColor" size="size"></material-picker>
-			</div>	
-						
-		
-	</div>
 
 	<div uib-collapse="isCollapsedHorizontal">
 
