@@ -76,7 +76,7 @@ function NplCadEnvironment.union()
 	self:union__();
 end
 function NplCadEnvironment:union__()
-	local node = self:getNode__();
+	local node = self:push__();
 	if(node)then
 		node:setTag("csg_action","union");
 	end
@@ -86,7 +86,7 @@ function NplCadEnvironment.difference()
 	self:difference__();
 end
 function NplCadEnvironment:difference__()
-	local node = self:getNode__();
+	local node = self:push__();
 	if(node)then
 		node:setTag("csg_action","difference");
 	end
@@ -96,7 +96,7 @@ function NplCadEnvironment.intersection()
 	self:intersection__();
 end
 function NplCadEnvironment:intersection__()
-	local node = self:getNode__();
+	local node = self:push__();
 	if(node)then
 		node:setTag("csg_action","intersection");
 	end
@@ -171,7 +171,7 @@ function NplCadEnvironment:translate__(x,y,z)
 	if(not x or not y or not z)then
 		return
 	end
-	local node = self:getNode__();
+	local node = self:push__();
 	if(node)then
 		node:setTranslation(x,y,z);
 	end
@@ -184,7 +184,7 @@ function NplCadEnvironment:rotate__(x,y,z)
 	if(not x or not y or not z)then
 		return
 	end
-	local node = self:getNode__();
+	local node = self:push__();
 	if(node)then
 		local q =  Quaternion:new();
 		q =  q:FromEulerAngles(x,y,z) 
@@ -199,7 +199,7 @@ function NplCadEnvironment:scale__(x,y,z)
 	if(not x or not y or not z)then
 		return
 	end
-	local node = self:getNode__();
+	local node = self:push__();
 	if(node)then
 		node:setScale(x,y,z);
 	end
@@ -212,7 +212,7 @@ function NplCadEnvironment:color__(r,g,b)
 	if(not r or not g or not b)then
 		return
 	end
-	local node = self:getNode__();
+	local node = self:push__();
 	if(node)then
 		node:setTag("color",{r,g,b});
 	end
