@@ -46,24 +46,23 @@ intersection();
     </div>
     <div id="code_example4">
 
-	function main()
-
-        local a = CSG.cube({ center= {-0.25, -0.25, -0.25} });
-        local b = CSG.sphere({ radius = 1.3, center = {0.25, 0.25, 0.25} });
-
-        local c = CSG.cube({ center= {-4.25, -0.25, -0.25} });
-        local d = CSG.sphere({ radius = 1.3, center = {-3.75, 0.25, 0.25} });
-
-        local e = CSG.cube({ center= {3.75, -0.25, -0.25} });
-        local f = CSG.sphere({ radius = 1.3, center = {4.25, 0.25, 0.25} });
-		
-		local subtract = c:subtract(d);
-		local union = a:union(b);
-		local intersect = e:intersect(f);
-        echo(subtract);
-		echo(union);
-		echo(intersect);
-	end
+	color(92/255,66/255,178/255)
+ union();
+     cube({radius=5,});
+     push()
+          push()
+              rotate(3.1415/4, 0, 0) 
+              cube({radius=5,});
+          pop()
+          push()
+              rotate(0,3.1415/4, 0) 
+              cube({radius=5,});
+          pop()
+          push()
+              rotate(0, 0, 3.1415/4) 
+              cube({radius=5,});
+          pop()
+      pop()
 
     </div>
     <div id="code_example5">
