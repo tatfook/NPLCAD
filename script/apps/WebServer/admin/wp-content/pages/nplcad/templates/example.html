@@ -26,56 +26,82 @@ intersection();
 
     </div>
     <div id="code_example2">
-  difference() 
-  color(0,0.5,1);
-     cube({radius=3,});
-     sphere({ radius = 4, color = {0,0,1}, });
+difference() 
+	color(0,0.5,1);
+	cube({radius=3,});
+	sphere({ radius = 4, color = {0,0,1}, });
     </div>
     <div id="code_example3">
-        union()
+union()
     difference() 
         color(0/255,200/255,190/255);
         cube({radius=3,});
         sphere({ radius = 4, color = {1,0,1}, });
 
-    translate(0,0,1.5)
-    push()    intersection()
-        sphere({ radius= 2.6, color = {1,0,1}, });
-        cube({radius =2});
+   
+    push()    
+        intersection()
+            sphere({ radius= 2.6, color = {1,0,1}, });
+            cube({radius =2});
     pop()
     </div>
     <div id="code_example4">
 
 	color(92/255,66/255,178/255)
- union();
-     cube({radius=5,});
-     push()
-          push()
-              rotate(3.1415/4, 0, 0) 
-              cube({radius=5,});
-          pop()
-          push()
-              rotate(0,3.1415/4, 0) 
-              cube({radius=5,});
-          pop()
-          push()
-              rotate(0, 0, 3.1415/4) 
-              cube({radius=5,});
-          pop()
-      pop()
+union();
+	cube({radius=5,});
+	push()
+	  push()
+		  rotate(3.1415/4, 0, 0) 
+		  cube({radius=5,});
+	  pop()
+	  push()
+		  rotate(0,3.1415/4, 0) 
+		  cube({radius=5,});
+	  pop()
+	  push()
+		  rotate(0, 0, 3.1415/4) 
+		  cube({radius=5,});
+	  pop()
+	pop()
 
     </div>
     <div id="code_example5">
-	function main()
 
-        local a = CSG.cube();
-        local b = CSG.sphere({ radius = 1.35, stacks = 12 });
-        local c = CSG.cylinder({ radius= 0.7, ["from"] = {-1, 0, 0}, ["to"] = {1, 0, 0} });
-        local d = CSG.cylinder({ radius= 0.7, ["from"] = {0, -1, 0}, ["to"] = {0, 1, 0} });
-        local e = CSG.cylinder({ radius= 0.7, ["from"] = {0, 0, -1}, ["to"] = {0, 0, 1} });
-        local csg_node = a:intersect(b):subtract(c:union(d):union(e));
-        echo(csg_node);
-	end
+function f(x)
+    local result =  0.5 * x + 1;
+    return result;
+end
+
+function creatObj1(_color)
+    color(_color[1],_color[2],_color[3]);
+    for x =-100,100,5 do
+    local y = f(x);
+    push()
+        translate(x,y,0) 
+        cube({radius=2,});
+    pop()
+    end
+end
+
+
+
+function g(x)
+    local result ={5 * x + 20, f(x) * f(x) - 50, 0 };
+    return result
+end
+function creatObj2(_color)
+color(_color[1],_color[2],_color[3])
+    for a = -200,200,10 do
+        push()
+            translate(g(a / 8)[1],g(a / 8)[2],g(a / 8)[3]) 
+            sphere({radius=2,});
+        pop()
+    end
+end
+        
+creatObj1({0,1,0}); 
+creatObj2({1,1,1});
     </div>
     <div id="code_example6">
 function main()
