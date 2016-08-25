@@ -65,28 +65,29 @@ function CSGService.applyMatrix(csg_node,matrix)
 			vertex.pos.x = pos[1];
 			vertex.pos.y = pos[2];
 			vertex.pos.z = pos[3];
+
+			--local normal = {vertex.normal.x,vertex.normal.y,vertex.normal.z};
+			--normal = math3d.VectorMultiplyMatrix(nil, normal, matrix);
+			--vertex.normal.x = normal[1];
+			--vertex.normal.y = normal[2];
+			--vertex.normal.z = normal[3];
 		end
 	end
 end
 function CSGService.operateTwoNodes(pre_csg_node,cur_csg_node,csg_action)
-	local changed = false;
 	if(pre_csg_node and cur_csg_node)then
 		if(csg_action == "union")then
 			cur_csg_node = pre_csg_node:union(cur_csg_node);
-			changed = true;
 		elseif(csg_action == "difference")then
 			cur_csg_node = pre_csg_node:subtract(cur_csg_node);
-			changed = true;
 		elseif(csg_action == "intersection")then
 			cur_csg_node = pre_csg_node:intersect(cur_csg_node);
-			changed = true;
 		else
-			-- do nothing
+			-- Default action is "union".
 			cur_csg_node = pre_csg_node:union(cur_csg_node);
-			changed = true;
 		end
 	end
-	return changed, cur_csg_node;
+	return cur_csg_node;
 end
 function CSGService.findTagValue(node,name)
 	if(not node)then
@@ -111,6 +112,7 @@ function CSGService.getRenderList(scene)
 		return
 	end
 	local csg_nodes = {};
+	local csg_nodes_none_action = {};
 	scene:visit(function(node)
 		if(node)then
 			local csg_action = CSGService.findTagValue(node,"csg_action");
@@ -128,15 +130,43 @@ function CSGService.getRenderList(scene)
 					local world_matrix = node:getWorldMatrix();
 					-- changes to world matrix.
 					drawable:applyMatrix(world_matrix);
-					table.insert(csg_nodes,{
-						csg_action = csg_action,
-						csg_node = csg_node,
-					});
+					if(csg_action and csg_action  ~= "")then
+						table.insert(csg_nodes,{
+							csg_action = csg_action,
+							csg_node = csg_node,
+						});
+					
+					else
+						table.insert(csg_nodes_none_action,{
+							csg_node = csg_node,
+						});
+					end
+					
 				end
 			end
 		end
 	end);
 	local render_list = {};
+	local function write(node)
+		if(node)then
+			local vertices,indices,normals,colors = CSGService.toMesh(node);
+			table.insert(render_list,{
+				world_matrix = world_matrix,
+				vertices = vertices,
+				indices = indices,
+				normals = normals,
+				colors = colors,
+			});
+		end
+	end
+	-- Write none action's nodes
+	local len = #csg_nodes_none_action;
+	while(len > 0)do
+		local node = csg_nodes_none_action[len].csg_node;
+		write(node);
+		len = len - 1;
+	end
+	-- Write action's nodes
 	local len = #csg_nodes;
 	if(len == 0)then
 		return render_list;
@@ -146,43 +176,20 @@ function CSGService.getRenderList(scene)
 	local cur_csg_node = cur_node["csg_node"];
 	-- if it is only one node,we do nothing
 	if(not pre_node)then
-		table.insert(render_list,cur_csg_node);
+		write(cur_csg_node);
 	else
+		len = len - 1;
 		while(pre_node) do
 			local csg_action = pre_node["csg_action"];
 			local pre_csg_node = pre_node["csg_node"];
 
-			local changed, csg_node = CSGService.operateTwoNodes(pre_csg_node,cur_csg_node,csg_action);
-			if(changed)then
-				--table.insert(render_list,csg_node);
-				cur_csg_node = csg_node;
-			else
-				table.insert(render_list,cur_csg_node);
-				if(len == 1)then
-					table.insert(render_list,pre_csg_node);
-				end
-			end
+			cur_csg_node = CSGService.operateTwoNodes(pre_csg_node,cur_csg_node,csg_action);
 			len = len - 1;
 			pre_node = csg_nodes[len];
 		end
 	end
-	table.insert(render_list,cur_csg_node);
-	local result_list = {};
-	local len = #render_list;
-	local world_matrix = Matrix4:new():identity();
-	while(len > 0)do
-		local node = render_list[len];
-		local vertices,indices,normals,colors = CSGService.toMesh(node);
-		table.insert(result_list,{
-			world_matrix = world_matrix,
-			vertices = vertices,
-			indices = indices,
-			normals = normals,
-			colors = colors,
-		});
-		len = len - 1;
-	end
-	return result_list;
+	write(cur_csg_node);
+	return render_list;
 end
 function CSGService.getRenderList2(scene)
 	if(not scene)then
@@ -207,7 +214,6 @@ function CSGService.getRenderList2(scene)
 					local vertices,indices,normals,colors = drawable:toMesh();
 					
 					table.insert(render_list,{
-						--world_matrix = world_matrix,
 						vertices = vertices,
 						indices = indices,
 						normals = normals,
