@@ -327,6 +327,7 @@ nplcadModule.component("nplcad", {
             $scope.changeEditorContent = function(num) { 
                 if(num){
                     var sContent = angular.element(document.getElementById('code_example'+num)).text();
+					//alert(sContent);
                     if(sContent){
                         code_editor.setValue(sContent) ;
                     }
@@ -410,18 +411,14 @@ nplcadModule.component("first",{
         pos = 'mfb-component--br';
 	var isBlock;
     showcode.addEventListener('click', _toggleCode);
-	view_container.addEventListener('click', hideCode);
+	view_container.addEventListener('dblclick', _toggleCode);
    
 	
     function _toggleCode() {
 		isBlock = panel.classList.toggle('viewCode');
 	 
     }
-	function hideCode(){
-		if(isBlock){
-			isBlock = panel.classList.toggle('viewCode');
-		}
-	}
+
     function switchEffect(e){
       effect = this.options[this.selectedIndex].value;
       renderMenu();
