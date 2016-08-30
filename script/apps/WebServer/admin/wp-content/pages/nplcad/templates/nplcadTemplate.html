@@ -3,68 +3,107 @@
   	<div uib-collapse="isCollapsed">
 <div class="container">
 	<div class="row">
-        <div class=" col-md-12  ">
+        <div class=" col-md-12 ">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
-              <div class="list-group">
+              <div class="list-group" style="max-height:350px;">
                 <a href="#" class="list-group-item active text-center">
                   <h4 class="glyphicon glyphicon-th-large"></h4><br/>cube
                 </a>
                 <a href="#" class="list-group-item text-center">
-                  <h4 class="glyphicon glyphicon-globe"></h4><br/>Sphere
+                  <h4 class="glyphicon glyphicon-globe"></h4><br/>Sphere, Cylinder
                 </a>
-                <a href="#" class="list-group-item text-center">
-                  <h4 class="glyphicon glyphicon-king"></h4><br/>Cylinder
-                </a>
-                <a href="#" class="list-group-item text-center">
+				<a href="#" class="list-group-item text-center">
                   <h4 class="glyphicon glyphicon glyphicon-bold"></h4><br/>Boolean operation
                 </a>
+                <a href="#" class="list-group-item text-center">
+                  <h4 class="glyphicon glyphicon-king"></h4><br/>push(), pop()
+                </a>      
                 <a href="#" class="list-group-item text-center">
                   <h4 class="glyphicon glyphicon-duplicate"></h4><br/>Function
                 </a>
               </div>
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
-                <!-- flight section -->
+                <!-- cube section -->
                 <div class="bhoechie-tab-content active">
-                    <center>
-                     
-                      <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                      <h3 style="margin-top: 0;color:#55518a">Flight Reservation</h3>
-                    </center>
+                   
+<p>Build cube without parametres:</p>
+<pre><code class="Lua">--Default radius={1,1,1},center={0,0,0},color={1,1,1};
+cube();		 </code></pre>	
+<p>Build cube with parametres:</p>
+<pre><code class="Lua">
+--Set with limit parametres, the other will use default settings.
+cube({radius={3, 3, 3},color={0,1,1},});	
+--Use different radius for x, y, z position to creat cuboid.	
+cube({radius={3, 4, 5},center={3, 3, 3}});  </code></pre>
+                    
                 </div>
-                <!-- train section -->
+                <!-- sphere section -->
                 <div class="bhoechie-tab-content">
-                    <center>
-                      <h1 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h1>
-                      <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                      <h3 style="margin-top: 0;color:#55518a">Train Reservation</h3>
-                    </center>
+<p>Sphere have five parametres:radius, center, color, slice and stacks. We rarely use the last two parametres.</p>
+<pre><code class="Lua">--Default radius=1,center={0,0,0},color={1,1,1},slices = 16,stacks = 8.
+sphere();	--build without parametres.
+sphere({
+  radius = 5,
+  slices = 16,
+  stacks = 8,
+  center = {1,7,0},
+  color = {160/255,134/255,132/255},
+});	 </code></pre>	
+<p>Cylinder also have five parametres: from, to, radius, color, slices. "from" parametre set where cylinder start and "to" means where cylinder end.</p>
+<pre><code class="Lua">
+--Default from = {0,-1,0},to = {0,1,0},color={1,1,1},radius = 1,slices = 16.
+cylinder();	--build without parametres.
+cylinder({
+  from = {5,-1,0},
+  to = {5,1,0},
+  radius = 1,
+  slices = 16,
+  color = {1,1,1},
+}); </code></pre>
                 </div>
     
-                <!-- hotel search -->
+                <!-- boolean section -->
                 <div class="bhoechie-tab-content">
-                    <center>
-                      <h1 class="glyphicon glyphicon-home" style="font-size:12em;color:#55518a"></h1>
-                      <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                      <h3 style="margin-top: 0;color:#55518a">Hotel Directory</h3>
-                    </center>
+Boolean operations consist of union, difference, intersection, which means OR, XOR, AND, respectively. See <a href="https://en.wikipedia.org/wiki/Boolean_operations_on_polygons">Boolean operations</a> on Wikipedia.
+<br/>union:
+<pre><code class="Lua">
+union();
+	cylinder({ radius = 0.7, from = {-1,0,0}, to = {1,0,0}, color = {0,1,0}, });
+	cylinder({ radius = 0.7, from = {0,-1,0}, to = {0,1,0}, color = {0,1,0}, });		
+ </code></pre>
+difference:
+<pre><code class="Lua">
+difference() 
+	color(0,0.5,1);
+	cube({radius=3,});
+	sphere({ radius = 4, color = {0,0,1}, });
+    		
+ </code></pre>
+intersection:
+<pre><code class="Lua">
+intersection()
+	sphere({ radius= 2.6, color = {1,0,1}, });
+	cube({radius =2});		
+ </code></pre>	
                 </div>
                 <div class="bhoechie-tab-content">
-                    <center>
-                      <h1 class="glyphicon glyphicon-cutlery" style="font-size:12em;color:#55518a"></h1>
-                      <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                      <h3 style="margin-top: 0;color:#55518a">Restaurant Diirectory</h3>
-                    </center>
+					<p>Use push(), pop() to build a children node. pop and push are explicitly named nodes, which can be used to specify the range of commands within.</p>
+<pre><code class="Lua">
+union();
+  </code></pre>
                 </div>
                 <div class="bhoechie-tab-content">
-                    <center>
-                      <h1 class="glyphicon glyphicon-credit-card" style="font-size:12em;color:#55518a"></h1>
-                      <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                      <h3 style="margin-top: 0;color:#55518a">Credit Card</h3>
-                    </center>
+You can also use functions in NPL CAD to build complex geometries.
+<pre><code class="Lua">
+union();
+  </code></pre>
                 </div>
             </div>
         </div>
+		<div align="right">
+		See NPL CAD language guide on
+		<a href="https://github.com/tatfook/NPLCAD/wiki">Github</a>.</div>
   </div>
 </div>	
 	</div>
@@ -78,6 +117,9 @@
 	<span id="showcode" class="showcode">
 	  <i class="glyphicon glyphicon-eye-open icon-yepcode" ></i>
 	  <i class="glyphicon glyphicon-eye-close icon-nocode"></i>
+	</span>
+	<span id="showguide" class="showguide" ng-click="isCollapsed = !isCollapsed; ">
+	  <i class="glyphicon glyphicon glyphicon-question-sign icon-question" ></i>
 	</span>
   </header>
   <article>
@@ -112,15 +154,12 @@
 			<!-- Right top two button-->
 			
 				<!-- First button-->
-				<div class="col-md-4">	
+				<div class="col-md-6">	
 					<button class="largeButton" ng-click="onRunCode()"  id="runcode" ><i class="glyphicon glyphicon-play"></i>   Compile</button>
-				</div>
-				<div class="col-md-4">	
-					<button class="largeButton" type="button" ng-click="isCollapsed = !isCollapsed; ">code guide</button>
 				</div>
 				
 				<!-- Second button-->
-				<div class="col-md-4"uib-dropdown is-open="status.isopen">
+				<div class="col-md-6"uib-dropdown is-open="status.isopen">
 				  <button class="largeButton" id="single-button" type="button"  uib-dropdown-toggle ng-disabled="disabled">
 					Code example <span class="caret"></span>
 				  </button>
@@ -171,7 +210,7 @@ intersection();
 </div>
 
 <script>
-
+hljs.initHighlightingOnLoad();
 $(document).ready(function() {
     $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
         e.preventDefault();
@@ -183,6 +222,6 @@ $(document).ready(function() {
     });
 });
 
-hljs.initHighlightingOnLoad();
+
 
 </script>
