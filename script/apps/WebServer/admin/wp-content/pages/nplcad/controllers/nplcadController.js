@@ -1,4 +1,4 @@
-var nplcadModule = angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.bootstrap.materialPicker']);
+var nplcadModule = angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap']);
 nplcadModule.component("nplcad", {
     templateUrl: "/wp-content/pages/nplcad/templates/nplcadTemplate.html",
     controller:function ($scope, $http, $log) {
@@ -327,6 +327,7 @@ nplcadModule.component("nplcad", {
             $scope.changeEditorContent = function(num) { 
                 if(num){
                     var sContent = angular.element(document.getElementById('code_example'+num)).text();
+					//alert(sContent);
                     if(sContent){
                         code_editor.setValue(sContent) ;
                     }
@@ -396,7 +397,6 @@ nplcadModule.component("nplcad", {
     })
 
 nplcadModule.component("first",{
-	templateUrl: "/wp-content/pages/nplcad/templates/first.html",
     controller:function () {
 		window.onload = function(){
 		var panel = document.getElementById('panel'),
@@ -408,20 +408,15 @@ nplcadModule.component("first",{
         // demo defaults
         effect = 'mfb-zoomin',
         pos = 'mfb-component--br';
-	var isBlock;
     showcode.addEventListener('click', _toggleCode);
-	view_container.addEventListener('click', hideCode);
+	view_container.addEventListener('dblclick', _toggleCode);
    
 	
     function _toggleCode() {
-		isBlock = panel.classList.toggle('viewCode');
+		panel.classList.toggle('viewCode');
 	 
     }
-	function hideCode(){
-		if(isBlock){
-			isBlock = panel.classList.toggle('viewCode');
-		}
-	}
+
     function switchEffect(e){
       effect = this.options[this.selectedIndex].value;
       renderMenu();

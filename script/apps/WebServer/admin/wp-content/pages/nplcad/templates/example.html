@@ -47,30 +47,50 @@ union()
     </div>
     <div id="code_example4">
 
-	color(92/255,66/255,178/255)
+color(92/255,66/255,178/255)
 union();
-	cube({radius=5,});
+	cube({radius=3,});
 	push()
 	  push()
 		  rotate(3.1415/4, 0, 0) 
-		  cube({radius=5,});
+		  cube({radius=3,});
 	  pop()
 	  push()
 		  rotate(0,3.1415/4, 0) 
-		  cube({radius=5,});
+		  cube({radius=3,});
 	  pop()
 	  push()
 		  rotate(0, 0, 3.1415/4) 
-		  cube({radius=5,});
+		  cube({radius=3,});
 	  pop()
 	pop()
 
     </div>
-    <div id="code_example5">
+		    <div id="code_example5">
+function createCube(x,y,z,r,g,b)
+   push();
+    color(r,g,b)
+      translate(x,y,z);
+      cube();
+   pop();
+end
 
+push(); 
+    union();
+       createCube(1,0,0,0.8,0.2,0);
+       createCube(4,0,0,0,0.2,0.8);
+pop();
+    
+    </div>
+    <div id="code_example6">
 function f(x)
     local result =  0.5 * x + 1;
     return result;
+end
+
+function g(x)
+    local result ={5 * x + 20, f(x) * f(x) - 50, 0 };
+    return result
 end
 
 function creatObj1(_color)
@@ -84,12 +104,6 @@ function creatObj1(_color)
     end
 end
 
-
-
-function g(x)
-    local result ={5 * x + 20, f(x) * f(x) - 50, 0 };
-    return result
-end
 function creatObj2(_color)
 color(_color[1],_color[2],_color[3])
     for a = -200,200,10 do
@@ -100,10 +114,10 @@ color(_color[1],_color[2],_color[3])
     end
 end
         
-creatObj1({0,1,0}); 
-creatObj2({1,1,1});
+creatObj1({1,0,0}); 
+creatObj2({0,0,1});
     </div>
-    <div id="code_example6">
+    <div id="code_example7">
 union();
 function creatObj(value,_color,direction)
     color(_color[1],_color[2],_color[3]);
@@ -133,4 +147,49 @@ end
  creatObj(-3,{0,1,0},"y");
  creatObj(-3,{0,0,1},"z");
     </div>
+	<div id="code_example8">
+		function creatObj(bTranslate,bScale)
+    push()
+        if(bTranslate) then
+            translate(6,0,0);
+            if(bScale) then
+                scale(2,2,2);
+            end
+        end
+      
+    	color(0,0.5,1);
+        --difference() ;
+    	union();
+    	color(0,0.5,1);
+    	cube({radius=3,});
+    	sphere({ radius = 4, color = {0,0,1}, });
+    pop()
+end
+creatObj();
+creatObj(true,true);
+--creatObj();
+	</div>
+	<div id="code_example9">
+	
+    function creatCircular(_r,_center,_color)
+    color(_color)
+    local _x = _center[1];
+    local _y = _center[2];
+    local _z = _center[3];
+    local x = 0; 
+    local y = 0;
+    local z = 0;
+    
+    for x = _x-_r,_x+_r,2 do
+    z =_z;
+    y = _y + math.sqrt(20*20-(x-_x)^2);
+    translate(x,y,z)
+    cube()
+    end
+    
+    end
+    
+    creatCircular(10,{-5,0,0},"red");
+	</div>
+
 </div>

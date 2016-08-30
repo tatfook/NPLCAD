@@ -37,13 +37,29 @@ div{
   box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 .showcode{
-  background: rgb(232, 216, 49);
-  color: rgba(124, 98, 152, 1);
+  background: rgb(54, 202, 97);
+  color: rgba(250, 253, 254, 1);
   width: 40px;
   height: 40px;  
   text-align: center;
   position: absolute;
   right: 1em;
+  bottom: 0;
+  margin-bottom: -15px;
+  border-radius: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26);
+  transition: all .3s;
+}
+.showguide{
+  background: rgb(244, 149, 55);
+  color: rgba(255, 255, 255, 1);
+  width: 40px;
+  height: 40px;  
+  text-align: center;
+  position: absolute;
+  right: 5em;
   bottom: 0;
   margin-bottom: -15px;
   border-radius: 100%;
@@ -59,6 +75,13 @@ div{
 }
 .icon-nocode, .icon-yepcode{
   transition: opacity .3s;
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 100%;
+  line-height: 40px;
+}
+.icon-question{
   position: absolute;
   left: 0;
   display: block;
@@ -174,7 +197,7 @@ code{
 	 #code_editor { 
 		position: releative;
 		width:100%;
-		min-height:430px;
+		min-height:540px;
     }
 	
 	div.paraDiv{

@@ -12,6 +12,7 @@ wp_enqueue_script("ngStorage",					"/wp-includes/js/angular/ngStorage.js");
 wp_enqueue_script("ngSanitize",					"/wp-includes/js/angular/angular-sanitize.min.js");
 wp_enqueue_script("ui-bootstrap-tpls",			"/wp-includes/js/angular/ui-bootstrap-tpls-1.3.3.min.js");
 wp_enqueue_script("bootstrap-css",				"/wp-includes/js/bootstrap/css/bootstrap.min.css");
+wp_enqueue_script("bootstrap-css",				"/wp-includes/js/jquery/jquery.min.js");
 
 wp_enqueue_script("NPLCAD_App",					"/wp-content/pages/nplcad/app.js");
 wp_enqueue_script("nplcadController",			"/wp-content/pages/nplcad/controllers/nplcadController.js");
@@ -20,6 +21,8 @@ wp_enqueue_script("nplcadController",			"/wp-content/pages/nplcad/controllers/np
 wp_enqueue_style("nplcad_light",				"/wp-content/pages/nplcad/assets/css/light.css");
 wp_enqueue_style("nplcad_index",				"/wp-content/pages/nplcad/assets/css/index.css");
 wp_enqueue_style("easyui_icon", 				"/wp-includes/js/jeasyui/themes/icon.css");
+wp_enqueue_style("code_highlighter", 			"/wp-content/pages/nplcad/assets/css/default.css");
+wp_enqueue_style("vertical_tab", 			"/wp-content/pages/nplcad/assets/css/verticalTab.css");
 
 wp_enqueue_script("nplcad_threejs",				"/wp-content/pages/nplcad/js/libs/three.min.js"); 
 wp_enqueue_script("nplcad_FileSaver",			"/wp-content/pages/nplcad/js/libs/FileSaver.min.js"); 
@@ -29,7 +32,7 @@ wp_enqueue_script("nplcad_ui",					"/wp-content/pages/nplcad/js/libs/ui.js");
 wp_enqueue_script("nplcad_ui_three",			"/wp-content/pages/nplcad/js/libs/ui.three.js"); 
 wp_enqueue_script("nplcad_Blob",				"/wp-content/pages/nplcad/js/libs/Blob.js"); 
 wp_enqueue_script("nplcad_STLLoader",			"/wp-content/pages/nplcad/js/libs/STLLoader.js"); 
-
+wp_enqueue_script("code_highlighter",			"/wp-content/pages/nplcad/js/libs/highlight.pack.js"); 
 
 wp_enqueue_script("nplcad_editor",				"/wp-content/pages/nplcad/js/Editor.js"); 
 wp_enqueue_script("nplcad_viewport",			"/wp-content/pages/nplcad/js/Viewport.js"); 
@@ -39,7 +42,7 @@ wp_enqueue_script("nplcad_editorcontrols",		"/wp-content/pages/nplcad/js/control
 wp_enqueue_script("nplcad_OrbitControls",	"/wp-content/pages/nplcad/js/controls/OrbitControls.js"); 
 wp_enqueue_script("nplcad_DragControls",	"/wp-content/pages/nplcad/js/controls/DragControls.js"); 
 wp_enqueue_script("nplcad_transformcontrols",	"/wp-content/pages/nplcad/js/controls/TransformControls.js"); 
-wp_enqueue_script("nplcad_colorPicker",			"/wp-content/pages/nplcad/js/controls/ui.bootstrap.materialPicker.js"); 
+wp_enqueue_script("nplcad_verticalTabControls",	"/wp-content/pages/nplcad/js/controls/verticalTabControls.js"); 
 
 
 
