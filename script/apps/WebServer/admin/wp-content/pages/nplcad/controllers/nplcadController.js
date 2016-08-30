@@ -1,4 +1,4 @@
-var nplcadModule = angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap','ui.bootstrap.materialPicker']);
+var nplcadModule = angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap']);
 nplcadModule.component("nplcad", {
     templateUrl: "/wp-content/pages/nplcad/templates/nplcadTemplate.html",
     controller:function ($scope, $http, $log) {
@@ -397,7 +397,6 @@ nplcadModule.component("nplcad", {
     })
 
 nplcadModule.component("first",{
-	templateUrl: "/wp-content/pages/nplcad/templates/first.html",
     controller:function () {
 		window.onload = function(){
 		var panel = document.getElementById('panel'),
@@ -409,13 +408,12 @@ nplcadModule.component("first",{
         // demo defaults
         effect = 'mfb-zoomin',
         pos = 'mfb-component--br';
-	var isBlock;
     showcode.addEventListener('click', _toggleCode);
 	view_container.addEventListener('dblclick', _toggleCode);
    
 	
     function _toggleCode() {
-		isBlock = panel.classList.toggle('viewCode');
+		panel.classList.toggle('viewCode');
 	 
     }
 
