@@ -30,6 +30,8 @@ function NplCadEnvironment:new()
 	local o = {
 		scene =  Scene.create("nplcad_scene");
 		nodes_stack = {},
+		math = math,
+		specified_indexs = {},
 	};
 	setmetatable(o, self);
 	self.__index = self
@@ -52,23 +54,37 @@ function NplCadEnvironment:getNode__()
 end
 function NplCadEnvironment.push()
 	local self = getfenv(2);
-	self:push__();
+	self:push__(true);
 end
-function NplCadEnvironment:push__()
+function NplCadEnvironment:push__(bSpecified)
 	local parent = self:getNode__()
 	local node = Node.create("");
 	table.insert(self.nodes_stack,node);
 	parent:addChild(node);
+	if(bSpecified)then
+		table.insert(self.specified_indexs,#self.nodes_stack)
+	end
 	return node;
 end
 function NplCadEnvironment.pop()
 	local self = getfenv(2);
-	self:pop__();
+	self:pop__(true);
 end
-function NplCadEnvironment:pop__()
+function NplCadEnvironment:pop__(bSpecified)
 	if(self.nodes_stack)then
-		local len = #self.nodes_stack;
-		table.remove(self.nodes_stack,len);
+		if(bSpecified)then
+			local len = #self.specified_indexs;
+			local start_index = self.specified_indexs[len];
+			local end_index = #self.nodes_stack;
+			while (end_index >= start_index) do
+				table.remove(self.nodes_stack,end_index);
+				end_index = end_index - 1;
+			end
+			table.remove(self.specified_indexs,len);
+		else
+			local len = #self.nodes_stack;
+			table.remove(self.nodes_stack,len);
+		end
 	end
 end
 function NplCadEnvironment.union()
@@ -215,5 +231,16 @@ function NplCadEnvironment:color__(r,g,b)
 	local node = self:push__();
 	if(node)then
 		node:setTag("color",{r,g,b});
+	end
+end
+function NplCadEnvironment.loadXml(str)
+	local self = getfenv(2);
+	self:loadXml__(str);
+end
+function NplCadEnvironment:loadXml__(str)
+	local parent = self:getNode__();
+	local node = DomParser.loadStr(str)
+	if(node)then
+		parent:addChild(node);
 	end
 end

@@ -329,3 +329,4 @@ function Node:findNodes(id,nodes_result,recursive,exactMatch)
 	end
 	return count;
 end
+

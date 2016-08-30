@@ -18,29 +18,38 @@ local CSGService = commonlib.gettable("Mod.NPLCAD.services.CSGService");
 local CSGVector = commonlib.gettable("CSG.CSGVector");
 local CSG = commonlib.gettable("CSG.CSG");
 local CSGModel = commonlib.inherit(commonlib.gettable("Mod.NPLCAD.core.Drawable"), commonlib.gettable("Mod.NPLCAD.drawables.CSGModel"));
+CSGModel.csg_node = nil;
+CSGModel.model_type = nil;
+CSGModel.options = nil;
 function CSGModel.createCube(options)
 	options = options or {};
 	local model = CSGModel:new();
 	model.csg_node = CSG.cube(options);
+	model.model_type = "cube";
+	model.options = options;
 	return model;
 end
 function CSGModel.createSphere(options)
 	options = options or {};
 	local model = CSGModel:new();
 	model.csg_node = CSG.sphere(options);
+	model.model_type = "sphere";
+	model.options = options;
 	return model;
 end
 function CSGModel.createCylinder(options)
 	options = options or {};
 	local model = CSGModel:new();
 	model.csg_node = CSG.cylinder(options);
+	model.model_type = "cylinder";
+	model.options = options;
 	return model;
 end
 function CSGModel:ctor()
 	self.csg_node = nil;
 end
 function CSGModel:getTypeName()
-	return "CSGModel";
+	return "Model";
 end
 function CSGModel:getCSGNode()
 	return self.csg_node;

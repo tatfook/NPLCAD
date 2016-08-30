@@ -56,19 +56,61 @@ function TestTransform.Test2()
 end
 function TestTransform.Test_Env()
 	local code = [[
-color(1,0,0);
-intersection();
-cube();
 push()
-	difference();
-		sphere({ radius = 1.35, stacks = 12, color = {0,0,1}, });
-	push()
-		union();
-		cylinder({ radius = 0.7, from = {-1,0,0}, to = {1,0,0}, color = {0,1,0}, });
-		cylinder({ radius = 0.7, from = {0,-1,0}, to = {0,1,0}, color = {0,1,0}, });
-		cylinder({ radius = 0.7, from = {0,0,-1}, to = {0,0,1}, color = {0,1,0}, });
-	pop()
+        difference() ;
+    	color(0,0.5,1);
+    	cube({radius=3,});
+    	sphere({ radius = 4, color = {0,0,1}, });
 pop()
+push()
+        difference() ;
+        translate(6,6,6);
+        scale(2,2,2);
+    	color(0,0.5,1);
+    	cube({radius=3,});
+    	sphere({ radius = 4, color = {0,0,1}, });
+pop()
+
+	]]
+	local output = CSGService.buildPageContent(code)
+	commonlib.echo(output);
+	local env =  getfenv(2);
+	local output_str = DomParser.write(CSGService.scene);
+	DomParser.writeToFile("test/nplcad.xml",CSGService.scene)
+end
+function TestTransform.Test_Env2()
+	local code = [[
+<!--nplcad-->
+<Scene csg_action="union">
+  <Node >
+    <Node  csg_action="difference">
+      <Node  color="0.00,0.50,1.00">
+        <Node >
+          <Model  model_type="cube" radius="3.00"></Model>
+        </Node>
+        <Node  color="0.00,0.00,1.00">
+          <Model  model_type="sphere" radius="4.00"></Model>
+        </Node>
+      </Node>
+    </Node>
+  </Node>
+  <Node >
+    <Node  csg_action="difference">
+      <Node  position="6.00,6.00,6.00">
+        <Node  scale="2.00,2.00,2.00">
+          <Node  color="0.00,0.50,1.00">
+            <Node >
+              <Model  model_type="cube" radius="3.00"></Model>
+            </Node>
+            <Node  color="0.00,0.00,1.00">
+              <Model  model_type="sphere" radius="4.00"></Model>
+            </Node>
+          </Node>
+        </Node>
+      </Node>
+    </Node>
+  </Node>
+</Scene>
 	]]
 	local output = CSGService.buildPageContent(code)
 	commonlib.echo(output);

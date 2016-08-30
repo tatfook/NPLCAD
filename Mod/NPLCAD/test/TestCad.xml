@@ -1,19 +1,31 @@
-
+<!--nplcad-->
 <Scene>
-  <Node >
-    <Node position="1,1,1" rotation="30,0,0" scale="1,1,1" color="1,0,0">
-      <Model center="0,3,0" radius="1,1,1" />
+  <Node>
+    <Node  csg_action="difference">
+      <Node  color="0.00,0.50,1.00">
+        <Node>
+          <Model  model_type="cube" radius="3.00"></Model>
+        </Node>
+        <Node  color="0.00,0.00,1.00">
+          <Model  model_type="sphere" radius="4.00"></Model>
+        </Node>
+      </Node>
     </Node>
-    <Node csg_action="union">
-      <Node>
-      <Model model_type="sphere" center="-3,0,0" radius="1" slices="16" stacks="8" color="1,1,0"/>
-    </Node>
-      <Node>
-      <Model model_type="cylinder" from="0,-1,0" to="0,1,0" radius="1" slices="16" color="0,0,1"/>
-    </Node>
-    </Node>
-    <Node>
-      <Model model_type="cylinder" from="0,-1,0" to="0,1,0" radius="1" slices="16" color="0,0,1"/>
+  </Node>
+  <Node>
+    <Node  csg_action="difference">
+      <Node  position="6.00,6.00,6.00">
+        <Node  scale="2.00,2.00,2.00">
+          <Node  color="0.00,0.50,1.00">
+            <Node>
+              <Model  model_type="cube" radius="3.00"></Model>
+            </Node>
+            <Node  color="0.00,0.00,1.00">
+              <Model  model_type="sphere" radius="4.00"></Model>
+            </Node>
+          </Node>
+        </Node>
+      </Node>
     </Node>
   </Node>
 </Scene>

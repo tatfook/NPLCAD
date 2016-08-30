@@ -75,19 +75,23 @@ function CSGService.applyMatrix(csg_node,matrix)
 	end
 end
 function CSGService.operateTwoNodes(pre_csg_node,cur_csg_node,csg_action)
+	local bResult = false;
 	if(pre_csg_node and cur_csg_node)then
 		if(csg_action == "union")then
 			cur_csg_node = pre_csg_node:union(cur_csg_node);
+			bResult = true;
 		elseif(csg_action == "difference")then
 			cur_csg_node = pre_csg_node:subtract(cur_csg_node);
+			bResult = true;
 		elseif(csg_action == "intersection")then
 			cur_csg_node = pre_csg_node:intersect(cur_csg_node);
+			bResult = true;
 		else
 			-- Default action is "union".
-			cur_csg_node = pre_csg_node:union(cur_csg_node);
+			--cur_csg_node = pre_csg_node:union(cur_csg_node);
 		end
 	end
-	return cur_csg_node;
+	return cur_csg_node,bResult;
 end
 function CSGService.findTagValue(node,name)
 	if(not node)then
@@ -97,7 +101,7 @@ function CSGService.findTagValue(node,name)
 	while(p) do
 		local v = p:getTag(name);
 		if(v)then
-			return v;
+			return v,p;
 		end
 		p = p:getParent();
 	end
@@ -106,90 +110,6 @@ function CSGService.equalsColor(color_1,color_2)
 	if(color_1 and color_2)then
 		return (color_1[1] == color_2[1] and color_1[2] == color_2[2] and color_1[3] == color_2[3]);
 	end
-end
-function CSGService.getRenderList(scene)
-	if(not scene)then
-		return
-	end
-	local csg_nodes = {};
-	local csg_nodes_none_action = {};
-	scene:visit(function(node)
-		if(node)then
-			local csg_action = CSGService.findTagValue(node,"csg_action");
-			local drawable = node:getDrawable();
-			if(drawable and drawable.getCSGNode)then
-				local csg_node = drawable:getCSGNode();
-				if(csg_node)then
-					-- set color
-					local color = CSGService.findTagValue(node,"color");
-					if(color)then
-						if(not CSGService.equalsColor(color,CSGService.default_color))then
-							drawable:setColor(color);
-						end
-					end
-					local world_matrix = node:getWorldMatrix();
-					-- changes to world matrix.
-					drawable:applyMatrix(world_matrix);
-					if(csg_action and csg_action  ~= "")then
-						table.insert(csg_nodes,{
-							csg_action = csg_action,
-							csg_node = csg_node,
-						});
-					
-					else
-						table.insert(csg_nodes_none_action,{
-							csg_node = csg_node,
-						});
-					end
-					
-				end
-			end
-		end
-	end);
-	local render_list = {};
-	local function write(node)
-		if(node)then
-			local vertices,indices,normals,colors = CSGService.toMesh(node);
-			table.insert(render_list,{
-				world_matrix = world_matrix,
-				vertices = vertices,
-				indices = indices,
-				normals = normals,
-				colors = colors,
-			});
-		end
-	end
-	-- Write none action's nodes
-	local len = #csg_nodes_none_action;
-	while(len > 0)do
-		local node = csg_nodes_none_action[len].csg_node;
-		write(node);
-		len = len - 1;
-	end
-	-- Write action's nodes
-	local len = #csg_nodes;
-	if(len == 0)then
-		return render_list;
-	end
-	local pre_node = csg_nodes[len-1];
-	local cur_node = csg_nodes[len];
-	local cur_csg_node = cur_node["csg_node"];
-	-- if it is only one node,we do nothing
-	if(not pre_node)then
-		write(cur_csg_node);
-	else
-		len = len - 1;
-		while(pre_node) do
-			local csg_action = pre_node["csg_action"];
-			local pre_csg_node = pre_node["csg_node"];
-
-			cur_csg_node = CSGService.operateTwoNodes(pre_csg_node,cur_csg_node,csg_action);
-			len = len - 1;
-			pre_node = csg_nodes[len];
-		end
-	end
-	write(cur_csg_node);
-	return render_list;
 end
 function CSGService.getRenderList2(scene)
 	if(not scene)then
@@ -233,6 +153,7 @@ end
 	}
 --]]
 function CSGService.buildPageContent(code)
+	code = CSGService.appendLoadXmlFunction(code)
 	if(not code or code == "") then
 		return;
 	end
@@ -248,6 +169,7 @@ function CSGService.buildPageContent(code)
 				ok, result = pcall(env.main);
 			end
 		end
+		CSGService.scene = env.scene;
 		local render_list = CSGService.getRenderList(env.scene)
 		output.successful = ok;
 		output.csg_node_values = render_list;
@@ -257,4 +179,147 @@ function CSGService.buildPageContent(code)
 		output.compile_error =  errormsg;
 	end
 	return output;
+end
+function CSGService.appendLoadXmlFunction(code)
+	if(code)then
+		local first_line;
+		for line in string.gmatch(code,"[^\r\n]+") do
+			first_line = line;
+			break;
+		end
+		if(first_line)then
+			if(string.find(first_line,"nplcad"))then
+				code = string.format("loadXml([[%s]])",code);
+				return code;
+			end
+		end
+		return code;
+	end
+end
+
+function CSGService.getRenderList(scene)
+	if(not scene)then
+		return
+	end
+	local render_list = {};
+	local nodes_map = {};
+	local nodes_list = {};
+	scene:visit(function(node)
+		if(node)then
+			local csg_node = CSGService.cloneCsgNode(node);
+			
+			nodes_map[node] = {
+				csg_node = csg_node,
+			};
+			table.insert(nodes_list,node);
+		end
+	end);
+	local input_params = {
+		nodes_map = nodes_map,
+		result = {};
+	};
+	local len = #nodes_list;
+	while(len > 0) do
+		CSGService.visitNode(nodes_list[len],input_params)
+		len = len - 1;
+	end
+
+	local function write(csg_node)
+		if(csg_node)then
+			local vertices,indices,normals,colors = CSGService.toMesh(csg_node);
+			table.insert(render_list,{
+				vertices = vertices,
+				indices = indices,
+				normals = normals,
+				colors = colors,
+			});
+		end
+	end
+	for k,v in pairs(nodes_map) do
+		local csg_node = v["csg_node"];
+		write(csg_node);
+	end
+	local result = input_params.result;
+	local len = #result;
+	for k =1,len do
+		local csg_node = result[k]["csg_node"];
+		write(csg_node);
+	end
+	return render_list;
+end
+function CSGService.doOperator(csg_nodes,csg_action)
+	local len = #csg_nodes;
+	if(len == 0)then
+		return;
+	end
+	local pre_node = csg_nodes[len-1];
+	local cur_node = csg_nodes[len];
+	local cur_csg_node = cur_node["csg_node"];
+
+	-- if it is only one node,we do nothing
+	if(not pre_node)then
+		return cur_csg_node;
+	else
+		len = len - 1;
+		while(pre_node) do
+			local pre_csg_node = pre_node["csg_node"];
+
+			cur_csg_node = CSGService.operateTwoNodes(pre_csg_node,cur_csg_node,csg_action);
+			len = len - 1;
+			pre_node = csg_nodes[len];
+		end
+	end
+	return cur_csg_node;
+end
+function CSGService.findCsgNode(node)
+		if(not node)then return end
+		local drawable = node:getDrawable();
+		if(drawable and drawable.getCSGNode)then
+			local cur_csg_node = drawable:getCSGNode();
+			return cur_csg_node;
+		end
+end
+function CSGService.visitNode(node,input_params)
+	if(not node)then return end
+	local nodes_map = input_params.nodes_map;
+	if(nodes_map[node]["csg_node"])then
+		return
+	end
+	local child = node:getFirstChild();
+	local top_csg_action = CSGService.findTagValue(node,"csg_action");
+	local temp_list = {};
+	while(child) do
+		local csg_node = nodes_map[child]["csg_node"];
+		if(csg_node)then
+			if(top_csg_action)then
+				table.insert(temp_list,{
+					csg_node = csg_node,
+				});	
+			else
+				table.insert(input_params.result,{
+					csg_node = csg_node,
+				});	
+			end
+			
+		end
+		nodes_map[child]["csg_node"] = nil;
+		child = child:getNextSibling();
+	end	
+	local csg_node = CSGService.doOperator(temp_list,top_csg_action);
+	nodes_map[node]["csg_node"] = csg_node;
+end
+function CSGService.cloneCsgNode(child)
+	local csg_node = CSGService.findCsgNode(child);
+	if(csg_node)then
+		csg_node = csg_node:clone();-- clone a new node for operation. 
+		local color = CSGService.findTagValue(child,"color");
+		if(color)then
+			if(not CSGService.equalsColor(color,CSGService.default_color))then
+				CSGService.setColor(csg_node,color);
+			end
+		end
+		local world_matrix = child:getWorldMatrix();
+		CSGService.applyMatrix(csg_node,world_matrix);
+		return csg_node;
+	end
 end

@@ -11,8 +11,10 @@ local DomScene = commonlib.gettable("Mod.NPLCAD.doms.DomScene");
 ]]
 NPL.load("(gl)Mod/NPLCAD/core/Scene.lua");
 NPL.load("(gl)Mod/NPLCAD/doms/DomBase.lua");
+NPL.load("(gl)Mod/NPLCAD/doms/DomNode.lua");
+local DomNode = commonlib.gettable("Mod.NPLCAD.doms.DomNode");
 local Scene = commonlib.gettable("Mod.NPLCAD.core.Scene");
-local DomScene = commonlib.inherit(commonlib.gettable("Mod.NPLCAD.doms.DomBase"), commonlib.gettable("Mod.NPLCAD.doms.DomScene"));
+local DomScene = commonlib.inherit(commonlib.gettable("Mod.NPLCAD.doms.DomNode"), commonlib.gettable("Mod.NPLCAD.doms.DomScene"));
 function DomScene:ctor()
 end
 function DomScene:read(xmlnode,parentObj)
@@ -26,5 +28,6 @@ function DomScene:read(xmlnode,parentObj)
 	self:readChildren(xmlnode,scene);
 	return scene;
 end
-function DomScene:write(obj)
+function DomScene:writeProperties(obj)
+	return "";
 end

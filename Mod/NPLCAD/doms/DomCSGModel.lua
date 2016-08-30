@@ -24,7 +24,14 @@ function DomCSGModel:read(xmlnode,parentObj)
 	local model_type = xmlnode.attr.model_type or "cube";
 	if(model_type == "cube"  or model_type == "c")then
 		options.center = self:getXYZ(xmlnode.attr["center"] or "0,0,0");
-		options.radius = self:getXYZ(xmlnode.attr["radius"] or "1,1,1");
+		if(xmlnode.attr["radius"])then
+			local v = xmlnode.attr["radius"];
+			if(tonumber(v))then
+				options.radius = tonumber(v);
+			else
+				options.radius = self:getXYZ(xmlnode.attr["radius"] or "1,1,1");
+			end
+		end
 		model = CSGModel.createCube(options);
 	elseif(model_type == "sphere" or model_type == "s")then
 		options.center = self:getXYZ(xmlnode.attr["center"] or "0,0,0");
@@ -44,5 +51,53 @@ function DomCSGModel:read(xmlnode,parentObj)
 	parentObj:setDrawable(model);
 	return model;
 end
-function DomCSGModel:write(obj)
+function DomCSGModel:writeProperties(obj)
+	local output_str = "";
+	if(obj)then
+		local model_type = obj.model_type or "cube";
+		local options = obj.options;
+		output_str = string.format([[%s model_type="%s"]],output_str,model_type);
+		if(options)then
+			if(model_type == "cube")then
+				if(options["center"])then
+					output_str = string.format([[%s center="%s"]],output_str,self:toXYZ(options["center"]));
+				end
+				if(options["radius"])then
+					if(type(options["radius"]) == "number")then
+						output_str = string.format([[%s radius="%s"]],output_str,self:toFloat(options["radius"]));
+					else
+						output_str = string.format([[%s radius="%s"]],output_str,self:toXYZ(options["radius"]));
+					end
+				end
+			elseif(model_type == "sphere")then
+				if(options["center"])then
+					output_str = string.format([[%s center="%s"]],output_str,self:toXYZ(options["center"]));
+				end
+				if(options["radius"])then
+					output_str = string.format([[%s radius="%s"]],output_str,self:toFloat(options["radius"]));
+				end
+				if(options["slices"])then
+					output_str = string.format([[%s slices="%s"]],output_str,self:toInt(options["slices"]));
+				end
+				if(options["stacks"])then
+					output_str = string.format([[%s stacks="%s"]],output_str,self:toInt(options["stacks"]));
+				end
+			elseif(model_type == "cylinder")then
+				if(options["from"])then
+					output_str = string.format([[%s from="%s"]],output_str,self:toXYZ(options["from"]));
+				end
+				if(options["to"])then
+					output_str = string.format([[%s to="%s"]],output_str,self:toXYZ(options["to"]));
+				end
+				if(options["radius"])then
+					output_str = string.format([[%s radius="%s"]],output_str,self:toFloat(options["radius"]));
+				end
+				if(options["slices"])then
+					output_str = string.format([[%s slices="%s"]],output_str,self:toInt(options["slices"]));
+				end
+			end
+			
+		end
+	end
+	return output_str;
 end

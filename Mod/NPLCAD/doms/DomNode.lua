@@ -47,9 +47,9 @@ function DomNode:read(xmlnode,parentObj)
 	if(color)then
 		node:setTag("color",color);
 	end
+	-- csg_action
+	node:setTag("csg_action",xmlnode.attr["csg_action"]);
 
 	self:readChildren(xmlnode,node);
 	return node;
-end
-function DomNode:write(obj)
 end
