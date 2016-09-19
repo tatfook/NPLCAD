@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="Mod\main.lua" />
     <None Include="Mod\NPLCAD\core\Drawable.lua" />
     <None Include="Mod\NPLCAD\core\Node.lua" />
     <None Include="Mod\NPLCAD\core\Scene.lua" />
@@ -123,7 +124,9 @@
     <None Include="Mod\NPLCAD\services\CSGService.lua" />
     <None Include="Mod\NPLCAD\services\NplCadEnvironment.lua" />
     <None Include="Mod\NPLCAD\test\Test.lua" />
-    <None Include="Mod\NPLCAD\test\TestCad.xml" />
+    <None Include="Mod\NPLCAD\test\TestCad.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Mod\NPLCAD\test\TestTransform.lua" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js" />

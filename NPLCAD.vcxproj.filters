@@ -165,5 +165,8 @@
     <None Include="Mod\NPLCAD\services\NplCadEnvironment.lua">
       <Filter>Mod\NPLCAD\services</Filter>
     </None>
+    <None Include="Mod\main.lua">
+      <Filter>Mod</Filter>
+    </None>
   </ItemGroup>
 </Project>
