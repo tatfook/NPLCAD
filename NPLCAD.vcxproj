@@ -110,7 +110,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="Mod\main.lua" />
     <None Include="Mod\NPLCAD\core\Drawable.lua" />
     <None Include="Mod\NPLCAD\core\Node.lua" />
     <None Include="Mod\NPLCAD\core\Scene.lua" />
@@ -121,6 +120,8 @@
     <None Include="Mod\NPLCAD\doms\DomNode.lua" />
     <None Include="Mod\NPLCAD\doms\DomScene.lua" />
     <None Include="Mod\NPLCAD\drawables\CSGModel.lua" />
+    <None Include="Mod\NPLCAD\examples\example005.lua" />
+    <None Include="Mod\NPLCAD\main.lua" />
     <None Include="Mod\NPLCAD\services\CSGService.lua" />
     <None Include="Mod\NPLCAD\services\NplCadEnvironment.lua" />
     <None Include="Mod\NPLCAD\test\Test.lua" />

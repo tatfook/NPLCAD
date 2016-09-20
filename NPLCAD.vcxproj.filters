@@ -64,6 +64,9 @@
     <Filter Include="Mod\NPLCAD\services">
       <UniqueIdentifier>{d70d179a-b814-40bd-b175-846cbff6735d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mod\NPLCAD\examples">
+      <UniqueIdentifier>{477b1b29-b478-4f94-9527-e06e2b6eb9c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js">
@@ -165,8 +168,11 @@
     <None Include="Mod\NPLCAD\services\NplCadEnvironment.lua">
       <Filter>Mod\NPLCAD\services</Filter>
     </None>
-    <None Include="Mod\main.lua">
-      <Filter>Mod</Filter>
+    <None Include="Mod\NPLCAD\main.lua">
+      <Filter>Mod\NPLCAD</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\examples\example005.lua">
+      <Filter>Mod\NPLCAD\examples</Filter>
     </None>
   </ItemGroup>
 </Project>
