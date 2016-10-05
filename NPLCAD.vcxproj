@@ -120,6 +120,7 @@
     <None Include="Mod\NPLCAD\doms\DomNode.lua" />
     <None Include="Mod\NPLCAD\doms\DomScene.lua" />
     <None Include="Mod\NPLCAD\drawables\CSGModel.lua" />
+    <None Include="Mod\NPLCAD\examples\example001.lua" />
     <None Include="Mod\NPLCAD\examples\example005.lua" />
     <None Include="Mod\NPLCAD\main.lua" />
     <None Include="Mod\NPLCAD\services\CSGService.lua" />
@@ -147,6 +148,7 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.Info.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\nplcadTemplate.html" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplwebworker\Downloader.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
