@@ -5,6 +5,7 @@ Author: leio
 Date: 2016/7/11
 Desc: 
 ]]
+PAGE_NO_SIDE_BAR = true;
 
 wp_enqueue_script("ace",						"/wp-includes/js/ace/ace.js"); 
 wp_enqueue_script("angular",					"/wp-includes/js/angular/angular.min.js");
