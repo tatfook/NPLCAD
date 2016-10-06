@@ -11,8 +11,8 @@ wp_enqueue_script("angular",					"/wp-includes/js/angular/angular.min.js");
 wp_enqueue_script("ngStorage",					"/wp-includes/js/angular/ngStorage.js");
 wp_enqueue_script("ngSanitize",					"/wp-includes/js/angular/angular-sanitize.min.js");
 wp_enqueue_script("ui-bootstrap-tpls",			"/wp-includes/js/angular/ui-bootstrap-tpls-1.3.3.min.js");
-wp_enqueue_script("bootstrap-css",				"/wp-includes/js/bootstrap/css/bootstrap.min.css");
-wp_enqueue_script("bootstrap-css",				"/wp-includes/js/jquery/jquery.min.js");
+wp_enqueue_style("bootstrap-css",				"/wp-includes/js/bootstrap/css/bootstrap.min.css");
+wp_enqueue_script("jquery",				"/wp-includes/js/jquery/jquery.min.js");
 
 wp_enqueue_script("NPLCAD_App",					"/wp-content/pages/nplcad/app.js");
 wp_enqueue_script("nplcadController",			"/wp-content/pages/nplcad/controllers/nplcadController.js");

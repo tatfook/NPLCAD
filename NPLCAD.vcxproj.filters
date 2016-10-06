@@ -67,9 +67,6 @@
     <Filter Include="Mod\NPLCAD\examples">
       <UniqueIdentifier>{477b1b29-b478-4f94-9527-e06e2b6eb9c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplwebworker">
-      <UniqueIdentifier>{1fe19273-d90e-45e7-a6e7-b1badbd5a3a6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js">
@@ -176,9 +173,6 @@
     </None>
     <None Include="Mod\NPLCAD\examples\example005.lua">
       <Filter>Mod\NPLCAD\examples</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplwebworker\Downloader.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplwebworker</Filter>
     </None>
     <None Include="Mod\NPLCAD\examples\example001.lua">
       <Filter>Mod\NPLCAD\examples</Filter>

@@ -148,7 +148,6 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.Info.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\nplcadTemplate.html" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplwebworker\Downloader.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
