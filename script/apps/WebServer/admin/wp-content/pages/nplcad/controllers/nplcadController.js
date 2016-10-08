@@ -1,7 +1,21 @@
 var nplcadModule = angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap']);
 nplcadModule.component("nplcad", {
     templateUrl: "/wp-content/pages/nplcad/templates/nplcadTemplate.html",
-    controller:function ($scope, $http, $log) {
+    controller: function ($scope, $http, $log) {
+
+        var panel = document.getElementById('panel'),
+            menu = document.getElementById('menu'),
+            showcode = document.getElementById('showcode'),
+            view_container = document.getElementById('view_container');
+        showcode.addEventListener('click', _toggleCode);
+        view_container.addEventListener('dblclick', _toggleCode);
+
+        function _toggleCode() {
+            panel.classList.toggle('viewCode');
+        }
+
+        
+
             $scope.isCollapsed = true;
             $scope.isCollapsedHorizontal = false;
 	
@@ -396,48 +410,7 @@ nplcadModule.component("nplcad", {
         }
     })
 
-nplcadModule.component("first",{
-    controller:function () {
-		window.onload = function(){
-		var panel = document.getElementById('panel'),
-        menu = document.getElementById('menu'),
-        showcode = document.getElementById('showcode'),
-		view_container = document.getElementById('view_container'),
-        selectFx = document.getElementById('selections-fx'),
-        selectPos = document.getElementById('selections-pos'),
-        // demo defaults
-        effect = 'mfb-zoomin',
-        pos = 'mfb-component--br';
-    showcode.addEventListener('click', _toggleCode);
-	view_container.addEventListener('dblclick', _toggleCode);
-   
-	
-    function _toggleCode() {
-		panel.classList.toggle('viewCode');
-	 
-    }
 
-    function switchEffect(e){
-      effect = this.options[this.selectedIndex].value;
-      renderMenu();
-    }
-
-    function switchPos(e){
-      pos = this.options[this.selectedIndex].value;
-      renderMenu();
-    }
-
-    function renderMenu() {
-      menu.style.display = 'none';
-      // ?:-)
-      setTimeout(function() {
-        menu.style.display = 'block';
-        menu.className = pos + effect;
-      },1);
-    }
-}
-	}
-})
 
 
 nplcadModule.component("example",{

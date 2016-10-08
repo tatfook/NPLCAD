@@ -72,7 +72,6 @@ h3{font-weight:400;margin:10px 0;font-size:30px}
 h3 a{font-weight:inherit}
 </style>
 <div ng-app="NPLCAD_App">
-	<first></first>
 	<nplcad></nplcad>
 	<example></example>
 </div>
