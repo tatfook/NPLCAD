@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NPLPackageMain", "npl_packages\main\NPLPackageMain.vcxproj", "{DB7732C8-EC20-4992-9A1F-C68DE9EC8EF2}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NPLCAD", "NPLCAD.vcxproj", "{5B2516A1-6249-44F7-87DB-DF16B2172E4B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NplCadLibrary", "npl_packages\NplCadLibrary\NplCadLibrary.vcxproj", "{AF211159-FD04-4C43-A272-FFF915D5B24D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,12 +15,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DB7732C8-EC20-4992-9A1F-C68DE9EC8EF2}.Debug|x64.ActiveCfg = Debug|Win32
-		{DB7732C8-EC20-4992-9A1F-C68DE9EC8EF2}.Debug|x86.ActiveCfg = Debug|Win32
-		{DB7732C8-EC20-4992-9A1F-C68DE9EC8EF2}.Debug|x86.Build.0 = Debug|Win32
-		{DB7732C8-EC20-4992-9A1F-C68DE9EC8EF2}.Release|x64.ActiveCfg = Release|Win32
-		{DB7732C8-EC20-4992-9A1F-C68DE9EC8EF2}.Release|x86.ActiveCfg = Release|Win32
-		{DB7732C8-EC20-4992-9A1F-C68DE9EC8EF2}.Release|x86.Build.0 = Release|Win32
 		{5B2516A1-6249-44F7-87DB-DF16B2172E4B}.Debug|x64.ActiveCfg = Debug|x64
 		{5B2516A1-6249-44F7-87DB-DF16B2172E4B}.Debug|x64.Build.0 = Debug|x64
 		{5B2516A1-6249-44F7-87DB-DF16B2172E4B}.Debug|x86.ActiveCfg = Debug|Win32
@@ -29,6 +23,14 @@ Global
 		{5B2516A1-6249-44F7-87DB-DF16B2172E4B}.Release|x64.Build.0 = Release|x64
 		{5B2516A1-6249-44F7-87DB-DF16B2172E4B}.Release|x86.ActiveCfg = Release|Win32
 		{5B2516A1-6249-44F7-87DB-DF16B2172E4B}.Release|x86.Build.0 = Release|Win32
+		{AF211159-FD04-4C43-A272-FFF915D5B24D}.Debug|x64.ActiveCfg = Debug|x64
+		{AF211159-FD04-4C43-A272-FFF915D5B24D}.Debug|x64.Build.0 = Debug|x64
+		{AF211159-FD04-4C43-A272-FFF915D5B24D}.Debug|x86.ActiveCfg = Debug|Win32
+		{AF211159-FD04-4C43-A272-FFF915D5B24D}.Debug|x86.Build.0 = Debug|Win32
+		{AF211159-FD04-4C43-A272-FFF915D5B24D}.Release|x64.ActiveCfg = Release|x64
+		{AF211159-FD04-4C43-A272-FFF915D5B24D}.Release|x64.Build.0 = Release|x64
+		{AF211159-FD04-4C43-A272-FFF915D5B24D}.Release|x86.ActiveCfg = Release|Win32
+		{AF211159-FD04-4C43-A272-FFF915D5B24D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

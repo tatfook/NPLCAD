@@ -49,20 +49,8 @@
     <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates">
       <UniqueIdentifier>{3d848f5e-a9ed-4b69-954d-5b4f8fb51724}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Mod\NPLCAD\core">
-      <UniqueIdentifier>{37204019-bfbd-4152-98e3-f8654c1cd75a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Mod\NPLCAD\test">
       <UniqueIdentifier>{a4a8a01a-ef06-4973-bb2b-9a03ccd4e552}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Mod\NPLCAD\drawables">
-      <UniqueIdentifier>{1b32ce8a-54ff-421d-97a0-c5faeddbf86f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Mod\NPLCAD\doms">
-      <UniqueIdentifier>{6b5a6bc3-71bc-4dfe-928f-0545441753f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Mod\NPLCAD\services">
-      <UniqueIdentifier>{d70d179a-b814-40bd-b175-846cbff6735d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Mod\NPLCAD\examples">
       <UniqueIdentifier>{477b1b29-b478-4f94-9527-e06e2b6eb9c7}</UniqueIdentifier>
@@ -123,50 +111,11 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\nplcadTemplate.html">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\templates</Filter>
     </None>
-    <None Include="Mod\NPLCAD\core\Drawable.lua">
-      <Filter>Mod\NPLCAD\core</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\core\Node.lua">
-      <Filter>Mod\NPLCAD\core</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\core\Scene.lua">
-      <Filter>Mod\NPLCAD\core</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\core\Transform.lua">
-      <Filter>Mod\NPLCAD\core</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\test\TestTransform.lua">
-      <Filter>Mod\NPLCAD\test</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\drawables\CSGModel.lua">
-      <Filter>Mod\NPLCAD\drawables</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\doms\DomCSGModel.lua">
-      <Filter>Mod\NPLCAD\doms</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\doms\DomNode.lua">
-      <Filter>Mod\NPLCAD\doms</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\doms\DomScene.lua">
-      <Filter>Mod\NPLCAD\doms</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\doms\DomBase.lua">
-      <Filter>Mod\NPLCAD\doms</Filter>
-    </None>
     <None Include="Mod\NPLCAD\test\TestCad.xml">
       <Filter>Mod\NPLCAD\test</Filter>
     </None>
-    <None Include="Mod\NPLCAD\doms\DomParser.lua">
-      <Filter>Mod\NPLCAD\doms</Filter>
-    </None>
     <None Include="Mod\NPLCAD\test\Test.lua">
       <Filter>Mod\NPLCAD\test</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\services\CSGService.lua">
-      <Filter>Mod\NPLCAD\services</Filter>
-    </None>
-    <None Include="Mod\NPLCAD\services\NplCadEnvironment.lua">
-      <Filter>Mod\NPLCAD\services</Filter>
     </None>
     <None Include="Mod\NPLCAD\main.lua">
       <Filter>Mod\NPLCAD</Filter>
@@ -176,6 +125,9 @@
     </None>
     <None Include="Mod\NPLCAD\examples\example001.lua">
       <Filter>Mod\NPLCAD\examples</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\example.html">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\templates</Filter>
     </None>
   </ItemGroup>
 </Project>

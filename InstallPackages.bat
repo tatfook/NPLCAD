@@ -5,7 +5,7 @@ pushd "npl_packages"
 
 CALL :InstallPackage main
 CALL :InstallPackage paracraft
-
+CALL :InstallPackage NplCadLibrary
 popd
 
 EXIT /B %ERRORLEVEL%

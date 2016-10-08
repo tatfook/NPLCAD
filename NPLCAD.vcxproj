@@ -110,26 +110,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="Mod\NPLCAD\core\Drawable.lua" />
-    <None Include="Mod\NPLCAD\core\Node.lua" />
-    <None Include="Mod\NPLCAD\core\Scene.lua" />
-    <None Include="Mod\NPLCAD\core\Transform.lua" />
-    <None Include="Mod\NPLCAD\doms\DomBase.lua" />
-    <None Include="Mod\NPLCAD\doms\DomParser.lua" />
-    <None Include="Mod\NPLCAD\doms\DomCSGModel.lua" />
-    <None Include="Mod\NPLCAD\doms\DomNode.lua" />
-    <None Include="Mod\NPLCAD\doms\DomScene.lua" />
-    <None Include="Mod\NPLCAD\drawables\CSGModel.lua" />
     <None Include="Mod\NPLCAD\examples\example001.lua" />
     <None Include="Mod\NPLCAD\examples\example005.lua" />
     <None Include="Mod\NPLCAD\main.lua" />
-    <None Include="Mod\NPLCAD\services\CSGService.lua" />
-    <None Include="Mod\NPLCAD\services\NplCadEnvironment.lua" />
     <None Include="Mod\NPLCAD\test\Test.lua" />
     <None Include="Mod\NPLCAD\test\TestCad.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Mod\NPLCAD\test\TestTransform.lua" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\dark.css" />
@@ -147,6 +134,7 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ui.three.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.Info.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\example.html" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\nplcadTemplate.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
