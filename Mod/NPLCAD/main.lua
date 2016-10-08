@@ -27,6 +27,7 @@ end
 
 function NPLCAD:init()
 	LOG.std(nil, "info", "NPLCAD", "plugin initialized");
+	NPL.load("npl_packages/NplCadLibrary/");
 
 	-- add a menu item to NPL code wiki's `Tools:nplcad`
 	NPL.load("(gl)script/apps/WebServer/WebServer.lua");

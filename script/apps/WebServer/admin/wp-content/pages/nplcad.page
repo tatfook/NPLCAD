@@ -47,8 +47,8 @@ wp_enqueue_script("nplcad_verticalTabControls",	"/wp-content/pages/nplcad/js/con
 
 
 
-NPL.load("(gl)npl_packages/NplCadLibrary/services/CSGService.lua");
-local CSGService = commonlib.gettable("NplCad.services.CSGService");
+NPL.load("Mod/NplCadLibrary/services/CSGService.lua");
+local CSGService = commonlib.gettable("Mod.NplCadLibrary.services.CSGService");
 
 local code = request:get("code");
 local v = request:get("v");
