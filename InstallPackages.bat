@@ -4,6 +4,12 @@ if not exist "npl_packages" ( mkdir npl_packages )
 pushd "npl_packages"
 
 CALL :InstallPackage NplCadLibrary
+<<<<<<< HEAD
+=======
+CALL :InstallPackage main
+CALL :InstallPackage paracraft
+
+>>>>>>> 128fa86db32da86415ab92b5a1b50a53c40b8a50
 popd
 
 EXIT /B %ERRORLEVEL%
