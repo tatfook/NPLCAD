@@ -3,8 +3,6 @@ if not exist "npl_packages" ( mkdir npl_packages )
 
 pushd "npl_packages"
 
-CALL :InstallPackage main
-CALL :InstallPackage paracraft
 CALL :InstallPackage NplCadLibrary
 popd
 
