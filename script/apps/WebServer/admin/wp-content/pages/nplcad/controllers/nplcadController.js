@@ -49,7 +49,10 @@ nplcadModule.component("nplcad", {
             var meshes = [];
             init();
             animate();
+
+           
             function init() {
+
                 container = document.createElement('div');
                 container.style["position"] = "relative";
                 container.style["width"] = "100%";
@@ -57,7 +60,7 @@ nplcadModule.component("nplcad", {
                 $("#view_container").append(container);
                 scene = new THREE.Scene();
                 camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
-                camera.position.set(10, 5, 10);
+                camera.position.set(0, -15, 10);
                 camera.lookAt(new THREE.Vector3());
                 scene.add(camera);
 
@@ -66,7 +69,7 @@ nplcadModule.component("nplcad", {
                 addShadowedLight(1, 1, 1, 0xffffff, 1.35);
                 addShadowedLight(0.5, 1, -1, 0xffaa00, 1);
 
-                var helper = new THREE.GridHelper(30, 1);
+                var helper = new THREE.GridHelperZup(30, 30);
                 helper.material.opacity = 0.25;
                 helper.material.transparent = true;
                 scene.add(helper);

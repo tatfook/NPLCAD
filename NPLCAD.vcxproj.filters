@@ -55,6 +55,12 @@
     <Filter Include="Mod\NPLCAD\examples">
       <UniqueIdentifier>{477b1b29-b478-4f94-9527-e06e2b6eb9c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers">
+      <UniqueIdentifier>{e7f7f9a8-1386-44f1-81b5-16728b945d17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mod\NPLCAD\examples\base">
+      <UniqueIdentifier>{a62af202-f196-48e9-93e7-fb8f4cbbb313}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js">
@@ -102,9 +108,6 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\FileSaver.min.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
     </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\STLExporter.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
-    </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page">
       <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
     </None>
@@ -128,6 +131,21 @@
     </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\example.html">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\templates</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers\GridHelper-Zup.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls\OrbitControls.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\examples\base\cube.lua">
+      <Filter>Mod\NPLCAD\examples\base</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\examples\base\cylinder.lua">
+      <Filter>Mod\NPLCAD\examples\base</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\examples\base\sphere.lua">
+      <Filter>Mod\NPLCAD\examples\base</Filter>
     </None>
   </ItemGroup>
 </Project>
