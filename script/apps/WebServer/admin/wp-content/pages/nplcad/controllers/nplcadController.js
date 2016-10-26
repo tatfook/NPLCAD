@@ -9,7 +9,7 @@ nplcadModule.component("nplcad", {
             view_container = document.getElementById('view_container');
         showcode.addEventListener('click', _toggleCode);
         view_container.addEventListener('dblclick', _toggleCode);
-
+        $scope.csg_node_values = null;
         function _toggleCode() {
             panel.classList.toggle('viewCode');
         }
@@ -233,7 +233,8 @@ nplcadModule.component("nplcad", {
             }
             function stlFromGeometry(geometry, options) {
 				geometry = new THREE.Geometry().fromBufferGeometry(geometry);
-                geometry.computeFaceNormals()
+				geometry.computeVertexNormals()
+				geometry.computeFaceNormals()
                 var addX = 0
                 var addY = 0
                 var addZ = 0
@@ -253,7 +254,7 @@ nplcadModule.component("nplcad", {
                     faceStl += 'outer loop\n'
 
 
-                    if (options.isYUp) {
+                    if (!options.isYUp) {
                         faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + '\n'
                         faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + '\n'
                         faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + '\n'
@@ -352,6 +353,28 @@ nplcadModule.component("nplcad", {
                 }
             }
 			
+            function getStlContent() {
+                if (!$scope.csg_node_values)
+                    return "";
+                for (var i = 0; i < $scope.csg_node_values.length; i++) {
+                    var value = $scope.csg_node_values[i];
+                    var vertices = value.vertices;
+                    var indices = value.indices;
+                    var normals = value.normals;
+                    var colors = value.colors;
+                    var world_matrix;
+                    if (value.world_matrix) {
+                        world_matrix = new THREE.Matrix4();
+                        world_matrix = world_matrix.fromArray(value.world_matrix);
+                    }
+                    var geometry = createMesh(vertices, indices, normals, colors, world_matrix);
+                    aGeometries = [];
+                    if (aStlGeometry) {
+                        aGeometries.push(aStlGeometry);
+                    }
+                    aGeometries.push(geometry);
+                }
+            }
 
 		
 			var aGeometries = [];
@@ -368,7 +391,6 @@ nplcadModule.component("nplcad", {
                         clearMeshes();
                         if (response.data.successful) {
                             var csg_node_values = response.data.csg_node_values;
-                            
                             for (var i = 0; i < csg_node_values.length; i++) {
                                 var value = csg_node_values[i];
                                 var vertices = value.vertices;
