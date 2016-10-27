@@ -115,9 +115,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.update = function() {
 
 		var offset = new THREE.Vector3();
-
-		// so camera.up is the orbit axis
-		var quat = new THREE.Quaternion().setFromUnitVectors( object.up, new THREE.Vector3( 0, 1, 0 ) );
+	    // so camera.up is the orbit axis
+		var quat = new THREE.Quaternion().setFromUnitVectors(object.up, new THREE.Vector3(0, 1, 0));
 		var quatInverse = quat.clone().inverse();
 
 		var lastPosition = new THREE.Vector3();
@@ -143,7 +142,6 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			spherical.theta += sphericalDelta.theta;
 			spherical.phi += sphericalDelta.phi;
-
 			// restrict theta to be between desired limits
 			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
 

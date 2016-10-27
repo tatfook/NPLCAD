@@ -126,9 +126,7 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\light.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\main.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\nplcadController.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls\EditorControls.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls\OrbitControls.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls\TransformControls.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Editor.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers\GridHelper-Zup.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\FileSaver.min.js" />

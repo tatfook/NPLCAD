@@ -6,99 +6,108 @@
         <div class=" col-md-12 ">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
               <div class="list-group" style="max-height:350px;">
-                <a href="#" class="list-group-item active text-center">
-                  <h4 class="glyphicon glyphicon-th-large"></h4><br/>cube
-                </a>
                 <a href="#" class="list-group-item text-center">
-                  <h4 class="glyphicon glyphicon-globe"></h4><br/>Sphere, Cylinder
+                  <h4 class="glyphicon glyphicon-globe"></h4><br/>Cube,Sphere,Cylinder
                 </a>
 				<a href="#" class="list-group-item text-center">
                   <h4 class="glyphicon glyphicon glyphicon-bold"></h4><br/>Boolean operation
                 </a>
                 <a href="#" class="list-group-item text-center">
-                  <h4 class="glyphicon glyphicon-king"></h4><br/>push(), pop()
+                  <h4 class="glyphicon glyphicon-th"></h4><br/>Transformations
                 </a>      
                 <a href="#" class="list-group-item text-center">
-                  <h4 class="glyphicon glyphicon-duplicate"></h4><br/>Function
+                  <h4 class="glyphicon glyphicon-grain"></h4><br/>Color
                 </a>
               </div>
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
                 <!-- cube section -->
                 <div class="bhoechie-tab-content active">
-                   
-<p>Build cube without parametres:</p>
-<pre><code class="Lua">--Default radius={1,1,1},center={0,0,0},color={1,1,1};
-cube();		 </code></pre>	
-<p>Build cube with parametres:</p>
-<pre><code class="Lua">
---Set with limit parametres, the other will use default settings.
-cube({radius={3, 3, 3},color={0,1,1},});	
---Use different radius for x, y, z position to creat cuboid.	
-cube({radius={3, 4, 5},center={3, 3, 3}});  </code></pre>
-                    
+                    cube:
+                    <pre>
+<code class="Lua">cube(); 
+cube(1);
+cube({size = 1});
+cube({size = {1,2,3}});
+cube({size = 1, center = true}); -- default center:false
+cube({size = 1, center = {true,true,false}}); -- individual axis center true or false
+
+local c = cube();
+color("red",c);</code>                  
+</pre>
+                     sphere:
+                    <pre>
+<code class="Lua">sphere();                          
+sphere(1);
+sphere({r = 2});                    -- Note: center = true is default 
+sphere({r = 2, center = false});    
+sphere({r = 2, center = {true, true, false}}); -- individual axis center 
+sphere({r = 2, fn = 100 });
+
+local sp = sphere();
+color("red",sp);</code>                  
+</pre>
+                     cylinder:
+                    <pre>
+<code class="Lua">cylinder({r = 1, h = 10});                 
+cylinder({d = 1, h = 10});
+cylinder({r = 1, h = 10, center = true});   -- default: center = false
+cylinder({r = 1, h = 10, center = {true, true, false}});  -- individual x,y,z center flags
+cylinder({r1 = 3, r2 = 0, h = 10});
+cylinder({d1 = 1, d2 = 0.5, h = 10});
+cylinder({from = {0,0,0}, to = {0,0,10}, r1 = 1, r2 = 2, fn = 50});
+
+local cy = cylinder();
+color("red",cy);</code>                  
+</pre>
                 </div>
-                <!-- sphere section -->
-                <div class="bhoechie-tab-content">
-<p>Sphere have five parametres:radius, center, color, slice and stacks. We rarely use the last two parametres.</p>
-<pre><code class="Lua">--Default radius=1,center={0,0,0},color={1,1,1},slices = 16,stacks = 8.
-sphere();	--build without parametres.
-sphere({
-  radius = 5,
-  slices = 16,
-  stacks = 8,
-  center = {1,7,0},
-  color = {160/255,134/255,132/255},
-});	 </code></pre>	
-<p>Cylinder also have five parametres: from, to, radius, color, slices. "from" parametre set where cylinder start and "to" means where cylinder end.</p>
-<pre><code class="Lua">
---Default from = {0,-1,0},to = {0,1,0},color={1,1,1},radius = 1,slices = 16.
-cylinder();	--build without parametres.
-cylinder({
-  from = {5,-1,0},
-  to = {5,1,0},
-  radius = 1,
-  slices = 16,
-  color = {1,1,1},
-}); </code></pre>
-                </div>
-    
                 <!-- boolean section -->
                 <div class="bhoechie-tab-content">
 Boolean operations consist of union, difference, intersection, which means OR, XOR, AND, respectively. See <a href="https://en.wikipedia.org/wiki/Boolean_operations_on_polygons">Boolean operations</a> on Wikipedia.
 <br/>union:
-<pre><code class="Lua">
-union();
-	cylinder({ radius = 0.7, from = {-1,0,0}, to = {1,0,0}, color = {0,1,0}, });
-	cylinder({ radius = 0.7, from = {0,-1,0}, to = {0,1,0}, color = {0,1,0}, });		
+<pre><code class="Lua">union();
+    cube();
+    sphere();
  </code></pre>
 difference:
-<pre><code class="Lua">
-difference() 
-	color(0,0.5,1);
-	cube({radius=3,});
-	sphere({ radius = 4, color = {0,0,1}, });
-    		
+<pre><code class="Lua">difference();
+    cube();
+    sphere();
  </code></pre>
 intersection:
-<pre><code class="Lua">
-intersection()
-	sphere({ radius= 2.6, color = {1,0,1}, });
-	cube({radius =2});		
+<pre><code class="Lua">intersection();
+    cube();
+    sphere();	
  </code></pre>	
+                </div>
+                <div class="bhoechie-tab-content">
+translate,rotate,scale
+<pre><code class="Lua">
+translate({0,0,10});        --create a new parent node and set translation value 
+translate({0,0,10},obj);    --set translation value with obj  
+
+rotate(2);              --create a new parent node and set rotation value          
+rotate(2,obj);          --set rotation value with obj          
+rotate({1,2,3});        --create a new parent node and set rotation value          
+rotate({1,2,3},obj);    --set rotation value with obj  
+
+scale(2);           --create a new parent node and set scale value          
+scale(2,obj);       --set scale value with obj          
+scale({1,2,3});     --create a new parent node and set scale value          
+scale({1,2,3},obj); --set scale value with obj  
+
+  </code></pre>
                 </div>
                 <div class="bhoechie-tab-content">
 					<p>Use push(), pop() to build a children node. pop and push are explicitly named nodes, which can be used to specify the range of commands within.</p>
 <pre><code class="Lua">
-union();
+color({r,g,b});     --create a new parent node and set color value 
+color({r,g,b},obj);     --set color value with obj 
+color(color_name);  --create a new parent node and set color value with color name
+color(color_name,obj)   --set color value with obj 
   </code></pre>
                 </div>
-                <div class="bhoechie-tab-content">
-You can also use functions in NPL CAD to build complex geometries.
-<pre><code class="Lua">
-union();
-  </code></pre>
-                </div>
+                
             </div>
         </div>
 		<div align="right">
@@ -168,12 +177,11 @@ union();
 					<li role="menuitem" ng-click="changeEditorContent(2)"><a href="#">Example 2</a></li>
 					<li role="menuitem" ng-click="changeEditorContent(3)"><a href="#">Example 3</a></li>
 					<li role="menuitem" ng-click="changeEditorContent(4)"><a href="#">Example 4</a></li>
-					<li class="divider"></li>
-					
-					<li role="menuitem" ng-click="changeEditorContent(5)"><a href="#">Basic function example 1</a></li>
-					<li role="menuitem" ng-click="changeEditorContent(6)"><a href="#">Basic function example 2</a></li>
-					<li role="menuitem" ng-click="changeEditorContent(7)"><a href="#">Basic function example 3</a></li>
-					<li role="menuitem" ng-click="changeEditorContent(8)"><a href="#">Basic function example 4</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(5)"><a href="#">Example 5</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(6)"><a href="#">Example 6</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(7)"><a href="#">Example 7</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(8)"><a href="#">Example 8</a></li>
+					<li role="menuitem" ng-click="changeEditorContent(9)"><a href="#">Example 9</a></li>
 				  </ul>
 				</div>
 			<hr/>	
@@ -183,17 +191,26 @@ union();
 	<div uib-collapse="isCollapsedHorizontal">
 
 		<div id="code_editor" >
-color({1,0,0});
-intersection();
-    cube({size = 2, center = true});
-    difference();
-		local s = sphere({ r = 1.35, fn = 50 });
-        color({0,0,1},s);
-	    union();
-            color({0,1,0});
-	        cylinder({ r1 = 0.7, r2 = 0.7, from = {-1,0,0}, to = {1,0,0} });
-	        cylinder({ r1 = 0.7, r2 = 0.7, from = {0,-1,0}, to = {0,1,0} });
-	        cylinder({ r1 = 0.7, r2 = 0.7, from = {0,0,-1}, to = {0,0,1} });
+push();
+    color("red");
+    union();
+    cube();
+    sphere();
+pop();
+    translate({4,0,0});
+        push();
+            color("green");
+            difference();
+            cube();
+            sphere();
+        pop();
+        translate({4,0,0});
+            push();
+                color("blue");
+                intersection();
+                cube();
+                sphere();
+            pop();
 		</div>
 	</div>
 		

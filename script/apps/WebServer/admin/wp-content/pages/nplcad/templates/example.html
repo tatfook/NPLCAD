@@ -2,33 +2,26 @@
 
 
     <div id="code_example1">
-color({1,1,0});
-intersection();
-    difference();
-        union();
-            push()
-                translate({0, 0, -2.5});
-                cube({size={1.5, 1.5, 5}, center = true, });
-            pop()
-            cube({size={3, 3, 3}, center = true, });
-        push()
-            union();
-            cube({size={5, 1, 1}, center = true, });
-            cube({size={1, 5, 1}, center = true, });
-            cube({size={1, 1, 5}, center = true, });
-        pop()
-    push()
-        translate({0, 0, 0.5})
-        color({0,1,0});
-        cylinder({ r1 = 1, r2 = 1, from = {-2.5,0,0}, to = {2.5,0,0} });
-    pop()
-    </div>
-    <div id="code_example2">
 difference() 
 	color({0,0.5,1});
 	cube({size=3,center = true});
     color({0,0,1});
 	sphere({ r = 2});
+
+    </div>
+    <div id="code_example2">
+--wait for a moment
+color({1,0,0});
+intersection();
+    cube({size = 2, center = true});
+    difference();
+		local s = sphere({ r = 1.35, fn = 50 });
+        color({0,0,1},s);
+	    union();
+            color({0,1,0});
+	        cylinder({ r1 = 0.7, r2 = 0.7, from = {-1,0,0}, to = {1,0,0} });
+	        cylinder({ r1 = 0.7, r2 = 0.7, from = {0,-1,0}, to = {0,1,0} });
+	        cylinder({ r1 = 0.7, r2 = 0.7, from = {0,0,-1}, to = {0,0,1} });
     </div>
     <div id="code_example3">
 color({1,1,1})
@@ -42,6 +35,7 @@ union()
         intersection()
             color({1,0,1});
             sphere(1.3);
+            color("yellow");
             cube({size=2,center = true});
     pop()
     </div>
@@ -105,7 +99,7 @@ function creatObj1(_color)
 end
 
 function creatObj2(_color)
-color(_color[1],_color[2],_color[3])
+color({_color[1],_color[2],_color[3]})
     for a = -200,200,10 do
         push()
             translate({g(a / 8)[1],g(a / 8)[2],g(a / 8)[3]}) 
@@ -168,3 +162,31 @@ end
 creatObj();
 creatObj(true,true);
 	</div>
+<div id="code_example9">
+        local pi_2 = 6.28;
+scale(1/6);
+union();
+push();
+	color("blue");
+	translate({0,0,200});
+	cylinder({ h = 80, r1 = 120, r2 = 0 });
+pop();
+for i = 0,5 do
+	push();
+		color("red");
+		translate({math.sin(pi_2*i/6)*80, math.cos(pi_2*i/6)*80, 0});
+		cylinder({ h = 200, r = 10});
+	pop();		
+end
+difference();
+push();
+	color("yellow");
+	difference();
+	cylinder({h = 50, r = 100});
+	translate({0,0,10});
+	cylinder({ h = 50, r = 80 });
+pop();
+color("lime");
+translate({100,0,35});
+cube({ size = 50, center = true, });
+    </div>

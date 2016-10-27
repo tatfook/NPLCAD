@@ -45,7 +45,7 @@ nplcadModule.component("nplcad", {
             };
             var container, stats;
             var camera, scene, renderer;
-            var controls, transformControl;
+            var controls;
             var meshes = [];
             init();
             animate();
@@ -62,12 +62,25 @@ nplcadModule.component("nplcad", {
                 camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
                 camera.position.set(0, -15, 10);
                 camera.lookAt(new THREE.Vector3());
+                camera.up.set(0,0,1);
                 scene.add(camera);
 
                 // light
-                scene.add(new THREE.HemisphereLight(0x443333, 0x111122));
-                addShadowedLight(1, 1, 1, 0xffffff, 1.35);
-                addShadowedLight(0.5, 1, -1, 0xffaa00, 1);
+                var ambientLight = new THREE.AmbientLight(0x444444);
+                ambientLight.name = 'ambientLight';
+                scene.add(ambientLight);
+
+                var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+                directionalLight.position.x = 17;
+                directionalLight.position.y = 9;
+                directionalLight.position.z = 30;
+                directionalLight.name = 'directionalLight';
+                scene.add(directionalLight);
+
+                //// light
+                //scene.add(new THREE.HemisphereLight(0x443333, 0x111122));
+                //addShadowedLight(1, 1, 1, 0xffffff, 1.35);
+                //addShadowedLight(0.5, 1, -1, 0xffaa00, 1);
 
                 var helper = new THREE.GridHelperZup(30, 30);
                 helper.material.opacity = 0.25;
@@ -89,10 +102,7 @@ nplcadModule.component("nplcad", {
                 controls.damping = 0.2;
                 controls.addEventListener('change', render);
 
-                transformControl = new THREE.TransformControls(camera, renderer.domElement);
-                transformControl.addEventListener('change', render);
 
-                scene.add(transformControl);
                 window.addEventListener('resize', onWindowResize, false);
                 onWindowResize();
             }
@@ -113,7 +123,6 @@ nplcadModule.component("nplcad", {
                 requestAnimationFrame(animate);
                 render();
                 controls.update();
-                transformControl.update();
 
             }
 
