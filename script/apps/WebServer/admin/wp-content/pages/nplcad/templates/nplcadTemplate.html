@@ -138,21 +138,18 @@ color(color_name,obj)   --set color value with obj
 			
 			
 		<section id="text-demo">
-		<form id="text-options" class="col-md-5">
-			
-			<input class="col-md-5"	id="stlFile" type="file"  accept=".stl"/>			
-			<button class="col-md-3" id="loadStl" type="submit" ng-click="addStl()"><i class="glyphicon glyphicon-send"></i> Add</button>
-			<button class="col-md-4" id="clearMesh" ng-click="clearMesh()"> <i class="glyphicon glyphicon-remove"></i> Clear all</button>
-		</form>
-		<form id="text-options" class="col-md-5">
+		
+		<form id="text-options" class="col-md-7">
 			<label>Filename: 
 			<input 	id="wtf"	 type="text" class="filename"  placeholder="Enter Filename"/> .stl</label>
 			
 			<button id="saveStl" type="submit" ng-click="onSaveCode()"><i class="glyphicon glyphicon-download-alt"></i> Save</button>
 		</form>
+        <form id="text-options" class="col-md-5" >
+                <button id="clearMesh" ng-click="clearMesh()"> <i class="glyphicon glyphicon-remove"></i> Clear</button>
+			    <button type="submit" ng-click="doVoxel()"><i class="glyphicon glyphicon-th"></i> Voxel</button>
+		</form>
 		</section>
-				
-			
 	</div>
 
 

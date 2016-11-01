@@ -37,15 +37,6 @@
     <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs">
       <UniqueIdentifier>{f51f550d-3982-48b2-b49f-8081d36f27d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls">
-      <UniqueIdentifier>{590b3af1-7c64-46a4-870b-f27b91c997d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets">
-      <UniqueIdentifier>{8cd4a4de-3bc0-4496-918d-dbba0eb11eec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css">
-      <UniqueIdentifier>{189a8339-6071-4106-b43a-f1be271ee785}</UniqueIdentifier>
-    </Filter>
     <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates">
       <UniqueIdentifier>{3d848f5e-a9ed-4b69-954d-5b4f8fb51724}</UniqueIdentifier>
     </Filter>
@@ -61,6 +52,18 @@
     <Filter Include="Mod\NPLCAD\examples\base">
       <UniqueIdentifier>{a62af202-f196-48e9-93e7-fb8f4cbbb313}</UniqueIdentifier>
     </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs">
+      <UniqueIdentifier>{1d32e9fb-a553-4e7e-8081-ee2ad5b1b051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls">
+      <UniqueIdentifier>{6e3979c2-bc8a-4622-a30b-9fa1c4d7cce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets">
+      <UniqueIdentifier>{b4ce4f95-dcfe-476b-bd63-c5fe8c3ba5f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css">
+      <UniqueIdentifier>{1afe62a7-1f80-44e4-93c8-cc4c568477f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js">
@@ -69,35 +72,8 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\nplcadController.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\controllers</Filter>
     </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Editor.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.Info.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js</Filter>
-    </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\signals.min.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\three.min.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ui.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ui.three.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\dark.css">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\light.css">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\main.css">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css</Filter>
     </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\FileSaver.min.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
@@ -129,9 +105,6 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers\GridHelper-Zup.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers</Filter>
     </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls\OrbitControls.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls</Filter>
-    </None>
     <None Include="Mod\NPLCAD\examples\base\cube.lua">
       <Filter>Mod\NPLCAD\examples\base</Filter>
     </None>
@@ -141,5 +114,88 @@
     <None Include="Mod\NPLCAD\examples\base\sphere.lua">
       <Filter>Mod\NPLCAD\examples\base</Filter>
     </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\NplVoxelizerController.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\controllers</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\NplVoxelizerTemplate.html">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\templates</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplvoxelizer.page">
+      <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\Blob.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\rzslider.min.css">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\rzslider.min.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\DragControls.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\EditorControls.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\OrbitControls.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\TransformControls.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\verticalTabControls.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\STLLoader.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\three.min.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\ui.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\ui.three.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\dark.css">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\light.css">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\main.css">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\Editor.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\Viewport.Info.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\Viewport.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\default.css">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\index.css">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\verticalTab.css">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\FileSaver.css">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\test\Test2.lua">
+      <Filter>Mod\NPLCAD\test</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ajaxloader.gif">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
+    </Image>
   </ItemGroup>
 </Project>

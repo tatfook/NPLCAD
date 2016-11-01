@@ -117,27 +117,46 @@
     <None Include="Mod\NPLCAD\examples\example005.lua" />
     <None Include="Mod\NPLCAD\main.lua" />
     <None Include="Mod\NPLCAD\test\Test.lua" />
+    <None Include="Mod\NPLCAD\test\Test2.lua" />
     <None Include="Mod\NPLCAD\test\TestCad.xml">
       <SubType>Designer</SubType>
     </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\dark.css" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\light.css" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\main.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\default.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\index.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\verticalTab.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\nplcadController.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\controls\OrbitControls.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Editor.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\NplVoxelizerController.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers\GridHelper-Zup.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\Blob.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\FileSaver.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\FileSaver.min.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\rzslider.min.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\rzslider.min.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\signals.min.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\three.min.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ui.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ui.three.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.Info.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\Viewport.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\DragControls.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\EditorControls.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\OrbitControls.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\TransformControls.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\verticalTabControls.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\dark.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\Editor.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\light.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\main.css" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\STLLoader.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\three.min.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\ui.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\ui.three.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\Viewport.Info.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\Viewport.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\example.html" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\nplcadTemplate.html" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\NplVoxelizerTemplate.html" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplvoxelizer.page" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ajaxloader.gif" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

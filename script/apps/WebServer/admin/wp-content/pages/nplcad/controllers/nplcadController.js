@@ -10,6 +10,10 @@ nplcadModule.component("nplcad", {
         showcode.addEventListener('click', _toggleCode);
         view_container.addEventListener('dblclick', _toggleCode);
         $scope.csg_node_values = null;
+
+       
+
+        var input_code = getUrlParameter('code');
         function _toggleCode() {
             panel.classList.toggle('viewCode');
         }
@@ -318,33 +322,6 @@ nplcadModule.component("nplcad", {
                 }
                 return stl;
             }
-
-			// Stl to geometry
-			var aStlGeometry;
-			function stlToGeometry(){
-				var stlFile = document.getElementById('stlFile').files[0];
-				var loader = new THREE.STLLoader();
-				var reader = new FileReader();
-				reader.readAsArrayBuffer(stlFile);
-				
-				reader.onload = function(){
-				var data = reader.result;
-				if(data){
-					var geometry = loader.parse(data);
-					aStlGeometry = geometry;
-					var material = new THREE.MeshPhongMaterial({ vertexColors: THREE.VertexColors, shininess: 200 });
-				
-					var mesh = new THREE.Mesh(geometry, material);
-					scene.add(mesh);
-					meshes.push(mesh);
-				}
-				else alert('Loading failed')
-				};
-			}
-			$scope.addStl = function(){
-				stlToGeometry();
-				
-			}
             var code_editor = ace.edit("code_editor");
             code_editor.setTheme("ace/theme/github1");
             code_editor.getSession().setMode("ace/mode/lua");
@@ -361,40 +338,13 @@ nplcadModule.component("nplcad", {
                     else alert("Can't find code example");
                 }
             }
-			
-            function getStlContent() {
-                if (!$scope.csg_node_values)
-                    return "";
-                for (var i = 0; i < $scope.csg_node_values.length; i++) {
-                    var value = $scope.csg_node_values[i];
-                    var vertices = value.vertices;
-                    var indices = value.indices;
-                    var normals = value.normals;
-                    var colors = value.colors;
-                    var world_matrix;
-                    if (value.world_matrix) {
-                        world_matrix = new THREE.Matrix4();
-                        world_matrix = world_matrix.fromArray(value.world_matrix);
-                    }
-                    var geometry = createMesh(vertices, indices, normals, colors, world_matrix);
-                    aGeometries = [];
-                    if (aStlGeometry) {
-                        aGeometries.push(aStlGeometry);
-                    }
-                    aGeometries.push(geometry);
-                }
-            }
-
 		
 			var aGeometries = [];
-            function onRunCode(isNewVersion) {
+            function onRunCode() {
                 $("#logWnd").html("");
+                aGeometries.splice(0, aGeometries.length);
                 var text = code_editor.getValue();
-                var v = 1;
-                if (isNewVersion) {
-                    v = 2;
-                }
-                $http.get("ajax/nplcad?action=runcode&v=" + v + "&code=" + encodeURIComponent(text)).then(function (response) {
+                $http.get("ajax/nplcad?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
                     if (response && response.data && response.data.csg_node_values) {
                         console.log(response.data);
                         clearMeshes();
@@ -412,10 +362,6 @@ nplcadModule.component("nplcad", {
                                     world_matrix = world_matrix.fromArray(value.world_matrix);
                                 }
                                 var geometry = createMesh(vertices, indices, normals, colors, world_matrix);
-								aGeometries = [];
-								if(aStlGeometry){
-									aGeometries.push(aStlGeometry);
-								}								
                                 aGeometries.push(geometry);
                             }
                         }else{
@@ -427,20 +373,39 @@ nplcadModule.component("nplcad", {
                     }
                 });
             }
-            $scope.onRunCode = function (isNewVersion) {
-                onRunCode(isNewVersion);
+            $scope.onRunCode = function () {
+                onRunCode();
 			}
 			$scope.onSaveCode = function(){
 				if(aGeometries){
-					if(aStlGeometry){
-						aGeometries.push(aStlGeometry);	
-					}				
 					stlFromGeometries(aGeometries, { download: true });
 				}
 				else{
 					alert("Please compile the code before save.")
 				}
-			}			
+			}
+			function directlyRunCode() {
+			    if (input_code) {
+			        input_code = input_code.replace(/\+/g, " ");
+			        code_editor.setValue(input_code);
+			        onRunCode();
+			    }
+			}
+			$scope.doVoxel = function () {
+			    if (aGeometries.length > 0) {
+			        var input_file_name = "output.stl";
+			        var input_format = "stl";
+			        var input_content = stlFromGeometries(aGeometries, {});
+			        input_content = window.btoa(input_content);
+			        var output_format = "bmax";
+			        var url = "nplvoxelizer?input_file_name=" + input_file_name + "&input_format=" + input_format + "&input_content=" + input_content + "&output_format=" + output_format;
+			        window.open(url);
+			    } else {
+			        alert("Please compile the code before voxel.")
+			    }
+			    
+			}
+			directlyRunCode();
         }
     })
 
