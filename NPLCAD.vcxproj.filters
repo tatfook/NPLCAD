@@ -192,6 +192,7 @@
     <None Include="Mod\NPLCAD\test\Test2.lua">
       <Filter>Mod\NPLCAD\test</Filter>
     </None>
+    <None Include="Run.bat" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ajaxloader.gif">

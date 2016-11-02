@@ -121,6 +121,7 @@
     <None Include="Mod\NPLCAD\test\TestCad.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Run.bat" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad.page" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\default.css" />
