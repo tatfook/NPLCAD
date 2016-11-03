@@ -115,6 +115,7 @@
     <None Include="Mod\NPLCAD\examples\base\sphere.lua" />
     <None Include="Mod\NPLCAD\examples\example001.lua" />
     <None Include="Mod\NPLCAD\examples\example005.lua" />
+    <None Include="Mod\NPLCAD\ItemCAD.lua" />
     <None Include="Mod\NPLCAD\main.lua" />
     <None Include="Mod\NPLCAD\test\Test.lua" />
     <None Include="Mod\NPLCAD\test\Test2.lua" />
@@ -160,6 +161,7 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplvoxelizer.page" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Mod\NPLCAD\textures\icon.png" />
     <Image Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ajaxloader.gif" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -70,6 +70,9 @@
     <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify">
       <UniqueIdentifier>{821fe455-4beb-403b-b3d8-24b8a0b1de1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mod\NPLCAD\textures">
+      <UniqueIdentifier>{8d69f542-bca8-49eb-a180-7c18a8892c6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js">
@@ -207,10 +210,17 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify\bootstrap-notify.min.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify</Filter>
     </None>
+    <None Include="Run.bat" />
+    <None Include="Mod\NPLCAD\ItemCAD.lua">
+      <Filter>Mod\NPLCAD</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ajaxloader.gif">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
+    </Image>
+    <Image Include="Mod\NPLCAD\textures\icon.png">
+      <Filter>Mod\NPLCAD\textures</Filter>
     </Image>
   </ItemGroup>
 </Project>
