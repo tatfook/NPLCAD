@@ -64,6 +64,12 @@
     <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css">
       <UniqueIdentifier>{1afe62a7-1f80-44e4-93c8-cc4c568477f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\services">
+      <UniqueIdentifier>{fbf52694-44ba-4180-a112-f562589e9dfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify">
+      <UniqueIdentifier>{821fe455-4beb-403b-b3d8-24b8a0b1de1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js">
@@ -114,14 +120,8 @@
     <None Include="Mod\NPLCAD\examples\base\sphere.lua">
       <Filter>Mod\NPLCAD\examples\base</Filter>
     </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\NplVoxelizerController.js">
-      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\controllers</Filter>
-    </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\NplVoxelizerTemplate.html">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\templates</Filter>
-    </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplvoxelizer.page">
-      <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
     </None>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\Blob.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs</Filter>
@@ -191,6 +191,21 @@
     </None>
     <None Include="Mod\NPLCAD\test\Test2.lua">
       <Filter>Mod\NPLCAD\test</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\services\VoxelService.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\services</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\NplVoxelizerController.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\controllers</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplvoxelizer.page">
+      <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify\bootstrap-notify.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify\bootstrap-notify.min.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

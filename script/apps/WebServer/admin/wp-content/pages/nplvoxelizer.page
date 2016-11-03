@@ -80,6 +80,6 @@ end
     display: block;     
 }
 </style>
-<div ng-app="NPLCAD_App">
+<div ng-app="NplVoxelizer_App">
 	<nplvoxelizer></nplvoxelizer>
 </div>

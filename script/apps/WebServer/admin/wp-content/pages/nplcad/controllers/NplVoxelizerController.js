@@ -6,7 +6,7 @@ nplvoxelizer.component("nplvoxelizer", {
         if (Page)
             Page.ShowSideBar(false);
         $('#mask').hide();
-        var view_container = document.getElementById('view_container');
+        var view_container = document.getElementById('voxel_view_container');
         var container, stats;
         var camera, scene, renderer;
         var controls, transformControl;
@@ -139,7 +139,7 @@ nplvoxelizer.component("nplvoxelizer", {
         $scope.output_format = "stl";
         $scope.preview_stl_content = null;
         $scope.output_content = null;
-        $scope.input_file_name = null;
+        $scope.input_file_name = "";
         $scope.is_loading = false;
         $scope.slider = {
             value: 16,
@@ -183,7 +183,6 @@ nplvoxelizer.component("nplvoxelizer", {
             }
             var file = files[0];
             $scope.input_file_name = file.name;
-
             var arr = get_filename_ext(file.name);
             // get input format
             $scope.input_format = arr[1];
@@ -195,6 +194,7 @@ nplvoxelizer.component("nplvoxelizer", {
                 voxelizer();
             };
             reader.readAsArrayBuffer(files[0]);
+            $scope.$apply();
         }
         function voxelizer_request(callback) {
             var url = "ajax/nplvoxelizer?action=nplvoxelizer_voxelizer";
@@ -315,27 +315,28 @@ nplvoxelizer.component("nplvoxelizer", {
         });
         function init() {
 
-            if (output_format) {
-                $scope.output_format = output_format;
-            }
-            if (input_content) {
-                $scope.input_content = input_content;
-            }
-            if (input_file_name) {
-                $scope.input_file_name = input_file_name;
-            }
-            if (input_format) {
-                $scope.input_format = input_format;
-            }
-            for (var i = 0; i < supported_extensions.length; i++) {
-                if (supported_extensions[i] == $scope.output_format) {
-                    var name = $scope.output_format;
-                    var btn = $("#" + name);
-                    if (btn) {
-                        btn.click();
-                    }
-                }
-            }
+            //if (output_format) {
+            //    $scope.output_format = output_format;
+            //}
+            //if (input_content) {
+            //    $scope.input_content = input_content;
+            //}
+            //if (input_file_name) {
+            //    $scope.input_file_name = input_file_name;
+            //}
+            //if (input_format) {
+            //    $scope.input_format = input_format;
+            //}
+            //for (var i = 0; i < supported_extensions.length; i++) {
+            //    if (supported_extensions[i] == $scope.output_format) {
+            //        var name = $scope.output_format;
+            //        var btn = $("#" + name);
+            //        if (btn) {
+            //            btn.click();
+            //        }
+            //    }
+            //}
+            console.log("=====================");
         }
         init();
     }

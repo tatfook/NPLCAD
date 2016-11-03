@@ -117,10 +117,9 @@ article{
 .code{
   position: absolute;
   min-width: 50%;
-  min-height: 560px;
   top: 2px;
   right: 0;
-  height: 100%;
+  bottom:30px;
   overflow: auto;
   background-color: rgba(0,0,0, 0); 
 
@@ -185,19 +184,10 @@ code{
 }
 
 
-	button{
-
-		height: 30px;
-	}
-	input{
-
-		height: 30px;
-		max-width: 240px;
-	}
 	 #code_editor { 
 		position: releative;
 		width:100%;
-		min-height:540px;
+		min-height:500px;
     }
 	
 	div.paraDiv{

@@ -1,5 +1,4 @@
-angular.module('NPLCAD_App', ['ui.bootstrap', 'ngAnimate']);
-
+var nplcadModule = angular.module('NPLCAD_App', ['ngStorage', 'ngAnimate', 'ui.bootstrap']);
 function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
@@ -14,3 +13,10 @@ function getUrlParameter(sParam) {
         }
     }
 };
+function decode_npl(s) {
+    if (s) {
+        s = s.replace(/\+/g, " ");
+    }
+    return s;
+}
+

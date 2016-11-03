@@ -17,8 +17,9 @@ wp_enqueue_script("jquery",						"/wp-includes/js/jquery/jquery.min.js");
 wp_enqueue_style("easyui_icon", 				"/wp-includes/js/jeasyui/themes/icon.css");
 
 wp_enqueue_script("NPLCAD_App",					"/wp-content/pages/nplcad/app.js");
+--wp_enqueue_script("VoxelService",				"/wp-content/pages/nplcad/services/VoxelService.js");
+--wp_enqueue_script("NplVoxelizerController",		"/wp-content/pages/nplcad/controllers/NplVoxelizerController.js");
 wp_enqueue_script("nplcadController",			"/wp-content/pages/nplcad/controllers/nplcadController.js");
-
 
 wp_enqueue_style("nplcad_index",				"/wp-content/pages/nplcad/assets/css/index.css");
 wp_enqueue_style("code_highlighter", 			"/wp-content/pages/nplcad/assets/css/default.css");
@@ -27,6 +28,8 @@ wp_enqueue_style("vertical_tab", 				"/wp-content/pages/nplcad/assets/css/vertic
 wp_enqueue_script("nplcad_threejs",				"/wp-content/pages/nplcad/js/libs/threejs/three.min.js"); 
 wp_enqueue_script("nplcad_STLLoader",			"/wp-content/pages/nplcad/js/libs/threejs/STLLoader.js"); 
 wp_enqueue_style("nplcad_light",				"/wp-content/pages/nplcad/js/libs/threejs/light.css");
+wp_enqueue_script("TransformControls",			"/wp-content/pages/nplcad/js/libs/threejs/controls/TransformControls.js");
+wp_enqueue_script("nplcad_OrbitControls",	"/wp-content/pages/nplcad/js/libs/threejs/controls/OrbitControls.js"); 
 
 wp_enqueue_script("nplcad_FileSaver",			"/wp-content/pages/nplcad/js/libs/FileSaver.min.js"); 
 wp_enqueue_script("nplcad_angular-animate",		"/wp-content/pages/nplcad/js/libs/angular-animate.js"); 
@@ -34,24 +37,43 @@ wp_enqueue_script("nplcad_signals",				"/wp-content/pages/nplcad/js/libs/signals
 wp_enqueue_script("nplcad_Blob",				"/wp-content/pages/nplcad/js/libs/Blob.js"); 
 wp_enqueue_script("code_highlighter",			"/wp-content/pages/nplcad/js/libs/highlight.pack.js"); 
 
+--reslider
+wp_enqueue_script("rzslider",						"/wp-content/pages/nplcad/js/libs/rzslider.min.js");
+wp_enqueue_style("rzslider-css",					"/wp-content/pages/nplcad/js/libs/rzslider.min.css");
+--notify
+wp_enqueue_script("bootstrap-notify",				"/wp-content/pages/nplcad/js/libs/bootstrap-notify/bootstrap-notify.min.js");
+
 --grid helper
 wp_enqueue_script("GridHelper-Zup",		"/wp-content/pages/nplcad/js/helpers/GridHelper-Zup.js"); 
 
 
-wp_enqueue_script("nplcad_OrbitControls",	"/wp-content/pages/nplcad/js/libs/threejs/controls/OrbitControls.js"); 
 
 NPL.load("Mod/NplCadLibrary/services/CSGService.lua");
 local CSGService = commonlib.gettable("Mod.NplCadLibrary.services.CSGService");
 
+NPL.load("(gl)script/ide/Encoding.lua");
+local Encoding = commonlib.gettable("commonlib.Encoding");
+
+local src = request:get("src");
+
+local filename = request:get("filename");
 local code = request:get("code");
-local showcode = request:get("showcode");
+
+--bmax content
+local content = request:get("content");
+
 if(is_ajax()) then
 	add_action('wp_ajax_runcode', function()
 		local output = CSGService.buildPageContent(code)
 		wp_send_json(output,true);
     end)
+	add_action('wp_ajax_nplcad_savefile', function()
+		local bSuccessful = CSGService.saveFile(filename,content)
+		wp_send_json({bSuccessful},true);
+    end)
 	return;
 end
+	echo(format("<script>window.nplcadInfo = {workspaceDir:'%s', req_src:'%s'};</script>", ParaIO.GetCurDirectory(0), src or ""));
 ?>
 <style>
 .ploygonName{padding:0.01em 16px}
