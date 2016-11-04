@@ -1,58 +1,156 @@
 ﻿--[[
-Title: 
-Author(s): leio
-Date: 2016/9/19
+Title: ItemCAD
+Author(s): LiXizhi
+Date: 2016/11/5
 Desc: 
 use the lib:
 ------------------------------------------------------------
-NPL.load("(gl)Mod/NPLCAD/main.lua");
-------------------------------------------------------------
+NPL.load("(gl)Mod/NPLCAD/ItemCAD.lua");
+local ItemCAD = commonlib.gettable("MyCompany.Aries.Game.Items.ItemCAD");
+-------------------------------------------------------
 ]]
-local CmdParser = commonlib.gettable("MyCompany.Aries.Game.CmdParser");	
+NPL.load("(gl)script/apps/Aries/Creator/Game/Items/ItemToolBase.lua");
+NPL.load("(gl)script/apps/Aries/Creator/Game/Common/Files.lua");
+local Files = commonlib.gettable("MyCompany.Aries.Game.Common.Files");
+local EntityManager = commonlib.gettable("MyCompany.Aries.Game.EntityManager");
+local BlockEngine = commonlib.gettable("MyCompany.Aries.Game.BlockEngine")
+local block_types = commonlib.gettable("MyCompany.Aries.Game.block_types")
+local GameLogic = commonlib.gettable("MyCompany.Aries.Game.GameLogic")
+local ItemStack = commonlib.gettable("MyCompany.Aries.Game.Items.ItemStack");
 
-local NPLCAD = commonlib.inherit(commonlib.gettable("Mod.ModBase"),commonlib.gettable("Mod.NPLCAD"));
+local ItemCAD = commonlib.inherit(commonlib.gettable("MyCompany.Aries.Game.Items.ItemToolBase"), commonlib.gettable("MyCompany.Aries.Game.Items.ItemCAD"));
 
-function NPLCAD:ctor()
+block_types.RegisterItemClass("ItemCAD", ItemCAD);
+
+-- @param template: icon
+-- @param radius: the half radius of the object. 
+function ItemCAD:ctor()
+	self:SetOwnerDrawIcon(true);
 end
 
--- virtual function get mod name
-function NPLCAD:GetName()
-	return "NPLCAD"
+function ItemCAD:TryCreate(itemStack, entityPlayer, x,y,z, side, data, side_region)
+	local local_filename = itemStack:GetDataField("tooltip");
+	local filename = local_filename;
+	if(filename) then
+		filename = Files.GetFilePath(filename);
+	end
+	if(not filename) then
+		self:OpenChangeFileDialog(itemStack);
+		return;
+	end
+	
+	if (itemStack and itemStack.count == 0) then
+		return;
+	elseif (entityPlayer and not entityPlayer:CanPlayerEdit(x,y,z, data, itemStack)) then
+		return;
+	elseif (self:CanPlaceOnSide(x,y,z,side, data, side_region, entityPlayer, itemStack)) then
+		-- create here ItemBlockModel here
+		local bmaxFilename = self:GetBMAXFileName(itemStack);
+		if(bmaxFilename) then
+			
+		else
+			_guihelper.MessageBox(L"还没有保存为BMAX文件，是否现在保存?", function()
+				self:OpenNPLCadEditor(filename);
+			end)
+		end
+	end
 end
 
--- virtual function get mod description 
-function NPLCAD:GetDesc()
-	return "NPLCAD is a plugin in paracraft"
+
+-- called whenever this item is clicked on the user interface when it is holding in hand of a given player (current player). 
+function ItemCAD:OnClickInHand(itemStack, entityPlayer)
+	-- if there is selected blocks, we will replace selection with current block in hand. 
+	if(GameLogic.GameMode:IsEditor()) then
+		self:OpenChangeFileDialog(itemStack);
+	end
 end
 
-function NPLCAD:init()
-	LOG.std(nil, "info", "NPLCAD", "plugin initialized");
-	NPL.load("npl_packages/NplCadLibrary/");
-	NPL.load("npl_packages/ModelVoxelizer/");
-	-- add a menu item to NPL code wiki's `Tools:nplcad`
-	NPL.load("(gl)script/apps/WebServer/WebServer.lua");
-	WebServer:GetFilters():add_filter( 'wp_nav_menu_objects', function(sorted_menu_items)
-		sorted_menu_items[sorted_menu_items:size()+1] = {
-			url="nplcad",
-			menu_item_parent="Tools",
-			title="NPL CAD",
-			id="nplcad",
-		};
-		return sorted_menu_items;
-	end);
+function ItemCAD:PickItemFromPosition(x,y,z)
+	local entity = self:GetBlock():GetBlockEntity(x,y,z);
+	if(entity) then
+		if(entity.GetModelFile) then
+			local filename = entity:GetModelFile();
+			if(filename and filename:match("cad%.%w%w%w$")) then
+				filename = filename:gsub("cad%.%w%w%w$", "cad.npl");
+				local itemStack = ItemStack:new():Init(self.id, 1);
+				-- transfer filename from entity to item stack. 
+				itemStack:SetTooltip(filename);
+				return itemStack;
+			end
+		end
+	end
 end
 
-function NPLCAD:OnLogin()
-end
--- called when a new world is loaded. 
-
-function NPLCAD:OnWorldLoad()
-end
--- called when a world is unloaded. 
-
-function NPLCAD:OnLeaveWorld()
-end
-
-function NPLCAD:OnDestroy()
+-- return true if items are the same. 
+-- @param left, right: type of ItemStack or nil. 
+function ItemCAD:CompareItems(left, right)
+	if(self._super.CompareItems(self, left, right)) then
+		if(left and right and left:GetTooltip() == right:GetTooltip()) then
+			return true;
+		end
+	end
 end
 
+function ItemCAD:OpenChangeFileDialog(itemStack)
+	if(itemStack) then
+		local local_filename = itemStack:GetDataField("tooltip");
+		NPL.load("(gl)script/apps/Aries/Creator/Game/GUI/OpenFileDialog.lua");
+		local OpenFileDialog = commonlib.gettable("MyCompany.Aries.Game.GUI.OpenFileDialog");
+		OpenFileDialog.ShowPage(L"请输入NPL CAD文件名", function(result)
+			result = result or "";
+			if(not result:match("%.") and result~= "") then
+				result = result .. ".cad.npl";
+			end
+			if(result~="" and result~=local_filename) then
+				local filename = Files.GetFilePath(result);
+				if(not filename) then
+					self:OpenNPLCadEditor(result);
+				end
+				itemStack:SetDataField("tooltip", result);
+			end
+		end, local_filename, L"选择NPL CAD文件", {
+				{L"NPL CAD(*.cad.npl)",  "*.cad.npl"}
+			}, nil, function(filename)
+			self:OpenNPLCadEditor(filename);
+		end)
+	end
+end
+
+function ItemCAD:OpenNPLCadEditor(filename)
+	if(not filename:match("%.") and filename~= "") then
+		filename = filename .. ".cad.npl";
+	end
+	local fullpath = Files.GetFilePath(filename);
+	if(not fullpath) then
+		fullpath = GameLogic.GetWorldDirectory() .. filename;
+	end
+	GameLogic.RunCommand("/open npl://nplcad?src="..(fullpath or ""));
+end
+
+function ItemCAD:GetModelFileName(itemStack)
+	return itemStack and itemStack:GetDataField("tooltip");
+end
+
+function ItemCAD:GetBMAXFileName(itemStack)
+	local filename = self:GetModelFileName(itemStack);
+	if(filename and filename:match("cad%.%w%w%w$")) then
+		filename = filename:gsub("cad%.%w%w%w$", "cad.bmax");
+		return Files.GetFilePath(filename);
+	end
+end
+
+-- virtual: draw icon with given size at current position (0,0)
+-- @param width, height: size of the icon
+-- @param itemStack: this may be nil. or itemStack instance. 
+function ItemCAD:DrawIcon(painter, width, height, itemStack)
+	ItemCAD._super.DrawIcon(self, painter, width, height, itemStack);
+	local filename = self:GetModelFileName(itemStack);
+	if(filename and filename~="") then
+		filename = filename:match("[^/]+$"):gsub("%..*$", "");
+		filename = filename:sub(1, 6);
+		painter:SetPen("#33333380");
+		painter:DrawRect(0,0, width, 14);
+		painter:SetPen("#ffffff");
+		painter:DrawText(1,0, filename);
+	end
+end

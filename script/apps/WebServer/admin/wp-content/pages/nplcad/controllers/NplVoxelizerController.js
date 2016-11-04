@@ -35,7 +35,7 @@ nplvoxelizer.component("nplvoxelizer", {
             container = document.createElement('div');
             container.style["position"] = "relative";
             container.style["width"] = "100%";
-            container.style["height"] = "560px";
+            container.style["height"] = "400px";
             $("#view_container").append(container);
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);

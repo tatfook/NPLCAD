@@ -40,6 +40,30 @@ function NPLCAD:init()
 		};
 		return sorted_menu_items;
 	end);
+
+	-- register a new block item, id < 10512 is internal items, which is not recommended to modify. 
+	GameLogic.GetFilters():add_filter("block_types", function(xmlRoot) 
+		local blocks = commonlib.XPath.selectNode(xmlRoot, "/blocks/");
+		if(blocks) then
+			NPL.load("(gl)Mod/NPLCAD/ItemCAD.lua");
+			blocks[#blocks+1] = {name="block", attr={ name="NPLCAD",
+				id = 10512, item_class="ItemCAD", text="NPL CAD",
+				icon = "Mod/NPLCAD/textures/icon.png",
+			}}
+			LOG.std(nil, "info", "NPLCAD", "NPL CAD block is registered");
+		end
+		return xmlRoot;
+	end)
+
+	-- add block to category list to be displayed in builder window (E key)
+	GameLogic.GetFilters():add_filter("block_list", function(xmlRoot) 
+		for node in commonlib.XPath.eachNode(xmlRoot, "/blocklist/category") do
+			if(node.attr.name == "tool") then
+				node[#node+1] = {name="block", attr={name="NPLCAD"} };
+			end
+		end
+		return xmlRoot;
+	end)
 end
 
 function NPLCAD:OnLogin()

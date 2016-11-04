@@ -19,7 +19,7 @@ nplcadModule.service('voxelService', function () {
         container = document.createElement('div');
         container.style["position"] = "relative";
         container.style["width"] = "100%";
-        container.style["height"] = "560px";
+        container.style["height"] = "300px";
         $("#voxel_view_container").append(container);
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
@@ -606,9 +606,11 @@ function NplcadController($scope, $http, $log, voxelService) {
         return stl;
     }
     var code_editor = ace.edit("code_editor");
-    code_editor.setTheme("ace/theme/github1");
+    code_editor.setTheme("ace/theme/github");
     code_editor.getSession().setMode("ace/mode/lua");
     code_editor.setShowPrintMargin(false);
+    code_editor.setOption("maxLines", 40);
+    code_editor.setOption("minLines", 5);
 
     //get CSG code examples from nplcadTemplate div and send it to code_editor
     $scope.changeEditorContent = function(num) { 

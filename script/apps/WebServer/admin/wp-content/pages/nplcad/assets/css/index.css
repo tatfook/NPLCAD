@@ -45,7 +45,7 @@ div{
   position: absolute;
   right: 1em;
   bottom: 0;
-  margin-bottom: -15px;
+  margin-bottom: 10px;
   border-radius: 100%;
   font-size: 16px;
   cursor: pointer;
@@ -61,7 +61,7 @@ div{
   position: absolute;
   right: 5em;
   bottom: 0;
-  margin-bottom: -15px;
+  margin-bottom: 10px;
   border-radius: 100%;
   font-size: 16px;
   cursor: pointer;
@@ -151,7 +151,7 @@ article{
 
 code, pre {
   background: rgba(255,255,255,0.1);
-  color:  rgba(232, 216, 49, 0.9);
+  color:  dimgrey;
   font-family: "Source Code Pro", Monaco, Menlo, Consolas, "Courier New",monospace;
   padding: 0.5em;
   border-radius: 3px;
