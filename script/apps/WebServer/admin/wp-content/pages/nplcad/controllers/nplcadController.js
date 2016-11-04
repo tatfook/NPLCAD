@@ -612,21 +612,46 @@ function NplcadController($scope, $http, $log, voxelService) {
     code_editor.setOption("maxLines", 40);
     code_editor.setOption("minLines", 5);
 
+    code_editor.commands.addCommand({ name: 'cmdSave', bindKey: { win: 'Ctrl+S' }, exec: function (editor) { $scope.onSaveSource(); }, readOnly: true });
+    code_editor.commands.addCommand({ name: 'cmdRun', bindKey: { win: 'F5' }, exec: function (editor) { $scope.onRunCode(); }, readOnly: true });
+
+    $scope.isModified = false;
+    code_editor.on("input", function () {
+        if ($scope.isModified != !code_editor.session.getUndoManager().isClean()) {
+            $scope.isModified = !($scope.isModified);
+            $scope.$apply();
+        }
+    });
+
     //get CSG code examples from nplcadTemplate div and send it to code_editor
     $scope.changeEditorContent = function(num) { 
         if(num){
             var sContent = angular.element(document.getElementById('code_example'+num)).text();
             //alert(sContent);
             if(sContent){
-                code_editor.setValue(sContent) ;
+                code_editor.setValue(sContent);
+                $scope.isModified = true;
             }
-            else alert("Can't find code example");
+            else
+                alert("Can't find code example");
         }
     }
 		
     var aGeometries = [];
+    
+    function setStatus(text) {
+        $("#logWnd").html(text || "");
+    }
+
+    $scope.running = false;
     function onRunCode() {
-        $("#logWnd").html("");
+        if ($scope.running) {
+            setStatus("a previous processing request is pending.");
+            return;
+        }
+            
+        setStatus("processing ...");
+        $scope.running = true;
         aGeometries.splice(0, aGeometries.length);
         var text = code_editor.getValue();
         $http.get("ajax/nplcad?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
@@ -649,13 +674,14 @@ function NplcadController($scope, $http, $log, voxelService) {
                         var geometry = createMesh(vertices, indices, normals, colors, world_matrix);
                         aGeometries.push(geometry);
                     }
+                    setStatus("compile succesfully completed");
                 }else{
-                    $("#logWnd").html(response.data.compile_error);
+                    setStatus(response.data.compile_error);
                 }
-                
             } else {
-                $("#logWnd").html("error!");
+                setStatus("compile error");
             }
+            $scope.running = false;
         });
     }
     $scope.onRunCode = function () {
@@ -729,9 +755,12 @@ function NplcadController($scope, $http, $log, voxelService) {
             filename: filename
         };
         $.post(url, data).then(function (response) {
-
             if (response && response[0]) {
-                $.notify("source file was saved to: " + filename, {type:"success"});
+                $scope.isModified = false;
+                $scope.$apply();
+                $.notify("source file is saved to: " + filename, { type: "success" });
+                // run code immediately after save
+                $scope.onRunCode();
             }
             console.log(response);
         })
@@ -750,7 +779,8 @@ function NplcadController($scope, $http, $log, voxelService) {
                     editor.session.setMode("ace/mode/lua");
                 $scope.currentFilename = filename;
                 $scope.openFilename = filename;
-
+                $scope.isModified = false;
+                editor.session.getUndoManager().markClean();
                 callback();
             });
         }

@@ -9,8 +9,9 @@ NPL.load("(gl)Mod/NPLCAD/ItemCAD.lua");
 local ItemCAD = commonlib.gettable("MyCompany.Aries.Game.Items.ItemCAD");
 -------------------------------------------------------
 ]]
-NPL.load("(gl)script/apps/Aries/Creator/Game/Items/ItemToolBase.lua");
+NPL.load("(gl)script/apps/Aries/Creator/Game/Items/ItemBlockModel.lua");
 NPL.load("(gl)script/apps/Aries/Creator/Game/Common/Files.lua");
+local ItemBlockModel = commonlib.gettable("MyCompany.Aries.Game.Items.ItemBlockModel");
 local Files = commonlib.gettable("MyCompany.Aries.Game.Common.Files");
 local EntityManager = commonlib.gettable("MyCompany.Aries.Game.EntityManager");
 local BlockEngine = commonlib.gettable("MyCompany.Aries.Game.BlockEngine")
@@ -18,7 +19,7 @@ local block_types = commonlib.gettable("MyCompany.Aries.Game.block_types")
 local GameLogic = commonlib.gettable("MyCompany.Aries.Game.GameLogic")
 local ItemStack = commonlib.gettable("MyCompany.Aries.Game.Items.ItemStack");
 
-local ItemCAD = commonlib.inherit(commonlib.gettable("MyCompany.Aries.Game.Items.ItemToolBase"), commonlib.gettable("MyCompany.Aries.Game.Items.ItemCAD"));
+local ItemCAD = commonlib.inherit(ItemBlockModel, commonlib.gettable("MyCompany.Aries.Game.Items.ItemCAD"));
 
 block_types.RegisterItemClass("ItemCAD", ItemCAD);
 
@@ -26,6 +27,10 @@ block_types.RegisterItemClass("ItemCAD", ItemCAD);
 -- @param radius: the half radius of the object. 
 function ItemCAD:ctor()
 	self:SetOwnerDrawIcon(true);
+end
+
+function ItemCAD:HasRealPhysics()
+	return true;
 end
 
 function ItemCAD:TryCreate(itemStack, entityPlayer, x,y,z, side, data, side_region)
@@ -46,8 +51,19 @@ function ItemCAD:TryCreate(itemStack, entityPlayer, x,y,z, side, data, side_regi
 	elseif (self:CanPlaceOnSide(x,y,z,side, data, side_region, entityPlayer, itemStack)) then
 		-- create here ItemBlockModel here
 		local bmaxFilename = self:GetBMAXFileName(itemStack);
-		if(bmaxFilename) then
-			
+		local bmaxFullpath = Files.GetFilePath(bmaxFilename);
+		if(bmaxFullpath) then
+			NPL.load("(gl)script/apps/Aries/Creator/Game/Items/ItemClient.lua");
+			local ItemClient = commonlib.gettable("MyCompany.Aries.Game.Items.ItemClient");
+			local names = commonlib.gettable("MyCompany.Aries.Game.block_types.names");
+			local item = ItemClient.GetItem(names.PhysicsModel);
+			if(item) then
+				NPL.load("(gl)script/apps/Aries/Creator/Game/Items/ItemStack.lua");
+				local ItemStack = commonlib.gettable("MyCompany.Aries.Game.Items.ItemStack");
+				local item_stack = ItemStack:new():Init(names.PhysicsModel, 1);
+				item_stack:SetTooltip(bmaxFilename);
+				return item:TryCreate(item_stack, entityPlayer, x,y,z, side, data, side_region);
+			end
 		else
 			_guihelper.MessageBox(L"还没有保存为BMAX文件，是否现在保存?", function()
 				self:OpenNPLCadEditor(filename);
@@ -134,9 +150,19 @@ end
 function ItemCAD:GetBMAXFileName(itemStack)
 	local filename = self:GetModelFileName(itemStack);
 	if(filename and filename:match("cad%.%w%w%w$")) then
-		filename = filename:gsub("cad%.%w%w%w$", "cad.bmax");
-		return Files.GetFilePath(filename);
+		return filename:gsub("cad%.%w%w%w$", "cad.bmax");
 	end
+end
+
+-- virtual function: when selected in right hand
+function ItemCAD:OnSelect()
+	ItemCAD._super.OnSelect(self);
+	GameLogic.SetStatus(L"CAD文件保存为BMAX模型后，可右键点击场景创造");
+end
+
+function ItemCAD:OnDeSelect()
+	ItemCAD._super.OnDeSelect(self);
+	GameLogic.SetStatus(nil);
 end
 
 -- virtual: draw icon with given size at current position (0,0)
@@ -153,4 +179,12 @@ function ItemCAD:DrawIcon(painter, width, height, itemStack)
 		painter:SetPen("#ffffff");
 		painter:DrawText(1,0, filename);
 	end
+end
+
+-- virtual function: 
+function ItemCAD:CreateTask()
+	NPL.load("(gl)script/apps/Aries/Creator/Game/Tasks/EditModel/EditModelTask.lua");
+	local EditModelTask = commonlib.gettable("MyCompany.Aries.Game.Tasks.EditModelTask");
+	local task = EditModelTask:new();
+	return task;
 end

@@ -1,3 +1,30 @@
+<style>
+    #mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9001;
+    }
+    #running {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9001;
+    }
+
+    .loader {
+        position: absolute;
+        left: 50%;
+        top: 25%;
+        margin-left: -64px; /* -1 * image width / 2 */
+        margin-top: -64px; /* -1 * image height / 2 */
+        display: block;
+    }
+</style>
 <div class="container-fluid">
     <div class="row">
         <div uib-collapse="isCollapsed">
@@ -113,7 +140,7 @@ color(color_name,obj)   --set color value with obj
         </div>
         <section id="panel" class="panel">
             <header>
-                <h1>NPLCAD</h1>
+                <h1>NPL CAD</h1>
                 <span id="showcode" class="showcode">
                     <i class="glyphicon glyphicon-eye-open icon-yepcode"></i>
                     <i class="glyphicon glyphicon-eye-close icon-nocode"></i>
@@ -124,16 +151,21 @@ color(color_name,obj)   --set color value with obj
             </header>
             <article>
                 <div class="row">
-                    <div class="col-md-6" id="view_container"></div>
+                    <div class="col-md-6">
+                        <div ng-show="running" id="running">
+                            <img src="wp-content/pages/nplcad/js/libs/ajaxloader.gif" class="loader" />
+                        </div>
+                        <div id="view_container"></div>
+                    </div>
                     <div class="col-md-6" id="code">
                         <div class="row col-sm-12">
-                            <h5>{{currentFilename}}</h5>
+                            <h5>{{currentFilename}}<span ng-show="isModified"> *</span></h5>
                         </div>
                         <div class="row col-sm-12" style="margin-bottom:5px;">
                             <!-- Run button-->
-                            <button class="btn btn-primary" style="min-width:100px;" ng-click="onRunCode()" id="runcode"><i class="glyphicon glyphicon-play"></i> Run</button>
-                            <button class="btn btn-default" ng-click="onSaveSource()"><i class="glyphicon glyphicon-save-file"></i> Save</button>
-                            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">Save As BMax...</button>
+                            <button class="btn btn-primary" ng-click="onRunCode()" id="runcode"><i class="glyphicon glyphicon-play"></i> Run</button>
+                            <button class="btn btn-default" ng-click="onSaveSource()"><i class="glyphicon glyphicon-save-file"></i> Save (Ctrl+S)</button>
+                            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">Save To BMax...</button>
                             <!-- Example button-->
                             <div class="pull-right dropdown">
                                 <button class="btn btn-default" id="dropdownExampleMenu" data-toggle="dropdown" aria-haspopup="true">
@@ -152,11 +184,8 @@ color(color_name,obj)   --set color value with obj
                                 </ul>
                             </div>
                         </div>
-                        <div class="row col-sm-12" id="code_editor">
-                            sphere();
-                        </div>
-                        <div class="row col-sm-12" id="logWnd">
-                        </div>
+                        <div class="row col-sm-12" id="code_editor">sphere();</div>
+                        <div class="row col-sm-12" id="logWnd"></div>
                     </div>
                 </div>
             </article>
@@ -177,26 +206,6 @@ color(color_name,obj)   --set color value with obj
         });
     });
 </script>
-
-<style>
-    #mask {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9001;
-    }
-
-    .loader {
-        position: absolute;
-        left: 50%;
-        top: 25%;
-        margin-left: -64px; /* -1 * image width / 2 */
-        margin-top: -64px; /* -1 * image height / 2 */
-        display: block;
-    }
-</style>
 <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -205,6 +214,9 @@ color(color_name,obj)   --set color value with obj
                 <h5 class="modal-title">Voxelizer</h5>
             </div>
             <div class="modal-body" >
+                <div id="mask">
+                    <img src="wp-content/pages/nplcad/js/libs/ajaxloader.gif" class="loader" />
+                </div>
                 <div id="voxel_view_container" style="width:100%;max-height:400px;"></div>
                 <div class="row" style="margin-top:15px;">
                     <div class="col-md-11">
@@ -221,6 +233,4 @@ color(color_name,obj)   --set color value with obj
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<div id="mask">
-    <img src="wp-content/pages/nplcad/js/libs/ajaxloader.gif" class="loader" />
-</div>
+
