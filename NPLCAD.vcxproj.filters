@@ -214,6 +214,18 @@
     <None Include="Mod\NPLCAD\ItemCAD.lua">
       <Filter>Mod\NPLCAD</Filter>
     </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\guide.html">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\templates</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\EditCadTask.html">
+      <Filter>Mod\NPLCAD</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\EditCadTask.lua">
+      <Filter>Mod\NPLCAD</Filter>
+    </None>
+    <None Include="Mod\NPLCAD\EditCadManipContainer.lua">
+      <Filter>Mod\NPLCAD</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ajaxloader.gif">
