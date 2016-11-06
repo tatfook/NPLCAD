@@ -37,7 +37,10 @@ function ItemCAD:TryCreate(itemStack, entityPlayer, x,y,z, side, data, side_regi
 	local local_filename = itemStack:GetDataField("tooltip");
 	local filename = local_filename;
 	if(filename) then
-		filename = Files.FindFile(filename);
+		filename = Files.FindFile(commonlib.Encoding.Utf8ToDefault(filename));
+		if(filename) then
+			filename = commonlib.Encoding.DefaultToUtf8(filename);
+		end
 	end
 	if(not filename) then
 		self:OpenChangeFileDialog(itemStack);
@@ -51,8 +54,7 @@ function ItemCAD:TryCreate(itemStack, entityPlayer, x,y,z, side, data, side_regi
 	elseif (self:CanPlaceOnSide(x,y,z,side, data, side_region, entityPlayer, itemStack)) then
 		-- create here ItemBlockModel here
 		local bmaxFilename = self:GetBMAXFileName(itemStack);
-		local bmaxFullpath = Files.FindFile(bmaxFilename);
-		if(bmaxFullpath) then
+		if(Files.FindFile(commonlib.Encoding.Utf8ToDefault(bmaxFilename))) then
 			NPL.load("(gl)script/apps/Aries/Creator/Game/Items/ItemClient.lua");
 			local ItemClient = commonlib.gettable("MyCompany.Aries.Game.Items.ItemClient");
 			local names = commonlib.gettable("MyCompany.Aries.Game.block_types.names");
@@ -116,30 +118,45 @@ function ItemCAD:OpenChangeFileDialog(itemStack)
 			result = result or "";
 			if(not result:match("%.") and result~= "") then
 				result = result .. ".cad.npl";
+			else
+				result = result:gsub("bmax$", "npl");
 			end
 			if(result~="" and result~=local_filename) then
 				itemStack:SetDataField("tooltip", result);
-				local filename = Files.FindFile(result);
+				self:RefreshTask(itemStack);
+				local filename = Files.FindFile(commonlib.Encoding.Utf8ToDefault(result));
 				if(not filename) then
 					self:OpenNPLCadEditor(result);
 				end
 			end
 		end, local_filename, L"选择NPL CAD文件", {
-				{L"NPL CAD(*.cad.npl)",  "*.cad.npl"}
-			}, nil, function(filename)
-			self:OpenNPLCadEditor(filename);
-		end)
+			{L"NPL CAD(*.cad.npl, bmax)",  "*.cad.npl;*.cad.bmax"},
+			{L"NPL CAD(*.cad.npl)",  "*.cad.npl"},
+		}, nil, {
+		text=L"展开", 
+		callback = function(filename)
+			filename = filename:gsub("npl$", "bmax");
+			self:UnpackIntoWorld(itemStack, filename);
+		end})
 	end
 end
 
+function ItemCAD:RefreshTask(itemStack)
+	local task = self:GetTask();
+	if(task) then
+		task:SetItemStack(itemStack);
+		task:RefreshPage();
+	end
+end
+
+
 -- open external editor for current file
 function ItemCAD:OpenEditor(itemStack)
-	local local_filename = itemStack:GetDataField("tooltip");
-	local filename = local_filename;
-	if(filename) then
-		filename = Files.FindFile(filename);
+	if(not itemStack) then
+		return
 	end
-	if(not filename) then
+	local filename = itemStack:GetDataField("tooltip");
+	if(not filename or filename == "") then
 		self:OpenChangeFileDialog(itemStack);
 	else
 		self:OpenNPLCadEditor(filename);
@@ -151,11 +168,12 @@ function ItemCAD:OpenNPLCadEditor(filename)
 	if(not filename:match("%.") and filename~= "") then
 		filename = filename .. ".cad.npl";
 	end
+	filename = commonlib.Encoding.Utf8ToDefault(filename);
 	local fullpath = Files.FindFile(filename);
 	if(not fullpath) then
 		fullpath = GameLogic.GetWorldDirectory() .. filename;
 	end
-	GameLogic.RunCommand("/open npl://nplcad?src="..(fullpath or ""));
+	GameLogic.RunCommand("/open npl://nplcad?src=".. commonlib.Encoding.url_encode(commonlib.Encoding.DefaultToUtf8(fullpath or "")));
 end
 
 function ItemCAD:GetModelFileName(itemStack)

@@ -1,0 +1,15 @@
+<pe:mcml>
+<script type="text/npl" src="EditCadTask.lua" refresh="true">
+<![CDATA[
+EditCadTask = commonlib.gettable("MyCompany.Aries.Game.Tasks.EditCadTask");
+EditCadTask.InitPage(Page);
+task = EditCadTask.GetInstance();
+]]>
+</script>
+<div style='padding:5px;background-color:#306df0;color:#ffffff' >
+    <%=task:GetCadScript()%> <input name="editBtn" value='<%=task:GetCadScript()=="" and L"新建Cad脚本" or L"编辑"%>' type="button" onclick="EditCadTask.OnClickEditCadScript" /><input style="margin-left:5px;" name="openBtn" value='...' type="button" onclick="EditCadTask.OnClickChangeCadScript" />
+    <div>
+        <%=L"右键创建, 左键选择模型"%>
+    </div>
+</div>
+</pe:mcml>
