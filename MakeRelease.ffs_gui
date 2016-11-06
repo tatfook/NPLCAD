@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FreeFileSync XmlFormat="6" XmlType="GUI">
+    <MainConfig>
+        <Comparison>
+            <Variant>TimeAndSize</Variant>
+            <Symlinks>Exclude</Symlinks>
+            <IgnoreTimeShift/>
+        </Comparison>
+        <SyncConfig>
+            <Variant>Mirror</Variant>
+            <CustomDirections>
+                <LeftOnly>right</LeftOnly>
+                <RightOnly>left</RightOnly>
+                <LeftNewer>right</LeftNewer>
+                <RightNewer>left</RightNewer>
+                <Different>none</Different>
+                <Conflict>none</Conflict>
+            </CustomDirections>
+            <DetectMovedFiles>false</DetectMovedFiles>
+            <DeletionPolicy>RecycleBin</DeletionPolicy>
+            <VersioningFolder Style="Replace"/>
+        </SyncConfig>
+        <GlobalFilter>
+            <Include>
+                <Item>*</Item>
+            </Include>
+            <Exclude>
+                <Item>\System Volume Information\</Item>
+                <Item>\$Recycle.Bin\</Item>
+                <Item>\RECYCLER\</Item>
+                <Item>\RECYCLED\</Item>
+                <Item>*\desktop.ini</Item>
+                <Item>*\thumbs.db</Item>
+            </Exclude>
+            <TimeSpan Type="None">0</TimeSpan>
+            <SizeMin Unit="None">0</SizeMin>
+            <SizeMax Unit="None">0</SizeMax>
+        </GlobalFilter>
+        <FolderPairs>
+            <Pair>
+                <Left/>
+                <Right/>
+            </Pair>
+            <Pair>
+                <Left>script</Left>
+                <Right>Release\NPLCAD\script</Right>
+            </Pair>
+            <Pair>
+                <Left>npl_packages\NplCadLibrary\Mod\NplCadLibrary</Left>
+                <Right>Release\NPLCAD\Mod\NplCadLibrary</Right>
+            </Pair>
+            <Pair>
+                <Left>npl_packages\ModelVoxelizer\Mod\ModelVoxelizer</Left>
+                <Right>Release\NPLCAD\Mod\ModelVoxelizer</Right>
+            </Pair>
+            <Pair>
+                <Left>Mod\NPLCAD</Left>
+                <Right>Release\NPLCAD\Mod\NPLCAD</Right>
+            </Pair>
+        </FolderPairs>
+        <OnCompletion/>
+    </MainConfig>
+    <GuiConfig>
+        <HandleError>Popup</HandleError>
+        <MiddleGridView>Action</MiddleGridView>
+    </GuiConfig>
+</FreeFileSync>
