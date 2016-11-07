@@ -68,7 +68,7 @@ if(is_ajax()) then
 		wp_send_json(output,true);
     end)
 	add_action('wp_ajax_nplcad_savefile', function()
-		local bSuccessful = CSGService.saveFile(filename,content)
+		local bSuccessful = CSGService.saveFile(commonlib.Encoding.Utf8ToDefault(filename),content)
 		wp_send_json({bSuccessful},true);
     end)
 	return;

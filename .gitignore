@@ -8,3 +8,5 @@ npl_packages
 *.txt
 Debug
 Mod/NplCadLibrary
+Mod/ModelVoxelizer
+Release

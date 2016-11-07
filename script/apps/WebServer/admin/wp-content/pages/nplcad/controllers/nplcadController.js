@@ -771,7 +771,12 @@ function NplcadController($scope, $http, $log, voxelService) {
         if ($scope.currentFilename != filename || bForceReopen) {
            
             $http.get("ajax/viewsource?action=get_source&src=" + encodeURIComponent(filename)).then(function (response) {
-                editor.session.setValue(response.data.text || "");
+                var text = response.data.text || "";
+                if (text == "") {
+                    text = $("#empty_script_template").html();
+                }
+
+                editor.session.setValue(text);
                 var ext = filename.split('.').pop();
                 if (ext == "xml" || ext == "html")
                     editor.session.setMode("ace/mode/xml");

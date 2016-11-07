@@ -1,27 +1,14 @@
 <div id="example" hidden="hidden">
 
-
     <div id="code_example1">
-difference() 
-	color({0,0.5,1});
-	cube({size=3,center = true});
-    color({0,0,1});
-	sphere({ r = 2});
-
+sphere(1);
     </div>
     <div id="code_example2">
---wait for a moment
-color({1,0,0});
-intersection();
-    cube({size = 2, center = true});
-    difference();
-		local s = sphere({ r = 1.35, fn = 50 });
-        color({0,0,1},s);
-	    union();
-            color({0,1,0});
-	        cylinder({ r1 = 0.7, r2 = 0.7, from = {-1,0,0}, to = {1,0,0} });
-	        cylinder({ r1 = 0.7, r2 = 0.7, from = {0,-1,0}, to = {0,1,0} });
-	        cylinder({ r1 = 0.7, r2 = 0.7, from = {0,0,-1}, to = {0,0,1} });
+difference()
+    color({0,0.5,1});
+    cube({size=3,center = true});
+    color({0,0,1});
+    sphere({ r = 2});
     </div>
     <div id="code_example3">
 color({1,1,1})
@@ -40,7 +27,6 @@ union()
     pop()
     </div>
     <div id="code_example4">
-
 color({92/255,66/255,178/255})
 union();
 	cube({size=3,center=true});
@@ -142,7 +128,7 @@ end
  creatObj(-3,{0,0,1},"z");
     </div>
 	<div id="code_example8">
-		function creatObj(bTranslate,bScale)
+function creatObj(bTranslate,bScale)
     push()
         if(bTranslate) then
             translate({6,0,0});
@@ -163,7 +149,7 @@ creatObj();
 creatObj(true,true);
 	</div>
 <div id="code_example9">
-        local pi_2 = 6.28;
+local pi_2 = 6.28;
 scale(1/6);
 union();
 push();
@@ -190,3 +176,17 @@ color("lime");
 translate({100,0,35});
 cube({ size = 50, center = true, });
     </div>
+<div id="code_example_slow">
+--wait for a moment
+color({1,0,0});
+intersection();
+cube({size = 2, center = true});
+difference();
+local s = sphere({ r = 1.35, fn = 50 });
+color({0,0,1},s);
+union();
+color({0,1,0});
+cylinder({ r1 = 0.7, r2 = 0.7, from = {-1,0,0}, to = {1,0,0} });
+cylinder({ r1 = 0.7, r2 = 0.7, from = {0,-1,0}, to = {0,1,0} });
+cylinder({ r1 = 0.7, r2 = 0.7, from = {0,0,-1}, to = {0,0,1} });
+</div>
