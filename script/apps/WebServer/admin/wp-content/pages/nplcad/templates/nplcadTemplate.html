@@ -64,15 +64,7 @@
                                     Examples <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownExampleMenu">
-                                    <li role="menuitem" ng-click="changeEditorContent(1)"><a href="#">Example 1</a></li>
-                                    <li role="menuitem" ng-click="changeEditorContent(2)"><a href="#">Example 2</a></li>
-                                    <li role="menuitem" ng-click="changeEditorContent(3)"><a href="#">Example 3</a></li>
-                                    <li role="menuitem" ng-click="changeEditorContent(4)"><a href="#">Example 4</a></li>
-                                    <li role="menuitem" ng-click="changeEditorContent(5)"><a href="#">Example 5</a></li>
-                                    <li role="menuitem" ng-click="changeEditorContent(6)"><a href="#">Example 6</a></li>
-                                    <li role="menuitem" ng-click="changeEditorContent(7)"><a href="#">Example 7</a></li>
-                                    <li role="menuitem" ng-click="changeEditorContent(8)"><a href="#">Example 8</a></li>
-                                    <li role="menuitem" ng-click="changeEditorContent(9)"><a href="#">Example 9</a></li>
+                                    <li ng-repeat="example in Examples" role="menuitem" ng-click="changeEditorContent($index)"><a href="#">{{example.title || ("Example " + $index)}}</a></li>
                                 </ul>
                             </div>
                         </div>

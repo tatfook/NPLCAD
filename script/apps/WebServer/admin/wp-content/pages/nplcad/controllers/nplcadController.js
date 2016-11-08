@@ -623,18 +623,33 @@ function NplcadController($scope, $http, $log, voxelService) {
         }
     });
 
-    //get CSG code examples from nplcadTemplate div and send it to code_editor
-    $scope.changeEditorContent = function(num) { 
-        if(num){
-            var sContent = angular.element(document.getElementById('code_example'+num)).text();
-            //alert(sContent);
-            if(sContent){
-                code_editor.setValue(sContent);
-                $scope.isModified = true;
-            }
-            else
-                alert("Can't find code example");
+    $scope.Examples = [];
+    var fetchTimerId = setInterval(function () {
+        fetchExamples();
+    }, 500)
+
+    function fetchExamples() {
+        if ($scope.Examples.length == 0) {
+            $('#example').children('div').each(function () {
+                $scope.Examples.push({ text: $(this).text(), title: $(this).attr("title") });
+            });
         }
+        if ($scope.Examples.length > 0) {
+            clearInterval(fetchTimerId);
+            $scope.$apply();
+        }
+    }
+
+    //get CSG code examples from nplcadTemplate div and send it to code_editor
+    $scope.changeEditorContent = function(index) { 
+        var sContent = $scope.Examples[index];
+        //alert(sContent);
+        if(sContent){
+            code_editor.setValue(sContent.text);
+            $scope.isModified = true;
+        }
+        else
+            alert("Can't find code example");
     }
 		
     var aGeometries = [];

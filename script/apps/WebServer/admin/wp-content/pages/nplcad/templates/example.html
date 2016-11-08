@@ -1,16 +1,15 @@
 <div id="example" hidden="hidden">
-
-    <div id="code_example1">
+    <div title="sphere">
 sphere(1);
     </div>
-    <div id="code_example2">
+    <div title="diff of cube and sphere">
 difference()
     color({0,0.5,1});
     cube({size=3,center = true});
     color({0,0,1});
     sphere({ r = 2});
     </div>
-    <div id="code_example3">
+    <div title="example 3">
 color({1,1,1})
 union()
     difference() 
@@ -26,7 +25,7 @@ union()
             cube({size=2,center = true});
     pop()
     </div>
-    <div id="code_example4">
+    <div title="example 4">
 color({92/255,66/255,178/255})
 union();
 	cube({size=3,center=true});
@@ -46,7 +45,7 @@ union();
 	pop()
 
     </div>
-		    <div id="code_example5">
+<div title="example 5">
 function createCube(x,y,z,r,g,b)
    push();
     color({r,g,b})
@@ -62,7 +61,7 @@ push();
 pop();
     
     </div>
-    <div id="code_example6">
+    <div title="example 6">
 function f(x)
     local result =  0.5 * x + 1;
     return result;
@@ -97,7 +96,7 @@ end
 creatObj1({1,0,0}); 
 creatObj2({0,0,1});
     </div>
-    <div id="code_example7">
+    <div title="example 7">
 union();
 function creatObj(value,_color,direction)
     color({_color[1],_color[2],_color[3]});
@@ -127,7 +126,7 @@ end
  creatObj(-3,{0,1,0},"y");
  creatObj(-3,{0,0,1},"z");
     </div>
-	<div id="code_example8">
+	<div title="example 8">
 function creatObj(bTranslate,bScale)
     push()
         if(bTranslate) then
@@ -148,7 +147,7 @@ end
 creatObj();
 creatObj(true,true);
 	</div>
-<div id="code_example9">
+<div title="example 9">
 local pi_2 = 6.28;
 scale(1/6);
 union();
@@ -176,7 +175,7 @@ color("lime");
 translate({100,0,35});
 cube({ size = 50, center = true, });
     </div>
-<div id="code_example_slow">
+<div title="example slow">
 --wait for a moment
 color({1,0,0});
 intersection();
@@ -189,4 +188,5 @@ color({0,1,0});
 cylinder({ r1 = 0.7, r2 = 0.7, from = {-1,0,0}, to = {1,0,0} });
 cylinder({ r1 = 0.7, r2 = 0.7, from = {0,-1,0}, to = {0,1,0} });
 cylinder({ r1 = 0.7, r2 = 0.7, from = {0,0,-1}, to = {0,0,1} });
+</div>
 </div>
