@@ -122,6 +122,7 @@
     <None Include="Mod\NPLCAD\main.lua" />
     <None Include="Mod\NPLCAD\test\Test.lua" />
     <None Include="Mod\NPLCAD\test\Test2.lua" />
+    <None Include="Mod\NPLCAD\test\TestBsp.lua" />
     <None Include="Mod\NPLCAD\test\TestCad.xml">
       <SubType>Designer</SubType>
     </None>

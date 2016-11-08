@@ -226,6 +226,9 @@
     <None Include="Mod\NPLCAD\EditCadManipContainer.lua">
       <Filter>Mod\NPLCAD</Filter>
     </None>
+    <None Include="Mod\NPLCAD\test\TestBsp.lua">
+      <Filter>Mod\NPLCAD\test</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\ajaxloader.gif">
