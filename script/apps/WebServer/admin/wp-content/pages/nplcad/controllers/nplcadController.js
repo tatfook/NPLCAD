@@ -27,7 +27,7 @@ nplcadModule.service('voxelService', function () {
         camera.lookAt(new THREE.Vector3());
         camera.up.set(0, 0, 1);
         scene.add(camera);
-
+        this.camera = camera;
 
         // light
         var ambientLight = new THREE.AmbientLight(0x444444);
@@ -97,6 +97,7 @@ nplcadModule.service('voxelService', function () {
             clearMeshes();
             this.voxelizer()
         }
+
     }
     function get_filename_ext(fileName) {
         var name = fileName.substr(0, fileName.lastIndexOf('.'));
@@ -167,7 +168,7 @@ nplcadModule.service('voxelService', function () {
 
         })
     }
-    function createMesh(vertices, indices, normals, colors, world_matrix) {
+    this.createMesh = function(vertices, indices, normals, colors, world_matrix) {
         var geometry = new THREE.BufferGeometry();
         var vertices_arr = [];
         var indices_arr = [];
@@ -207,9 +208,14 @@ nplcadModule.service('voxelService', function () {
         var mesh = new THREE.Mesh(geometry, material);
         mesh.castShadow = true;
         mesh.receiveShadow = true;
-
+        mesh.scale.x = 1.6 * this.slider_value;
+        mesh.scale.y = 1.6 * this.slider_value;
+        mesh.scale.z = 1.6 * this.slider_value;
         scene.add(mesh);
         meshes.push(mesh);
+
+        //camera.zoom = 32 * this.slider_value / 64;
+        //camera.updateProjectionMatrix();
 
         return geometry;
     }
@@ -242,7 +248,7 @@ nplcadModule.service('voxelService', function () {
                         var indices = self.mesh_content[1];
                         var normals = self.mesh_content[2];
                         var colors = self.mesh_content[3];
-                        createMesh(vertices, indices, normals, colors, null)
+                        self.createMesh(vertices, indices, normals, colors, null)
                     }
                 }
             
@@ -275,7 +281,6 @@ nplcadModule.service('voxelService', function () {
 
     }
     function animate() {
-
         requestAnimationFrame(animate);
         render();
         controls.update();
