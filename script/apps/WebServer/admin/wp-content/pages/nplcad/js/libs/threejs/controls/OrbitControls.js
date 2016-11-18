@@ -70,7 +70,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.enableKeys = true;
 
 	// The four arrow keys
-	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
+	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40, FOREWARD: -1, BACKWARD: -1, };
 
 	// Mouse buttons
 	this.mouseButtons = { ORBIT: THREE.MOUSE.LEFT, ZOOM: THREE.MOUSE.MIDDLE, PAN: THREE.MOUSE.RIGHT };
@@ -316,12 +316,26 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	}();
 
+	var panDepth = function () {
+
+	    var v = new THREE.Vector3();
+
+	    return function(distance, objectMatrix) {
+
+	        v.setFromMatrixColumn(objectMatrix, 2); // get Z column of objectMatrix
+	        v.multiplyScalar(distance);
+	        panOffset.add(v);
+	    };
+	}();
+
 	// deltaX and deltaY are in pixels; right and down are positive
 	var pan = function() {
 
 		var offset = new THREE.Vector3();
 
-		return function pan ( deltaX, deltaY ) {
+		return function pan ( deltaX, deltaY, deltaZ ) {
+		    if (deltaZ == null)
+		        deltaZ = 0;
 
 			var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
@@ -338,13 +352,13 @@ THREE.OrbitControls = function ( object, domElement ) {
 				// we actually don't use screenWidth, since perspective camera is fixed to screen height
 				panLeft( 2 * deltaX * targetDistance / element.clientHeight, scope.object.matrix );
 				panUp( 2 * deltaY * targetDistance / element.clientHeight, scope.object.matrix );
-
+				panDepth(2 * deltaZ * targetDistance / element.clientHeight, scope.object.matrix);
 			} else if ( scope.object instanceof THREE.OrthographicCamera ) {
 
 				// orthographic
 				panLeft( deltaX * ( scope.object.right - scope.object.left ) / scope.object.zoom / element.clientWidth, scope.object.matrix );
-				panUp( deltaY * ( scope.object.top - scope.object.bottom ) / scope.object.zoom / element.clientHeight, scope.object.matrix );
-
+				panUp(deltaY * (scope.object.top - scope.object.bottom) / scope.object.zoom / element.clientHeight, scope.object.matrix);
+				panDepth(deltaZ * (scope.object.top - scope.object.bottom) / scope.object.zoom / element.clientHeight, scope.object.matrix);
 			} else {
 
 				// camera neither orthographic nor perspective
@@ -554,6 +568,15 @@ THREE.OrbitControls = function ( object, domElement ) {
 				scope.update();
 				break;
 
+		    case scope.keys.FOREWARD:
+		        pan(0, 0, -scope.keyPanSpeed);
+		        scope.update();
+		        break;
+
+		    case scope.keys.BACKWARD:
+		        pan(0, 0, scope.keyPanSpeed);
+		        scope.update();
+		        break;
 		}
 
 	}

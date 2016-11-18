@@ -59,6 +59,14 @@ nplcadModule.service('voxelService', function () {
         // Controls
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.damping = 0.2;
+        controls.mouseButtons.ORBIT = THREE.MOUSE.RIGHT;
+        controls.mouseButtons.PAN = THREE.MOUSE.LEFT;
+        controls.keys.LEFT = 65;
+        controls.keys.RIGHT = 68;
+        controls.keys.UP = 32;
+        controls.keys.BOTTOM = 88;
+        controls.keys.FOREWARD = 87;
+        controls.keys.BACKWARD = 83;
         controls.addEventListener('change', render);
 
         transformControl = new THREE.TransformControls(camera, renderer.domElement);
@@ -415,6 +423,14 @@ function NplcadController($scope, $http, $log, voxelService) {
         // Controls
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.damping = 0.2;
+        controls.mouseButtons.ORBIT = THREE.MOUSE.RIGHT;
+        controls.mouseButtons.PAN = THREE.MOUSE.LEFT;
+        controls.keys.LEFT = 65;
+        controls.keys.RIGHT = 68;
+        controls.keys.UP = 32;
+        controls.keys.BOTTOM = 88;
+        controls.keys.FOREWARD = 87;
+        controls.keys.BACKWARD = 83;
         controls.addEventListener('change', render);
 
 
@@ -670,6 +686,17 @@ function NplcadController($scope, $http, $log, voxelService) {
             clearInterval(fetchTimerId);
             $scope.$apply();
         }
+    }
+
+    $scope.guideLoaded = function () {
+        $("div.bhoechie-tab-menu>div.list-group>a").click(function (e) {
+            e.preventDefault();
+            $(this).siblings('a.active').removeClass("active");
+            $(this).addClass("active");
+            var index = $(this).index();
+            $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
+            $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+        });
     }
 
     //get CSG code examples from nplcadTemplate div and send it to code_editor
