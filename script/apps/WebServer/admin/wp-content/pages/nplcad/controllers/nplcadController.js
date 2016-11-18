@@ -393,9 +393,9 @@ function NplcadController($scope, $http, $log, voxelService) {
         $("#view_container").append(container);
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
-        camera.position.set(0, -15, 10);
+        camera.position.set(10, 15, 10);
         camera.lookAt(new THREE.Vector3());
-        camera.up.set(0,0,1);
+        camera.up.set(0,1,0);
         scene.add(camera);
 
         // light
@@ -405,15 +405,18 @@ function NplcadController($scope, $http, $log, voxelService) {
 
         var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
         directionalLight.position.x = 17;
-        directionalLight.position.y = 9;
-        directionalLight.position.z = 30;
+        directionalLight.position.y = 30;
+        directionalLight.position.z = 9;
         directionalLight.name = 'directionalLight';
         scene.add(directionalLight);
 
-        var helper = new THREE.GridHelperZup(30, 30);
+        var helper = new THREE.GridHelper(30, 1);
         helper.material.opacity = 0.25;
         helper.material.transparent = true;
         scene.add(helper);
+
+        //var axisHelper = new THREE.AxisHelper(5);
+        //scene.add(axisHelper);
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setClearColor(0xf0f0f0);
