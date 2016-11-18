@@ -62,6 +62,14 @@ nplcadModule.service('voxelService', function () {
         // Controls
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.damping = 0.2;
+        controls.mouseButtons.ORBIT = THREE.MOUSE.RIGHT;
+        controls.mouseButtons.PAN = THREE.MOUSE.LEFT;
+        controls.keys.LEFT = 65;
+        controls.keys.RIGHT = 68;
+        controls.keys.UP = 32;
+        controls.keys.BOTTOM = 88;
+        controls.keys.FOREWARD = 87;
+        controls.keys.BACKWARD = 83;
         controls.addEventListener('change', render);
 
         transformControl = new THREE.TransformControls(camera, renderer.domElement);
@@ -387,6 +395,14 @@ function NplcadController($scope, $http, $log, voxelService) {
         // Controls
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.damping = 0.2;
+        controls.mouseButtons.ORBIT = THREE.MOUSE.RIGHT;
+        controls.mouseButtons.PAN = THREE.MOUSE.LEFT;
+        controls.keys.LEFT = 65;
+        controls.keys.RIGHT = 68;
+        controls.keys.UP = 32;
+        controls.keys.BOTTOM = 88;
+        controls.keys.FOREWARD = 87;
+        controls.keys.BACKWARD = 83;
         controls.addEventListener('change', render);
 
 
