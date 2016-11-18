@@ -662,7 +662,7 @@ function NplcadController($scope, $http, $log, voxelService) {
 
     code_editor.commands.addCommand({ name: 'cmdSave', bindKey: { win: 'Ctrl+S' }, exec: function (editor) { $scope.onSaveSource(); }, readOnly: true });
     code_editor.commands.addCommand({ name: 'cmdRun', bindKey: { win: 'F5' }, exec: function (editor) { $scope.onRunCode(); }, readOnly: true });
-
+    
     $scope.isModified = false;
     code_editor.on("input", function () {
         if ($scope.isModified != !code_editor.session.getUndoManager().isClean()) {
@@ -670,6 +670,14 @@ function NplcadController($scope, $http, $log, voxelService) {
             $scope.$apply();
         }
     });
+
+    code_editor.on("blur", function () {
+        controls.enabled = true;
+    });
+    code_editor.on("focus", function () {
+        controls.enabled = false;
+    });
+
 
     $scope.Examples = [];
     var fetchTimerId = setInterval(function () {

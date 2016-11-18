@@ -688,9 +688,12 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	function onMouseDown( event ) {
 
-		if ( scope.enabled === false ) return;
-
-		event.preventDefault();
+	    if (scope.enabled === false) {
+	        // return;
+	    }
+	    else {
+	        event.preventDefault();
+	    }
 
 		if ( event.button === scope.mouseButtons.ORBIT ) {
 
@@ -918,8 +921,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	scope.domElement.addEventListener( 'touchend', onTouchEnd, false );
 	scope.domElement.addEventListener( 'touchmove', onTouchMove, false );
 
-	window.addEventListener( 'keydown', onKeyDown, false );
-
+    window.addEventListener( 'keydown', onKeyDown, false );
+	
 	// force an update at start
 
 	this.update();

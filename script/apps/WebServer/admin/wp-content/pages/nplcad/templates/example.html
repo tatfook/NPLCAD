@@ -1,29 +1,30 @@
 <div id="example" hidden="hidden">
     <div title="sphere">
+-- click `?` icon for quick guide
+-- click `Examples` button for complete samples
+-- Press `Ctrl+S` to save and run
 sphere(1);
     </div>
     <div title="diff of cube and sphere">
 difference()
-    color({0,0.5,1});
+    color({1,0,0});
     cube({size=3,center = true});
     color({0,0,1});
-    sphere({ r = 2});
+    sphere({r = 2});
     </div>
     <div title="example 3">
-color({1,1,1})
 union()
     difference() 
         color({0/255,200/255,190/255});
         cube({size=3,center=true});
         color({1,0,1});
         sphere(2);
-    push()    
+
         intersection()
-            color({1,0,1});
+            color({1,0,0});
             sphere(1.3);
             color("yellow");
             cube({size=2,center = true});
-    pop()
     </div>
     <div title="example 4">
 color({92/255,66/255,178/255})
