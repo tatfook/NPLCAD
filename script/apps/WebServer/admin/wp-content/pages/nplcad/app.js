@@ -19,4 +19,33 @@ function decode_npl(s) {
     }
     return s;
 }
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+function rgbToBin(r, g, b) {
+    var bin = r << 16 | g << 8 | b;
+    return (function (h) {
+        return new Array(25 - h.length).join("0") + h
+    })(bin.toString(2))
+}
+
+function RGBToHex (r, g, b) {
+    var bin = r << 16 | g << 8 | b;
+    return (function (h) {
+        return new Array(7 - h.length).join("0") + h
+    })(bin.toString(16).toUpperCase())
+}
 

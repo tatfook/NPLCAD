@@ -23,8 +23,9 @@ nplcadModule.service('voxelService', function () {
         $("#voxel_view_container").append(container);
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
-        camera.position.set(10, 5, 10);
+        camera.position.set(0, -15, 10);
         camera.lookAt(new THREE.Vector3());
+        camera.up.set(0, 0, 1);
         scene.add(camera);
 
 
@@ -40,11 +41,7 @@ nplcadModule.service('voxelService', function () {
         directionalLight.name = 'directionalLight';
         scene.add(directionalLight);
 
-        //scene.add(new THREE.HemisphereLight(0x443333, 0x111122));
-        //addShadowedLight(1, 1, 1, 0xffffff, 1.35);
-        //addShadowedLight(0.5, 1, -1, 0xffaa00, 1);
-
-        var helper = new THREE.GridHelper(30, 1);
+        var helper = new THREE.GridHelperZup(30, 30);
         helper.material.opacity = 0.25;
         helper.material.transparent = true;
         scene.add(helper);
@@ -128,6 +125,7 @@ nplcadModule.service('voxelService', function () {
         var url = "ajax/nplvoxelizer?action=nplvoxelizer_voxelizer";
         console.log("voxelizer request data length:", this.input_content.length, "block_length:", this.slider_value, "input_format:", this.input_format, "output_format:", this.output_format);
         var content_data = this.input_content;
+
         var data = {
             data: content_data,
             block_length: this.slider_value,
@@ -142,12 +140,14 @@ nplcadModule.service('voxelService', function () {
             if (response.length > 0) {
                 var preview_stl_content = response[0];
                 var content = response[1];
+                var mesh_content = response[2];
                 if (preview_stl_content) {
                     self.preview_stl_content = window.atob(preview_stl_content);
                 }
                 if (content) {
                     self.output_content = window.atob(content);
                 }
+                self.mesh_content = mesh_content;
                 if (self.output_format == "stl") {
                     // same as preview_stl_content.
                     self.output_content = this.preview_stl_content;
@@ -159,6 +159,52 @@ nplcadModule.service('voxelService', function () {
 
         })
     }
+    function createMesh(vertices, indices, normals, colors, world_matrix) {
+        var geometry = new THREE.BufferGeometry();
+        var vertices_arr = [];
+        var indices_arr = [];
+        var normals_arr = [];
+        var colors_arr = [];
+        for (var i = 0; i < vertices.length; i++) {
+            var x = vertices[i][0];
+            var y = vertices[i][1];
+            var z = vertices[i][2];
+            var pos = new THREE.Vector3(x, y, z);
+            if (world_matrix) {
+                pos.applyMatrix4(world_matrix);
+            }
+            vertices_arr.push(pos.x, pos.y, pos.z);
+        }
+        for (var i = 0; i < indices.length; i++) {
+            indices_arr.push(indices[i] - 1);
+        }
+        for (var i = 0; i < normals.length; i++) {
+            normals_arr.push(normals[i][0], normals[i][1], normals[i][2]);
+        }
+        for (var i = 0; i < colors.length; i++) {
+            colors_arr.push(colors[i][0], colors[i][1], colors[i][2]);
+        }
+        var geometry = new THREE.BufferGeometry();
+        geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices_arr), 1));
+        geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices_arr), 3));
+        geometry.addAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals_arr), 3));
+        geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(colors_arr), 3));
+        geometry.computeBoundingSphere();
+
+
+        var material = new THREE.MeshPhongMaterial({ vertexColors: THREE.VertexColors, shininess: 200 });
+        //var material = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: THREE.VertexColors });
+
+
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
+        scene.add(mesh);
+        meshes.push(mesh);
+
+        return geometry;
+    }
     this.voxelizer = function (callback) {
         if (!self.input_content) {
             return
@@ -168,18 +214,29 @@ nplcadModule.service('voxelService', function () {
         $('#mask').show();
         this.voxelizer_request(function () {
             $('#mask').hide();
-            if (self.preview_stl_content) {
-                var loader = new THREE.STLLoader();
-                var geometry = loader.parse(self.preview_stl_content);
-                var material = new THREE.MeshLambertMaterial({ side: THREE.DoubleSide, color: 0x0000ff, vertexColors: THREE.VertexColors });
-                var mesh = new THREE.Mesh(geometry, material);
+                if (self.output_format == "stl") {
+                    if(self.preview_stl_content){
+                        var loader = new THREE.STLLoader();
+                        var geometry = loader.parse(self.preview_stl_content);
+                        var material = new THREE.MeshLambertMaterial({ side: THREE.DoubleSide, color: 0xff0000, vertexColors: THREE.VertexColors });
+                        var mesh = new THREE.Mesh(geometry, material);
 
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
+                        mesh.castShadow = true;
+                        mesh.receiveShadow = true;
 
-                scene.add(mesh);
-                meshes.push(mesh);
-            }
+                        scene.add(mesh);
+                        meshes.push(mesh);
+                    }
+                    
+                } else if (self.output_format == "bmax") {
+                    if (self.mesh_content) {
+                        var vertices = self.mesh_content[0];
+                        var indices = self.mesh_content[1];
+                        var normals = self.mesh_content[2];
+                        var colors = self.mesh_content[3];
+                        createMesh(vertices, indices, normals, colors, null)
+                    }
+                }
             
             self.is_loading = false;
             if (callback) {
@@ -222,30 +279,6 @@ nplcadModule.service('voxelService', function () {
     function render() {
         renderer.render(scene, camera);
     }
-    function addShadowedLight(x, y, z, color, intensity) {
-
-        var directionalLight = new THREE.DirectionalLight(color, intensity);
-        directionalLight.position.set(x, y, z);
-        scene.add(directionalLight);
-
-        directionalLight.castShadow = true;
-
-        var d = 1;
-        directionalLight.shadow.camera.left = -d;
-        directionalLight.shadow.camera.right = d;
-        directionalLight.shadow.camera.top = d;
-        directionalLight.shadow.camera.bottom = -d;
-
-        directionalLight.shadow.camera.near = 1;
-        directionalLight.shadow.camera.far = 4;
-
-        directionalLight.shadow.mapSize.width = 1024;
-        directionalLight.shadow.mapSize.height = 1024;
-
-        directionalLight.shadow.bias = -0.005;
-
-    }
-    
     function arrayBufferToBase64(buffer) {
         var binary = '';
         var bytes = new Uint8Array(buffer);
@@ -364,11 +397,6 @@ function NplcadController($scope, $http, $log, voxelService) {
         directionalLight.name = 'directionalLight';
         scene.add(directionalLight);
 
-        //// light
-        //scene.add(new THREE.HemisphereLight(0x443333, 0x111122));
-        //addShadowedLight(1, 1, 1, 0xffffff, 1.35);
-        //addShadowedLight(0.5, 1, -1, 0xffaa00, 1);
-
         var helper = new THREE.GridHelperZup(30, 30);
         helper.material.opacity = 0.25;
         helper.material.transparent = true;
@@ -434,30 +462,6 @@ function NplcadController($scope, $http, $log, voxelService) {
         //array.slice()并不删除数组
         meshes.splice(0,meshes.length);
     }
-    function addShadowedLight( x, y, z, color, intensity ) {
-
-        var directionalLight = new THREE.DirectionalLight( color, intensity );
-        directionalLight.position.set( x, y, z );
-        scene.add(directionalLight);
-
-        directionalLight.castShadow = true;
-
-        var d = 1;
-        directionalLight.shadow.camera.left = -d;
-        directionalLight.shadow.camera.right = d;
-        directionalLight.shadow.camera.top = d;
-        directionalLight.shadow.camera.bottom = -d;
-
-        directionalLight.shadow.camera.near = 1;
-        directionalLight.shadow.camera.far = 4;
-
-        directionalLight.shadow.mapSize.width = 1024;
-        directionalLight.shadow.mapSize.height = 1024;
-
-        directionalLight.shadow.bias = -0.005;
-
-    }
-
     // convert data calculated by CSG.lua to THREE.js, render
     function createMesh(vertices, indices, normals, colors, world_matrix) {
         var geometry = new THREE.BufferGeometry();
@@ -543,22 +547,36 @@ function NplcadController($scope, $http, $log, voxelService) {
                 addZ = geometry.mesh.position.z
             }
         }
-
-        var facetToStl = function (verts, normal) {
+        //console.log("==========color",geometry);
+        var facetToStl = function (verts, normal, colors) {
             var faceStl = ''
             faceStl += 'facet normal ' + normal.x + ' ' + normal.y + ' ' + normal.z + '\n'
             faceStl += 'outer loop\n'
 
-
             if (!options.isYUp) {
-                faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + '\n'
-                faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + '\n'
-                faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + '\n'
+
+                if (options.colorstl) {
+                    faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + ' ' + colors[0].r + ' ' + colors[0].g + ' ' + colors[0].b + '\n'
+                    faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + ' ' + colors[1].r + ' ' + colors[1].g + ' ' + colors[1].b + '\n'
+                    faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + ' ' + colors[2].r + ' ' + colors[2].g + ' ' + colors[2].b + '\n'
+                }else{
+                    faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + '\n'
+                    faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + '\n'
+                    faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + '\n'
+                }
             } else {
-                // invert y,z and change the triangle winding
-                faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + '\n'
-                faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + '\n'
-                faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + '\n'
+                if (options.colorstl) {
+                    // invert y,z and change the triangle winding
+                    faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + ' ' + colors[0].r + ' ' + colors[0].g + ' ' + colors[0].b + '\n'
+                    faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + ' ' + colors[2].r + ' ' + colors[2].g + ' ' + colors[2].b + '\n'
+                    faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + ' ' + colors[1].r + ' ' + colors[1].g + ' ' + colors[1].b + '\n'
+                } else {
+                    // invert y,z and change the triangle winding
+                    faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + '\n'
+                    faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + '\n'
+                    faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + '\n'
+                }
+                
             }
 
             faceStl += 'endloop\n'
@@ -579,8 +597,12 @@ function NplcadController($scope, $http, $log, voxelService) {
                     geometry.vertices[face.b],
                     geometry.vertices[face.c]
                 ]
-
-                stl += facetToStl(verts, face.normal)
+                var colors = [
+                    geometry.colors[face.a],
+                    geometry.colors[face.b],
+                    geometry.colors[face.c]
+                ]
+                stl += facetToStl(verts, face.normal, colors)
 
             } else {
                 // if it's a quad, we need to triangulate it first
@@ -596,9 +618,19 @@ function NplcadController($scope, $http, $log, voxelService) {
                     geometry.vertices[face.c],
                     geometry.vertices[face.d]
                 ]
-
+                var colors = [];
+                colors[0] = [
+                    geometry.colors[face.a],
+                    geometry.colors[face.b],
+                    geometry.colors[face.d]
+                ]
+                colors[1] = [
+                    geometry.colors[face.b],
+                    geometry.colors[face.c],
+                    geometry.colors[face.d]
+                ]
                 for (var k = 0; k < 2; k++) {
-                    stl += facetToStl(verts[k], face.normal)
+                    stl += facetToStl(verts[k], face.normal, colors[k])
                 }
 
             }
@@ -711,29 +743,10 @@ function NplcadController($scope, $http, $log, voxelService) {
         }
     }
     
-    $scope.doVoxel = function () {
-        var sFileName = document.getElementById('filename').value;
-        if (!sFileName) {
-            alert("Please write a file name.");
-            return
-        }
-        if (aGeometries.length > 0) {
-            var input_file_name = sFileName + ".stl";
-            var input_format = "stl";
-            var input_content = stlFromGeometries(aGeometries, {});
-            input_content = window.btoa(input_content);
-            var output_format = "bmax";
-            var url = "nplvoxelizer?input_file_name=" + input_file_name + "&input_format=" + input_format + "&input_content=" + input_content + "&output_format=" + output_format;
-            window.open(url);
-        } else {
-            alert("Please compile the code before voxel.")
-        }
-			    
-    }
+   
     $scope.onSave = function () {
         voxelService.saveFile();
 }
-   
     $scope.sliderOnChange = function (v) {
         $scope.slider_value = v;
         voxelService.setSliderValue(v);
@@ -817,9 +830,10 @@ function NplcadController($scope, $http, $log, voxelService) {
         $('.modal').on('shown.bs.modal', function () {      //correct here use 'shown.bs.modal' event which comes in bootstrap3
 
             voxelService.init();
-            var content = stlFromGeometries(aGeometries, {});
+            var content = stlFromGeometries(aGeometries, { colorstl: true });
             content = window.btoa(content);
-            voxelService.show($scope.currentFilename, "stl", content, "bmax");
+
+            voxelService.show($scope.currentFilename, "colorstl", content, "bmax");
 
         })
     }

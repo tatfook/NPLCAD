@@ -133,7 +133,6 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\index.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\verticalTab.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\nplcadController.js" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\NplVoxelizerController.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers\GridHelper-Zup.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\Blob.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify\bootstrap-notify.js" />
@@ -162,7 +161,6 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\example.html" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\guide.html" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\nplcadTemplate.html" />
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\templates\NplVoxelizerTemplate.html" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplvoxelizer.page" />
   </ItemGroup>
   <ItemGroup>
