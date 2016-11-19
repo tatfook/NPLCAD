@@ -6,8 +6,8 @@ Desc:
 -------------------------------------------------------
 NPL.load("(gl)Mod/NPLCAD/test/TestBsp.lua");
 local TestBsp = commonlib.gettable("Mod.NPLCAD.test.TestBsp");
-TestBsp.testCube();
 TestBsp.testSphere();
+TestBsp.testCube();
 -------------------------------------------------------
 --]]
 NPL.load("(gl)Mod/NplCadLibrary/csg/CSG.lua");
@@ -26,16 +26,20 @@ function TestBsp.testCube()
 	LOG.std(nil, "info", "TestBsp.testCube", "finished");
 	_guihelper.MessageBox("TestBsp.testCube finished");
 end
+
 function TestBsp.testSphere()
-	local sphere = CSGFactory.sphere({
-		resolution = 100
-	});
-	LOG.std(nil, "info", "TestBsp.testSphere", "start to build csg node");
-	local node = CSGNode:new():init();
-	LOG.std(nil, "info", "TestBsp.testSphere", "vertex length of polygons:%d",sphere:getVertexCnt());
-	node:build(sphere.polygons);
-	LOG.std(nil, "info", "TestBsp.testSphere", "finished");
-	_guihelper.MessageBox("TestBsp.testSphere finished");
+	local resolutions = {10, 20, 30, 40, 50}
+	for i, res in ipairs(resolutions) do
+		local fromTime = ParaGlobal.timeGetTime();
+		local sphere = CSGFactory.sphere({
+			resolution = res
+		});
+		LOG.std(nil, "info", "TestBsp.testSphere", "start to build csg node");
+		local node = CSGNode:new():init();
+		node:build(sphere.polygons);
+		LOG.std(nil, "info", "TestBsp.testSphere", "finished %.3f with vertex count:%d", (ParaGlobal.timeGetTime()-fromTime)/1000, sphere:getVertexCnt());
+	end
+	-- _guihelper.MessageBox("TestBsp.testSphere finished");
 end
 
 
