@@ -50,15 +50,14 @@ if(is_ajax()) then
 		LOG.std(nil, "info", "nplvoxelizer page", "do ajax action:nplvoxelizer_voxelizer");
 		local preview_stl_content;
 		local content;
-		ModelVoxelizerService.start(data,true,block_length,input_format,output_format,function(msg)
+		ModelVoxelizerService.start(data,false,block_length,input_format,output_format,function(msg)
 			preview_stl_content = msg.preview_stl_content;
 			content = msg.content;
 			mesh_content = msg.mesh_content;
 			resume();
 		end);
 		yield();
-		wp_send_json({preview_stl_content,content,mesh_content},true);
-
+		response:send({preview_stl_content,content,mesh_content},true);
     end)
 	return;
 end

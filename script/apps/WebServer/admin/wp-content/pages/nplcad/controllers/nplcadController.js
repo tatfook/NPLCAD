@@ -151,10 +151,10 @@ nplcadModule.service('voxelService', function () {
                 var content = response[1];
                 var mesh_content = response[2];
                 if (preview_stl_content) {
-                    self.preview_stl_content = window.atob(preview_stl_content);
+                    self.preview_stl_content = (preview_stl_content);
                 }
                 if (content) {
-                    self.output_content = window.atob(content);
+                    self.output_content = (content);
                 }
                 self.mesh_content = mesh_content;
                 if (self.output_format == "stl") {
@@ -874,7 +874,7 @@ function NplcadController($scope, $http, $log, voxelService) {
 
             voxelService.init();
             var content = stlFromGeometries(aGeometries, { colorstl: true });
-            content = window.btoa(content);
+            // content = window.btoa(content);
 
             voxelService.show($scope.currentFilename, "colorstl", content, "bmax");
 
