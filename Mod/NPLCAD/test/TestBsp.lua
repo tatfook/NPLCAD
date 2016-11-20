@@ -13,6 +13,8 @@ TestBsp.testCube();
 NPL.load("(gl)Mod/NplCadLibrary/csg/CSG.lua");
 NPL.load("(gl)Mod/NplCadLibrary/csg/CSGFactory.lua");
 NPL.load("(gl)Mod/NplCadLibrary/csg/CSGBSPNode.lua");
+NPL.load("(gl)Mod/NplCadLibrary/csg/CSGPolygon.lua");
+local CSGPolygon = commonlib.gettable("Mod.NplCadLibrary.csg.CSGPolygon");
 local CSG = commonlib.gettable("Mod.NplCadLibrary.csg.CSG");
 local CSGFactory = commonlib.gettable("Mod.NplCadLibrary.csg.CSGFactory");
 local CSGBSPNode = commonlib.gettable("Mod.NplCadLibrary.csg.CSGBSPNode");
@@ -41,5 +43,4 @@ function TestBsp.testSphere()
 	end
 	-- _guihelper.MessageBox("TestBsp.testSphere finished");
 end
-
 
