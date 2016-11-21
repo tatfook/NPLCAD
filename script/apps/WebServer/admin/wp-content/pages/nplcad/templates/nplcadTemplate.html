@@ -24,6 +24,26 @@
         margin-top: -64px; /* -1 * image height / 2 */
         display: block;
     }
+    .axis_monitor {
+        width: 100px;
+        height: 100px;
+        margin: 20px;
+        padding: 0px;
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        z-index: 100;
+    }
+     .voxel_axis_monitor {
+        width: 80px;
+        height: 80px;
+        margin: 20px;
+        padding: 0px;
+        position: absolute;
+        left: 0px;
+        bottom: 40px;
+        z-index: 100;
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -48,6 +68,7 @@
                             <img src="wp-content/pages/nplcad/js/libs/ajaxloader.gif" class="loader" />
                         </div>
                         <div id="view_container"></div>
+                        <div id="axis_container" class="axis_monitor"></div>
                     </div>
                     <div class="col-md-6" id="code">
                         <div class="row col-sm-12">
@@ -102,6 +123,8 @@
                     <img src="wp-content/pages/nplcad/js/libs/ajaxloader.gif" class="loader" />
                 </div>
                 <div id="voxel_view_container" style="width:100%;max-height:400px;"></div>
+                <div id="voxel_axis_container" class="voxel_axis_monitor"></div>
+
                 <div class="row" style="margin-top:15px;">
                     <div class="col-md-11">
                         <input type="range" id="slidebar" oninput="angular.element(this).scope().sliderOnInput(this.value)" onchange="angular.element(this).scope().sliderOnChange(this.value)" min="1" max="64" value="16" step="1" />

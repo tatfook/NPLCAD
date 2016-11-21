@@ -133,6 +133,7 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\index.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\assets\css\verticalTab.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\controllers\nplcadController.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers\AxisMonitor.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers\GridHelper-Zup.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\Blob.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\bootstrap-notify\bootstrap-notify.js" />
@@ -149,6 +150,7 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\controls\verticalTabControls.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\dark.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\Editor.js" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\fonts\helvetiker_regular.typeface.json" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\light.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\main.css" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\STLLoader.js" />

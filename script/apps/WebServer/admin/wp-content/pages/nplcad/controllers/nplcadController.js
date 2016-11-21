@@ -7,7 +7,7 @@ nplcadModule.service('voxelService', function () {
     var meshes = [];
     var supported_extensions = ["stl", "bmax"];
 
-   
+    var axisMonitor;
     var is_init = false;
     this.slider_value = 16;
     this.init = function () {
@@ -55,6 +55,8 @@ nplcadModule.service('voxelService', function () {
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.renderReverseSided = false;
         container.appendChild(renderer.domElement);
+
+        axisMonitor = new THREE.AxisMonitor("voxel_axis_container",80,80);
 
         // Controls
         controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -282,6 +284,7 @@ nplcadModule.service('voxelService', function () {
     }
     function animate() {
         requestAnimationFrame(animate);
+        axisMonitor.update(controls);
         render();
         controls.update();
         transformControl.update();
@@ -383,7 +386,7 @@ function NplcadController($scope, $http, $log, voxelService) {
     init();
     animate();
 
-           
+    var axisMonitor;
     function init() {
 
         container = document.createElement('div');
@@ -415,8 +418,7 @@ function NplcadController($scope, $http, $log, voxelService) {
         helper.material.transparent = true;
         scene.add(helper);
 
-        //var axisHelper = new THREE.AxisHelper(5);
-        //scene.add(axisHelper);
+        axisMonitor = new THREE.AxisMonitor("axis_container");
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setClearColor(0xf0f0f0);
@@ -460,6 +462,7 @@ function NplcadController($scope, $http, $log, voxelService) {
     function animate() {
 
         requestAnimationFrame(animate);
+        axisMonitor.update(controls);
         render();
         controls.update();
 

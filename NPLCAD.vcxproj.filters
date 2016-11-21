@@ -73,6 +73,9 @@
     <Filter Include="Mod\NPLCAD\textures">
       <UniqueIdentifier>{8d69f542-bca8-49eb-a180-7c18a8892c6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\fonts">
+      <UniqueIdentifier>{b023353e-e39a-4430-b017-22cbf7596197}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\app.js">
@@ -222,6 +225,12 @@
     </None>
     <None Include="Mod\NPLCAD\test\TestBsp.lua">
       <Filter>Mod\NPLCAD\test</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers\AxisMonitor.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\helpers</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\fonts\helvetiker_regular.typeface.json">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplcad\js\libs\threejs\fonts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

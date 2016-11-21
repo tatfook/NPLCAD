@@ -45,6 +45,7 @@ wp_enqueue_script("bootstrap-notify",				"/wp-content/pages/nplcad/js/libs/boots
 
 --grid helper
 wp_enqueue_script("GridHelper-Zup",		"/wp-content/pages/nplcad/js/helpers/GridHelper-Zup.js"); 
+wp_enqueue_script("AxisMonitor",		"/wp-content/pages/nplcad/js/helpers/AxisMonitor.js"); 
 
 
 
