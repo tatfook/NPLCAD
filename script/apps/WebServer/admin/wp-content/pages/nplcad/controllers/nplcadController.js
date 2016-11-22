@@ -733,7 +733,11 @@ function NplcadController($scope, $http, $log, voxelService) {
     var aGeometries = [];
     
     function setStatus(text) {
-        $("#logWnd").html(text || "");
+        $("#statusLine").html( text || "");
+    }
+
+    function setLog(text) {
+        $("#logWnd").val(text || "");
     }
 
     $scope.running = false;
@@ -748,10 +752,10 @@ function NplcadController($scope, $http, $log, voxelService) {
         aGeometries.splice(0, aGeometries.length);
         var text = code_editor.getValue();
         $http.get("ajax/nplcad?action=runcode&code=" + encodeURIComponent(text)).then(function (response) {
-            if (response && response.data && response.data.csg_node_values) {
+            if (response && response.data) {
                 //console.log(response.data);
                 clearMeshes();
-                if (response.data.successful) {
+                if (response.data.successful && response.data.csg_node_values) {
                     var csg_node_values = response.data.csg_node_values;
                     for (var i = 0; i < csg_node_values.length; i++) {
                         var value = csg_node_values[i];
@@ -769,11 +773,13 @@ function NplcadController($scope, $http, $log, voxelService) {
                     }
                     setStatus("compile succesfully completed");
                 }else{
-                    setStatus(response.data.compile_error);
+                    setStatus("compile error:" + (response.data.compile_error || ""));
                 }
+                setLog(response.data.log);
             } else {
                 setStatus("compile error");
             }
+            
             $scope.running = false;
         });
     }

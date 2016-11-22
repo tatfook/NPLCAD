@@ -67,8 +67,11 @@
                         <div ng-show="running" id="running">
                             <img src="wp-content/pages/nplcad/js/libs/ajaxloader.gif" class="loader" />
                         </div>
-                        <div id="view_container"></div>
-                        <div id="axis_container" class="axis_monitor"></div>
+                        <div style="position:relative">
+                            <div id="view_container"></div>
+                            <div id="axis_container" class="axis_monitor"></div>
+                        </div>
+                        <textarea id="logWnd" rows="4" style="width:100%"></textarea>
                     </div>
                     <div class="col-md-6" id="code">
                         <div class="row col-sm-12">
@@ -90,7 +93,7 @@
                             </div>
                         </div>
                         <div class="row col-sm-12" id="code_editor">sphere();</div>
-                        <div class="row col-sm-12" id="logWnd"></div>
+                        <div class="row col-sm-12" id="statusLine"></div>
                     </div>
                 </div>
             </article>

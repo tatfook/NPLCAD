@@ -8,8 +8,8 @@ THREE.AxisMonitor = function (dom_name, w, h, radius) {
     var container = document.getElementById(dom_name);
 
     // renderer
-    var renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor(0xf0f0f0, 1);
+    var renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setClearColor(0xffffff, 0); // second param is opacity, 0 => transparent
     renderer.setSize(w, h);
     container.appendChild(renderer.domElement);
 

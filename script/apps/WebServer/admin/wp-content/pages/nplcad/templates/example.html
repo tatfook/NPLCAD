@@ -176,6 +176,121 @@ translate({100,35,0});
 cube({ size = 50, center = true, });
     
     </div>
+<div title="Parameterized Model ">
+local bottom_length = 8;
+local bottom_height = 2;
+local bottom_width = 14;
+local bottom_corner_radius = 2;
+local bottom_hole_radius = 0.5;
+
+local height = 15.5;
+local backframe_thickness = 2;
+local centerframe_thickness = 1;
+
+local outer_radius = 3.5;
+local inner_radius = 1.75;
+local clinder_length = 6.5
+local overflow = (outer_radius-inner_radius)*0.5
+
+-- helper functions
+-- @param zSide: [1,-1] if zSide==1, corner is positive z, -1 is negative z direction.
+-- @param xSide: [1,-1] same as zSide. 
+function CreateCorner(radius, height, zSide, xSide)
+    push()
+    color("red")
+    difference()
+        push()
+            translate(-radius,0, -radius)
+            cube({size={radius*2, height, radius*2}})
+        pop()
+        push()
+            translate(xSide==1 and -radius*2 or 0,0, -radius)
+            cube({size={radius*2, height, radius*2}})
+        pop()
+        push()
+            translate(-radius,0, zSide==1 and -radius*2 or 0)
+            cube({size={radius*2, height, radius*2}})
+        pop()
+        cylinder({r = radius, h=height})      
+    pop()
+end
+
+-- Create the bottom of the widget
+function CreateBottom()
+    push()
+    difference()
+        push()
+            translate(0, 0, -bottom_width/2)
+            cube({size={bottom_length, bottom_height, bottom_width}})
+        pop()
+        for i=1, -1, -2 do
+            push()
+                translate(bottom_length - bottom_corner_radius, 0, (bottom_width/2-bottom_corner_radius)*i)
+                CreateCorner(bottom_corner_radius, bottom_height, i, 1);
+                cylinder({r = bottom_hole_radius, h=bottom_height})      
+            pop()
+        end
+    pop()
+end
+
+-- create cross supporters
+function CreateVerticalSupporters()
+    -- back frame
+    push()
+        difference()
+            push()
+                translate(0, bottom_height, -bottom_width/2)
+                cube({size={backframe_thickness, height-bottom_height-outer_radius+overflow, bottom_width}})
+            pop()
+            local slopeAngle = math.atan((bottom_width/2-outer_radius)/(height-bottom_height-outer_radius));
+
+            push()
+                translate(0, bottom_height, bottom_width/2)
+                rotate({-slopeAngle*180/3.14, 0, 0});
+                cube({size={backframe_thickness, height*2, bottom_width}})
+            pop()
+            push()
+                translate(0, bottom_height, -bottom_width/2)
+                rotate({slopeAngle*180/3.14, 0, 0});
+                translate(0, 0, -bottom_width);
+                cube({size={backframe_thickness, height*2, bottom_width}})
+            pop()
+            push()
+                translate(0, height - outer_radius, 0)
+                cylinder({from = {0,0,0}, to = {clinder_length,0,0}, r1 = outer_radius, r2 = outer_radius});
+            pop()
+    pop()
+    -- center frame
+    push()
+        difference()
+            push()
+                translate(0, bottom_height, -centerframe_thickness/2)
+                cube({size={bottom_length, height-bottom_height-outer_radius*2+overflow, centerframe_thickness}})
+            pop()
+            
+            local slopeAngle = math.atan((bottom_length - clinder_length)/(height - bottom_height - outer_radius*2))
+            push()
+                translate(bottom_length, bottom_height, -centerframe_thickness/2)
+                rotate({0,0,slopeAngle*180/3.14})
+                cube({size={bottom_length, height-bottom_height, centerframe_thickness}})
+            pop()
+    pop()
+end
+
+function CreateCylinders()
+    push()
+        translate(0, height - outer_radius, 0)
+        difference()
+            cylinder({from = {0,0,0}, to = {clinder_length,0,0}, r1 = outer_radius, r2 = outer_radius});
+            cylinder({from = {0,0,0}, to = {clinder_length,0,0}, r1 = inner_radius, r2 = inner_radius});
+    pop()
+end
+
+union()
+CreateBottom();
+CreateVerticalSupporters();
+CreateCylinders()
+</div>
 <div title="example slow">
 --wait for a moment
 color({1,0,0});
