@@ -1,14 +1,26 @@
 <div class="col-md-12">
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
-        <div class="list-group" style="max-height:350px;">
+        <div class="list-group">
             <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon-globe"></h4><br />Cube,Sphere,Cylinder
+                <h4 class="glyphicon glyphicon-globe"></h4><br />3D Primitives
             </a>
+            <a href="#" class="list-group-item text-center">
+                <h4 class="glyphicon glyphicon-th"></h4><br />3D Transformations
+            </a>
+            <a href="#" class="list-group-item text-center">
+                <h4 class="glyphicon glyphicon-dashboard"></h4><br />2D Primitives
+            </a>
+            <a href="#" class="list-group-item text-center">
+                <h4 class="glyphicon glyphicon-dashboard"></h4><br />2D Paths
+            </a>     
+            <a href="#" class="list-group-item text-center">
+                <h4 class="glyphicon glyphicon-dashboard"></h4><br />2D Transformations
+            </a>
+            <a href="#" class="list-group-item text-center">
+                <h4 class="glyphicon glyphicon-dashboard"></h4><br />Extruding / Extrusion
+            </a>                     
             <a href="#" class="list-group-item text-center">
                 <h4 class="glyphicon glyphicon glyphicon-bold"></h4><br />Boolean operation
-            </a>
-            <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon-th"></h4><br />Transformations
             </a>
             <a href="#" class="list-group-item text-center">
                 <h4 class="glyphicon glyphicon-grain"></h4><br />Color
@@ -19,7 +31,7 @@
         <!-- cube section -->
         <div class="bhoechie-tab-content active">
             cube:
-            <pre>
+<pre>
 <code class="Lua">cube(); 
 cube(1);
 cube({size = 1});
@@ -30,21 +42,21 @@ local c = cube();
 color("red",c);</code>                  
 </pre>
             sphere:
-            <pre>
-<code class="Lua">sphere();                          
-sphere(1);
-sphere({r = 2});                    -- Note: center = true is default 
-sphere({r = 2, center = false});    
-sphere({r = 2, center = {true, true, false}}); -- individual axis center 
-sphere({r = 2, fn = 100 });
-local sp = sphere();
-color("red",sp);</code>                  
-</pre>
+ <pre>
+ <code class="Lua">sphere();                          
+ sphere(1);
+ sphere({r = 2});                    -- Note: center = true is default 
+ sphere({r = 2, center = false});    
+ sphere({r = 2, center = {true, true, false}}); -- individual axis center 
+ sphere({r = 2, fn = 100 });
+ local sp = sphere();
+ color("red",sp);</code>                  
+ </pre>
             cylinder:
-            <pre>
+<pre>
 <code class="Lua">cylinder({r = 1, h = 10});                 
 cylinder({d = 1, h = 10});
-cylinder({r = 1, h = 10, center = true});   -- default: center = false
+cylinder({r = 1, h = 10, center = true});   -- Note: center = {true, false, true} is default
 cylinder({r = 1, h = 10, center = {true, true, false}});  -- individual x,y,z center flags
 cylinder({r1 = 3, r2 = 0, h = 10});
 cylinder({d1 = 1, d2 = 0.5, h = 10});
@@ -52,8 +64,24 @@ cylinder({from = {0,0,0}, to = {0,0,10}, r1 = 1, r2 = 2, fn = 50});
 local cy = cylinder();
 color("red",cy);</code>                  
 </pre>
+            polyhedron
+<pre>
+<code class="Lua">polyhedron({ 
+points = {
+       {0, -10, 60}, {0, 10, 60}, {0, 10, 0}, {0, -10, 0}, {60, -10, 60}, {60, 10, 60}, 
+       {10, -10, 50}, {10, 10, 50}, {10, 10, 30}, {10, -10, 30}, {30, -10, 50}, {30, 10, 50}
+       }, 
+triangles = {
+          {0,3,2},  {0,2,1},  {4,0,5},  {5,0,1},  {5,2,4},  {4,2,3},
+          {6,8,9},  {6,7,8},  {6,10,11},{6,11,7}, {10,8,11},
+          {10,9,8}, {3,0,9},  {9,0,6},  {10,6, 0},{0,4,10},
+          {3,9,10}, {3,10,4}, {1,7,11}, {1,11,5}, {1,8,7},  
+          {2,8,1},  {8,2,11}, {5,11,2}
+          }
+});</code>                  
+</pre>
             log:
-            <pre>
+<pre>
 <code class="Lua">
 log("this is a log");
 log("format is supported %f", 3.14);
@@ -61,25 +89,7 @@ log({a=1, b=2, });
 </code>                  
 </pre>
         </div>
-        <!-- boolean section -->
-        <div class="bhoechie-tab-content">
-            Boolean operations consist of union, difference, intersection, which means OR, XOR, AND, respectively. See <a href="https://en.wikipedia.org/wiki/Boolean_operations_on_polygons">Boolean operations</a> on Wikipedia.
-            <br />union:
-<pre><code class="Lua">union();
-cube();
-sphere();
-</code></pre>
-            difference:
-<pre><code class="Lua">difference();
-cube();
-sphere();
-</code></pre>
-            intersection:
-<pre><code class="Lua">intersection();
-cube();
-sphere();	
-</code></pre>
-        </div>
+        <!-- Transformations section -->
         <div class="bhoechie-tab-content">
             translate,rotate,scale
 <pre><code class="Lua">
@@ -96,6 +106,125 @@ scale({1,2,3});     --create a new parent node and set scale value
 scale({1,2,3},obj); --set scale value with obj  
 </code></pre>
         </div>
+        <!-- 2d shapes section -->
+        <div class="bhoechie-tab-content">
+            polygon:
+<pre><code class="Lua">polygon({ {0,0},{3,0},{3,3} });
+polygon({ points = { {0,0},{3,0},{3,3},{0,6} }}));</code></pre>                  
+            square:
+<pre><code class="Lua">square();
+square(2);
+square({size = 1.5});
+square({size = {1,2}});
+square({size = 1, center = true});
+square({size = 1, center = {true,true}});</code></pre>
+            circle:
+<pre><code class="Lua">circle(); 
+circle(1); 
+circle({d= 2, fn=5});
+circle({r= 2, fn=5});
+circle({r= 3, center = true});    -- center: false (default)
+circle({r=3, center = {true, true}});    -- individual x,z center flags</code></pre>
+            rectangle:
+<pre><code class="Lua">rectangle();
+rectangle({center = 1});
+rectangle({center = {1,2}});
+rectangle({radius = 2});
+rectangle({radius = {2,4}});
+rectangle({center = {1,2}, radius = {2,4}});</code></pre>
+            roundedRectangle:
+<pre><code class="Lua">roundedRectangle();
+roundedRectangle({center = 1});
+roundedRectangle({center = {1,2}});
+roundedRectangle({radius = 2});
+roundedRectangle({radius = {2,4}});
+roundedRectangle({center = {1,2}, radius = {2,4}});
+roundedRectangle({center = {1,2}, radius = {2,4},roundradius = 1,resolution = 32});</code></pre>
+            ellipse:
+<pre><code class="Lua">ellipse();
+ellipse({center = 1});
+ellipse({center = {1,2}});
+ellipse({radius = 2});
+ellipse({radius = {2,4}});
+ellipse({center = {1,2}, radius = {2,4}});</code></pre>
+        </div>
+        <!-- 2d path section -->
+        <div class="bhoechie-tab-content">
+            A path is simply a series of points, connected by lines.
+<pre><code class="Lua">local path = path2d({ points = { {0,0},{3,0},{3,3},{0,6} }, closed = false});
+translate({1,0,0},expandToCAG(path));
+path = path:appendPoint({-1,5});
+translate({-3,0,0},expandToCAG(path));
+path = path:appendPoints({{-1,4},{-2,3}});
+translate({-7,0,0},expandToCAG(path));
+local path2 = path2d({ arc = {center={0,0,0},radius=2,startangle=30,endangle= 270,resolution=16,maketangent=false}, closed = false});
+translate({2,0,-4},expandToCAG(path2));
+
+local path3 = path2d( {{0,3},{2,2}});
+path3 = path3:appendBezier({{0,2},{2,1},{2,0},{0,0},{-2,0},{-2,1}},{resolution =16});
+translate({-3,0,-4},expandToCAG(path3));</code></pre>                  
+        </div> 
+        <!-- 2D Transformations section -->
+        <div class="bhoechie-tab-content">
+            2D Transformation align x,z axis.y coord will be ignore.
+<pre><code class="Lua">translate({0,10});      --create a new parent node and set translation value 
+translate(0,10);        --set translation value
+translate({0,10},obj);  --set translation value with obj  
+rotate(2);              --create a new parent node and set rotation value.2d rotate around Y axis only;      
+rotate(2,obj);          --set rotation value with obj          
+scale(2);               --create a new parent node and set scale value          
+scale(2,obj);           --set scale value with obj          
+scale({1,2});           --create a new parent node and set scale value          
+scale({1,2},obj);       --set scale value with obj </code></pre>           
+        </div> 
+        <!-- Extruding / Extrusion section -->
+        <div class="bhoechie-tab-content">
+            rectangular_extrude: Extrude the path by following it with a rectangle (upright, perpendicular to the path direction), returns a CSG solid.
+<pre><code class="Lua">rectangular_extrude(path,{width = 0.3, height = 0.4, fn = 16});
+rectangular_extrude(path);</code></pre>    
+            linear_extrude: Extruding 2D shapes into 3D, given height, twist (degrees), and slices (if twist is made):
+<pre><code class="Lua">linear_extrude(square(1));
+linear_extrude(square(1),{offset = {0,5,0}, twistangle = 360, twiststeps = 100});
+linear_extrude(square(1),{offset = {1,4,1}, twistangle = 90, twiststeps = 16});</code></pre>    
+            rotate_extrude:  
+<pre><code class="Lua">rotate_extrude(polygon({ {1,0},{0,2},{2,2} }));
+rotate_extrude(polygon({ {1,0},{0,2},{2,2} }),{angle = 270,fn = 12});</code></pre>               
+        </div>   
+        <!-- boolean section -->
+        <div class="bhoechie-tab-content">
+            Boolean operations consist of union, difference, intersection, which means OR, XOR, AND, respectively. See <a href="https://en.wikipedia.org/wiki/Boolean_operations_on_polygons">Boolean operations</a> on Wikipedia.
+            <br />3d union:
+<pre><code class="Lua">union();
+cube();
+sphere();
+</code></pre>
+            3d difference:
+<pre><code class="Lua">difference();
+cube();
+sphere();
+</code></pre>
+            3d intersection:
+<pre><code class="Lua">intersection();
+cube();
+sphere();   
+</code></pre>
+            2d union:
+<pre><code class="Lua">union();
+square();
+circle();
+</code></pre>
+            2d difference:
+<pre><code class="Lua">difference();
+square();
+circle();
+</code></pre>
+            2d intersection:
+<pre><code class="Lua">intersection();
+square();
+circle();
+</code></pre>
+        </div>
+        <!-- Color section -->
         <div class="bhoechie-tab-content">
             <p>Use push(), pop() to build a children node. pop and push are explicitly named nodes, which can be used to specify the range of commands within.</p>
 <pre><code class="Lua">
