@@ -293,9 +293,11 @@ CreateCylinders()
 </div>
 <div title="example slow">
 --wait for a moment
-color({1,0,0});
 intersection();
+    push();
+    color({1,0,0}); -- speacal color for this cube. otherwise it will override all of following elements.
     cube({size = 2, center = true});
+    pop();
     difference();
         local s = sphere({ r = 1.35, fn = 50 });
         color({0,0,1},s);
