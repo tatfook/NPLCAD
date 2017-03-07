@@ -65,7 +65,7 @@ local content = request:get("content");
 
 if(is_ajax()) then
 	add_action('wp_ajax_runcode', function()
-		local output = CSGService.buildPageContent(code)
+		local output = CSGService.build(code)
 		wp_send_json(output,true);
     end)
 	add_action('wp_ajax_nplcad_savefile', function()
