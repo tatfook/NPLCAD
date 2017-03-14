@@ -1,3 +1,4 @@
+[![Documentation Status](https://readthedocs.org/projects/nplcaddoc/badge/?version=latest)](http://nplcaddoc.readthedocs.io/en/latest/?badge=latest)
 # NPL CAD
 
 NPL CAD 是[paracraft](http://paracraft.cn/)的Mod插件。 目的是让用户可以
