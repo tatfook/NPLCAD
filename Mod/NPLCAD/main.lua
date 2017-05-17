@@ -27,8 +27,8 @@ end
 
 function NPLCAD:init()
 	LOG.std(nil, "info", "NPLCAD", "plugin initialized");
-	NPL.load("npl_packages/NplCadLibrary/");
-	NPL.load("npl_packages/ModelVoxelizer/");
+	-- NPL.load("npl_packages/NplCadLibrary/");
+	-- NPL.load("npl_packages/ModelVoxelizer/");
 	-- add a menu item to NPL code wiki's `Tools:nplcad`
 	NPL.load("(gl)script/apps/WebServer/WebServer.lua");
 	WebServer:GetFilters():add_filter( 'wp_nav_menu_objects', function(sorted_menu_items)
