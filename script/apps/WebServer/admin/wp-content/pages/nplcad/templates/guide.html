@@ -1,30 +1,30 @@
 <div class="col-md-12">
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
         <div class="list-group">
-            <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon-globe"></h4><br />3D Primitives
+            <a href="#" class="list-group-item text-center active">
+                <h4>3D Primitives</h4>
             </a>
             <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon-th"></h4><br />3D Transformations
+                <h4 >3D Transformations</h4>
             </a>
             <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon-dashboard"></h4><br />2D Primitives
+                <h4>2D Primitives</h4>
             </a>
             <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon-dashboard"></h4><br />2D Paths
+                <h4>2D Paths</h4>
             </a>     
             <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon-dashboard"></h4><br />2D Transformations
+                <h4>2D Transformations</h4>
             </a>
             <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon-dashboard"></h4><br />Extruding / Extrusion
-            </a>                     
-            <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon glyphicon-bold"></h4><br />Boolean operation
+                <h4>Extruding / Extrusion</h4>
             </a>
             <a href="#" class="list-group-item text-center">
-                <h4 class="glyphicon glyphicon-grain"></h4><br />Color
+                <h4>Boolean operation</h4>
             </a>
+            <a href="#" class="list-group-item text-center">
+                <h4>Math & Colors</h4>
+            </a>                
         </div>
     </div>
     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
@@ -224,14 +224,51 @@ square();
 circle();
 </code></pre>
         </div>
-        <!-- Color section -->
+        <!-- Math & Color section -->
         <div class="bhoechie-tab-content">
             <p>Use push(), pop() to build a children node. pop and push are explicitly named nodes, which can be used to specify the range of commands within.</p>
-<pre><code class="Lua">
-color({r,g,b});     --create a new parent node and set color value 
+<pre><code class="Lua">color("white")
+push()
+    color("red")
+    cube() -- this is read
+pop()
+cube() -- this is white
+</code></pre>
+            <p>Colors</p>
+<pre><code class="Lua">color({r,g,b});     --create a new parent node and set color value 
 color({r,g,b},obj);     --set color value with obj 
-color(color_name);  --create a new parent node and set color value with color name
-color(color_name,obj)   --set color value with obj 
+color("red");  --create a new parent node and set color value with color name
+color("blue",obj)   --set color value with obj 
+</code></pre>
+            <p>math library</p>
+<pre><code class="Lua">math.abs(-100) -- Return the absolute, or non-negative value, of a given value
+-- Return the integer no greater than or no less than the given value (even for negatives).
+math.ceil
+math.floor
+-- Return the cosine, sine and tangent value for a given value in radians.
+math.sin(0.8)
+math.cos(0.8)
+math.tan(0.8)
+-- Return the inverse cosine, sine, tangent in radians of the given value.
+math.asin(1)
+math.acos(1)
+math.atan(1)
+-- Convert from radians to degrees and vice versa.
+math.deg(math.pi)
+math.rad(180)
+-- returns e (the base of natural logarithms) raised to the power myval. 
+math.exp(1)
+-- math.log() returns the inverse of this. math.exp(1) returns e.
+math.log(1)
+-- Return the minimum or maximum value from a variable length list of arguments.
+math.max(2,4,5)
+math.min(1,2)
+math.pi   -- return 3.14159
+math.randomseed(1234) -- sets a seed for the pseudo-random generator
+math.random() -- random floating point number between [0,1]
+math.random(upper)  -- generates integer numbers between 1 and upper.
+math.random(lower, upper) -- generates integer numbers between lower and upper.
+math.sqrt(100) -- Return the square root of a given number.
 </code></pre>
         </div>
     </div>
