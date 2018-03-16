@@ -582,7 +582,7 @@ function NplcadController($scope, $http, $log, voxelService) {
             faceStl += 'facet normal ' + normal.x + ' ' + normal.y + ' ' + normal.z + '\n'
             faceStl += 'outer loop\n'
 
-            if (!options.isYUp) {
+            if (options.isYUp) {
 
                 if (options.colorstl) {
                     faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + ' ' + colors[0].r + ' ' + colors[0].g + ' ' + colors[0].b + '\n'
@@ -592,6 +592,7 @@ function NplcadController($scope, $http, $log, voxelService) {
                     faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + '\n'
                     faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + '\n'
                     faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + '\n'
+                    
                 }
             } else {
                 if (options.colorstl) {
@@ -601,9 +602,13 @@ function NplcadController($scope, $http, $log, voxelService) {
                     faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + ' ' + colors[1].r + ' ' + colors[1].g + ' ' + colors[1].b + '\n'
                 } else {
                     // invert y,z and change the triangle winding
-                    faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + '\n'
-                    faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + '\n'
-                    faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + '\n'
+                    //faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].y + addY) + ' ' + (verts[0].z + addZ) + '\n'
+                    //faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].y + addY) + ' ' + (verts[2].z + addZ) + '\n'
+                    //faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].y + addY) + ' ' + (verts[1].z + addZ) + '\n'
+
+                    faceStl += 'vertex ' + (verts[0].x + addX) + ' ' + (verts[0].z + addZ) + ' ' + (verts[0].y + addY) + '\n'
+                    faceStl += 'vertex ' + (verts[2].x + addX) + ' ' + (verts[2].z + addZ) + ' ' + (verts[2].y + addY) + '\n'
+                    faceStl += 'vertex ' + (verts[1].x + addX) + ' ' + (verts[1].z + addZ) + ' ' + (verts[1].y + addY) + '\n'
                 }
                 
             }
@@ -797,7 +802,7 @@ function NplcadController($scope, $http, $log, voxelService) {
     }
     $scope.onSaveCode = function(){
         if (aGeometries && aGeometries.length > 0) {
-            stlFromGeometries(aGeometries, { download: true });
+            stlFromGeometries(aGeometries, { download: true});
         }
         else{
             alert("Please compile the code before save.")
