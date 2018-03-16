@@ -3,7 +3,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LocalDebuggerCommand>$(ProjectDir)..\..\redist\ParaEngineClient.exe</LocalDebuggerCommand>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments> mc="true"  dev="$(SolutionDir)" mod="NPLCAD" isDevEnv="true" world="worlds/DesignHouse/test"</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments> mc="true"  dev="$(SolutionDir)" mod="NPLCAD" isDevEnv="true"</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>..\..\redist</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

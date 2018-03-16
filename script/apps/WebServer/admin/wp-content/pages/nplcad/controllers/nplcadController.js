@@ -333,9 +333,7 @@ function NplcadController($scope, $http, $log, voxelService) {
 
     var panel = document.getElementById('panel'),
         menu = document.getElementById('menu'),
-        showcode = document.getElementById('showcode'),
         view_container = document.getElementById('view_container');
-    showcode.addEventListener('click', _toggleCode);
     view_container.addEventListener('dblclick', _toggleCode);
     $scope.csg_node_values = null;
 
@@ -548,7 +546,11 @@ function NplcadController($scope, $http, $log, voxelService) {
         stl += 'endsolid'
 
         if (options.download) {
-            var sFileName = document.getElementById('filename').value;
+            var filename_dom = document.getElementById('filename');
+            var sFileName = "nplcad_output"
+            if(filename_dom){
+                sFileName = filename_dom.value;
+            }
             if (sFileName) {
                 var blob = new Blob([stl], { type: 'text/plain' });
                 saveAs(blob, sFileName + '.stl');
@@ -697,8 +699,15 @@ function NplcadController($scope, $http, $log, voxelService) {
 
     function fetchExamples() {
         if ($scope.Examples.length == 0) {
-            $('#example').children('div').each(function () {
-                $scope.Examples.push({ text: $(this).text(), title: $(this).attr("title") });
+            $("#example_parent").load("/wp-content/pages/nplcad/templates/example.html", function (response, status, xhr) {
+                if (status == "error") {
+                    var msg = "Sorry but there was an error: ";
+                    $("#example_parent").html(msg + xhr.status + " " + xhr.statusText);
+                    return;
+                }
+                $('#example').children('div').each(function () {
+                    $scope.Examples.push({ text: $(this).text(), title: $(this).attr("title") });
+                });
             });
         }
         if ($scope.Examples.length > 0) {
@@ -787,7 +796,7 @@ function NplcadController($scope, $http, $log, voxelService) {
         onRunCode();
     }
     $scope.onSaveCode = function(){
-        if(aGeometries){
+        if (aGeometries && aGeometries.length > 0) {
             stlFromGeometries(aGeometries, { download: true });
         }
         else{
@@ -845,6 +854,10 @@ function NplcadController($scope, $http, $log, voxelService) {
             console.log(response);
         })
     }
+    
+    $scope.onHelp = function () {
+        window.open('http://keepwork.com/intro/keepwork/NPLCAD', '_blank')
+    }
     $scope.openFile = function (filename, bForceReopen,callback) {
         filename = $scope.getRelativePath(filename);
         var editor = ace.edit("code_editor");
@@ -891,10 +904,6 @@ function NplcadController($scope, $http, $log, voxelService) {
     }
     directlyRunCode();
 }
-
-nplcadModule.component("example",{
-	templateUrl: "/wp-content/pages/nplcad/templates/example.html"
-})
 
 
 

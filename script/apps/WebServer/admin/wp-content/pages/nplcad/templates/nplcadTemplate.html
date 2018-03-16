@@ -45,19 +45,13 @@
         z-index: 100;
     }
 </style>
+<div id="example_parent" hidden="hidden"></div>
 <div class="container-fluid">
     <div class="row">
-        <div uib-collapse="isCollapsed">
-            <div ng-include="'/wp-content/pages/nplcad/templates/guide.html'" onload="guideLoaded()"></div>
-        </div>
         <section id="panel" class="panel">
             <header>
                 <h1>NPL CAD</h1>
-                <span id="showcode" class="showcode">
-                    <i class="glyphicon glyphicon-eye-open icon-yepcode"></i>
-                    <i class="glyphicon glyphicon-eye-close icon-nocode"></i>
-                </span>
-                <span id="showguide" class="showguide pull-right" ng-click="isCollapsed = !isCollapsed; ">
+                <span id="showguide" class="showguide pull-right" ng-click="onHelp()">
                     <i class="glyphicon glyphicon glyphicon-question-sign icon-question"></i>
                 </span>
             </header>
@@ -82,6 +76,7 @@
                             <button class="btn btn-primary" ng-click="onRunCode()" id="runcode"><i class="glyphicon glyphicon-play"></i> Run</button>
                             <button class="btn btn-default" ng-click="onSaveSource()"><i class="glyphicon glyphicon-save-file"></i> Save (Ctrl+S)</button>
                             <button class="btn btn-default" data-toggle="modal" data-target="#myModal">Save To BMax...</button>
+                            <button class="btn btn-default" ng-click="onSaveCode()"><i class="glyphicon glyphicon-save-file"></i>STL</button>
                             <!-- Example button-->
                             <div class="pull-right dropdown">
                                 <button class="btn btn-default" id="dropdownExampleMenu" data-toggle="dropdown" aria-haspopup="true">
