@@ -48,10 +48,13 @@
 <div id="example_parent" hidden="hidden"></div>
 <div class="container-fluid">
     <div class="row">
+        <div uib-collapse="isCollapsed">
+            <div ng-include="'/wp-content/pages/nplcad/templates/guide.html'" onload="guideLoaded()"></div>
+        </div>
         <section id="panel" class="panel">
             <header>
                 <h1>NPL CAD</h1>
-                <span id="showguide" class="showguide pull-right" ng-click="onHelp()">
+                <span id="showguide" class="showguide pull-right" ng-click="isCollapsed = !isCollapsed; ">
                     <i class="glyphicon glyphicon glyphicon-question-sign icon-question"></i>
                 </span>
             </header>
