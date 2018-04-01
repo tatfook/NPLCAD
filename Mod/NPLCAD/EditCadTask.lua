@@ -147,7 +147,7 @@ function EditCadTask:ShowPage()
 	window:Show({
 		name="EditCadTask", 
 		url="Mod/NPLCAD/EditCadTask.html",
-		alignment="_ctb", left=0, top=-55, width = 256, height = 64,
+		alignment="_ctb", left=0, top=-55, width = 350, height = 64,
 	});
 end
 

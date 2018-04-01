@@ -70,6 +70,11 @@ if(is_ajax()) then
     end)
 	add_action('wp_ajax_nplcad_savefile', function()
 		local bSuccessful = CSGService.saveFile(commonlib.Encoding.Utf8ToDefault(filename),content)
+		if(bSuccessful) then
+			LOG.std(nil, "info", "NPLCAD", "successfully saved to %s", filename)
+		else
+			LOG.std(nil, "info", "NPLCAD", "failed saving file to %s", filename)
+		end
 		wp_send_json({bSuccessful},true);
     end)
 	return;

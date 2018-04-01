@@ -57,17 +57,17 @@
             </header>
             <article>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-sm-5">
                         <div ng-show="running" id="running">
                             <img src="wp-content/pages/nplcad/js/libs/ajaxloader.gif" class="loader" />
                         </div>
                         <div style="position:relative">
-                            <div id="view_container"></div>
+                            <div id="view_container" style="height:510px;"></div>
                             <div id="axis_container" class="axis_monitor"></div>
                         </div>
                         <textarea id="logWnd" rows="4" style="width:100%"></textarea>
                     </div>
-                    <div class="col-md-6" id="code">
+                    <div class="col-sm-7" id="code">
                         <div class="row col-sm-12">
                             <h5>{{currentFilename}}<span ng-show="isModified"> *</span></h5>
                         </div>

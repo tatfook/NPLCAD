@@ -390,7 +390,7 @@ function NplcadController($scope, $http, $log, voxelService) {
         container = document.createElement('div');
         container.style["position"] = "relative";
         container.style["width"] = "100%";
-        container.style["height"] = "560px";
+        container.style["height"] = "100%";
         $("#view_container").append(container);
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
@@ -830,9 +830,9 @@ function NplcadController($scope, $http, $log, voxelService) {
     if (req_src != "")
         $scope.currentFilename = req_src;
 
-    $scope.getRelativePath = function (filename) {
+    $scope.getNormalizedPath = function (filename) {
         filename = filename.replace(/\\/g, "/");
-        filename = filename.replace(workspaceDir, "");
+        // filename = filename.replace(workspaceDir, "");
         filename = filename.replace(/.*npl_packages\/[^\/]+\//g, "");
         return filename;
     }
@@ -864,7 +864,7 @@ function NplcadController($scope, $http, $log, voxelService) {
         window.open('http://keepwork.com/intro/keepwork/NPLCAD', '_blank')
     }
     $scope.openFile = function (filename, bForceReopen,callback) {
-        filename = $scope.getRelativePath(filename);
+        filename = $scope.getNormalizedPath(filename);
         var editor = ace.edit("code_editor");
         if ($scope.currentFilename != filename || bForceReopen) {
            

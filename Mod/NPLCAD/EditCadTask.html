@@ -6,10 +6,14 @@ EditCadTask.InitPage(Page);
 task = EditCadTask.GetInstance();
 ]]>
 </script>
-<div style='padding:5px;background-color:#306df0;color:#ffffff' >
-    <%=task:GetCadScript()%> <input name="editBtn" value='<%=task:GetCadScript()=="" and L"新建Cad脚本" or L"编辑"%>' type="button" onclick="EditCadTask.OnClickEditCadScript" /><input style="margin-left:5px;" name="openBtn" value='...' type="button" onclick="EditCadTask.OnClickChangeCadScript" />
+<div style='padding:5px;background-color:#306df0;color:#ffffff;min-width:350px;' >
     <div>
-        <%=L"右键创建, 左键选择模型"%>
+        <div style="float:left"><%=task:GetCadScript()%></div>
+        <div style="float:left">
+            <input name="editBtn" value='<%=task:GetCadScript()=="" and L"新建Cad脚本" or L"编辑"%>' type="button" onclick="EditCadTask.OnClickEditCadScript" />
+            <input style="margin-left:5px;" name="openBtn" value='...' type="button" onclick="EditCadTask.OnClickChangeCadScript" />
+        </div>
     </div>
+    <div width="100%" style="color:#33cc33"><%=L"右键创建, 左键选择模型"%></div>
 </div>
 </pe:mcml>
