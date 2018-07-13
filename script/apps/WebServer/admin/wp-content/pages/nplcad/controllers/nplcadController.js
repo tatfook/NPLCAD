@@ -769,7 +769,7 @@ function NplcadController($scope, $http, $log, voxelService) {
             if (response && response.data) {
                 //console.log(response.data);
                 clearMeshes();
-                if (response.data.successful && response.data.csg_node_values) {
+                if (response.data.csg_node_values) {
                     var csg_node_values = response.data.csg_node_values;
                     for (var i = 0; i < csg_node_values.length; i++) {
                         var value = csg_node_values[i];

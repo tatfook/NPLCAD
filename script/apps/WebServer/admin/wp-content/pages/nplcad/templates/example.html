@@ -147,19 +147,20 @@ end
 creatObj();
 creatObj(true,true);
 	</div>
-<div title="Small Temple">
+<div title="Small Temple">rotate({-90,0,0})
+push()
 local pi_2 = 6.28;
-scale(1/6);
+scale(1/20);
 union();
 push();
 	color("blue");
-	translate({0,200,0});
+	translate({0,0,200});
 	cylinder({ h = 80, r1 = 120, r2 = 0 });
 pop();
 for i = 0,5 do
 	push();
 		color("red");
-		translate({math.sin(pi_2*i/6)*80, 0, math.cos(pi_2*i/6)*80});
+		translate({math.sin(pi_2*i/6)*80, math.cos(pi_2*i/6)*80, 0});
 		cylinder({ h = 200, r = 10});
 	pop();		
 end
@@ -172,8 +173,11 @@ push();
 	cylinder({ h = 50, r = 80 });
 pop();
 color("lime");
-translate({100,35,0});
+translate({100,0,35});
 cube({ size = 50, center = true, });
+pop()
+    
+    
     
     </div>
 <div title="Parameterized Model ">
@@ -225,7 +229,7 @@ function CreateBottom()
         pop()
         for i=1, -1, -2 do
             push()
-                translate(bottom_length - bottom_corner_radius, 0, (bottom_width/2-bottom_corner_radius)*i)
+                translate(bottom_length - bottom_corner_radius, (bottom_width/2-bottom_corner_radius)*i, 0)
                 CreateCorner(bottom_corner_radius, bottom_height, i, 1);
                 cylinder({r = bottom_hole_radius, h=bottom_height})      
             pop()
@@ -291,17 +295,16 @@ CreateBottom();
 CreateVerticalSupporters();
 CreateCylinders()
 </div>
-<div title="Make Tree Simple">
-function make_tree(level, length, last_radius, leave_size)
+<div title="Make Tree Simple">function make_tree(level, length, last_radius, leave_size)
     last_radius = last_radius or length*0.2;
     if(level>1) then
         -- branch
         color("brown")
         cylinder({ r1 = last_radius, r2 = last_radius*0.5, h = length})
-        translate(0, length, 0)
+        translate(0, 0, length)
         for i = 1, math.random(2, 3) do
             push()
-            rotate({math.random(10, 45), math.random(0, 360), 0})
+            rotate({math.random(10, 45), 0, math.random(0, 360)})
             make_tree(level-math.random(1,2), length*0.5,last_radius*0.5,leave_size);
             pop()
         end
@@ -311,10 +314,10 @@ function make_tree(level, length, last_radius, leave_size)
         cube(leave_size);
     end
 end
+rotate({-90,0,0})
 make_tree(6, 4, 0.5, 0.3);
 </div>
-<div title="Make Tree">
--- generate a random tree
+<div title="Make Tree">-- generate a random tree
 local function random(min_value, max_value)
     return min_value + math.random()*(max_value - min_value);
 end
@@ -328,11 +331,11 @@ function make_tree(level, length, last_radius, leave_size)
         color("brown")
         cylinder({ r1 = last_radius, r2 = radius, h = length})
         
-        translate(0, length, 0)
+        translate(0, 0, length)
         for i = 1, math.random(2, 3) do
             push()
             if(i>1) then
-                rotate({random(10, 45), random(0, 360), 0})
+                rotate({random(10, 45), 0, random(0, 360)})
             end
             make_tree(level-math.random(1,2), length*random(0.5,0.9),radius,leave_size);
             pop()
@@ -345,15 +348,17 @@ function make_tree(level, length, last_radius, leave_size)
         cube(leave_count*0.5);
         for i=1, leave_count do
             push()
-            translate(random(-leave_count,leave_count), random(-leave_count,leave_count), random(-leave_size,leave_size))
+            translate(random(-leave_count,leave_count), random(-leave_size,leave_size) , random(-leave_count,leave_count))
             cube(leave_count*0.5);
             pop()
         end
     end
 end
+rotate({-90,0,0})
 scale(1/5)
 math.randomseed(12345678);
 make_tree(6, 4, 0.5, 0.3);
+
 </div>
 <div title="example slow">
 --wait for a moment
@@ -371,21 +376,9 @@ intersection();
             cylinder({ r1 = 0.7, r2 = 0.7, from = {0,-1,0}, to = {0,1,0} });
             cylinder({ r1 = 0.7, r2 = 0.7, from = {0,0,-1}, to = {0,0,1} });
 </div>
-<div title="polyhedron">
-polyhedron({ 
-         points = {
-               {0, -10, 60}, {0, 10, 60}, {0, 10, 0}, {0, -10, 0}, {60, -10, 60}, {60, 10, 60}, 
-               {10, -10, 50}, {10, 10, 50}, {10, 10, 30}, {10, -10, 30}, {30, -10, 50}, {30, 10, 50}
-               }, 
-         triangles = {
-                  {0,3,2},  {0,2,1},  {4,0,5},  {5,0,1},  {5,2,4},  {4,2,3},
-                  {6,8,9},  {6,7,8},  {6,10,11},{6,11,7}, {10,8,11},
-                  {10,9,8}, {3,0,9},  {9,0,6},  {10,6, 0},{0,4,10},
-                  {3,9,10}, {3,10,4}, {1,7,11}, {1,11,5}, {1,8,7},  
-                  {2,8,1},  {8,2,11}, {5,11,2}
-                  }
-      });
-</div>
+<div title="polyhedron">polygon({ {0,0},{3,0},{3,3} });
+polygon({ points = { {0,0},{3,0},{3,3},{0,6} }});
+polygon({ points = { {0,0},{3,0},{3,3},{0,6} }, paths = { {1,2,3},{2,3,4} } }); -- note: start index is 1 in lua table</div>
 <div title="2D Shapes">
 polygon({ {0,0},{3,0},{3,3} }); -- openscad like
 translate(0,0,4,polygon({ points = { {0,0},{3,0},{3,3},{0,6} }})); 
@@ -426,19 +419,18 @@ translate(20,0,12,ellipse({radius = 2}));
 translate(20,0,16,ellipse({radius = {2,4}}));
 translate(20,0,20,ellipse({center = {1,2}, radius = {2,4}}));
 </div>
-<div title="2D pathes">
-local path = path2d({ points = { {0,0},{3,0},{3,3},{0,6} }, closed = false});
-translate({1,0,0},expandToCAG(path));
+<div title="2D pathes">local path = path2d({ points = { {0,0},{3,0},{3,3},{0,6} }, closed = false});
+translate({1,0,0},expandToCAG(0.1,path));
 path = path:appendPoint({-1,5});
-translate({-3,0,0},expandToCAG(path));
+translate({-3,0,0},expandToCAG(0.1,path));
 path = path:appendPoints({{-1,4},{-2,3}});
-translate({-7,0,0},expandToCAG(path));
+translate({-7,0,0},expandToCAG(0.1,path));
 local path2 = path2d({ arc = {center={0,0,0},radius=2,startangle=30,endangle= 270,resolution=16,maketangent=false}, closed = false});
-translate({2,0,-4},expandToCAG(path2));
+translate({2,0,-4},expandToCAG(0.1,path2));
 
 local path3 = path2d( {{0,3},{2,2}});
 path3 = path3:appendBezier({{0,2},{2,1},{2,0},{0,0},{-2,0},{-2,1}},{resolution =16});
-translate({-3,0,-4},expandToCAG(path3));	
+translate({-3,0,-4},expandToCAG(0.1,path3));
 </div>
 <div title="extrude">
 local path = path2d({{0,0},{3,0},{3,3},{0,6}});
