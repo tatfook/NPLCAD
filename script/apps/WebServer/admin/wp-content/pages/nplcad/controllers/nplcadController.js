@@ -785,7 +785,7 @@ function NplcadController($scope, $http, $log, voxelService) {
                         var geometry = createMesh(vertices, indices, normals, colors, world_matrix);
                         aGeometries.push(geometry);
                     }
-                    setStatus("compile succesfully completed");
+                    setStatus("compile successfully completed");
                 }else{
                     setStatus("compile error:" + (response.data.compile_error || ""));
                 }
