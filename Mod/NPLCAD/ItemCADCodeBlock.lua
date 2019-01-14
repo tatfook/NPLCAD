@@ -9,14 +9,15 @@ NPL.load("(gl)Mod/NPLCAD/ItemCADCodeBlock.lua");
 local ItemCADCodeBlock = commonlib.gettable("MyCompany.Aries.Game.Items.ItemCADCodeBlock");
 -------------------------------------------------------
 ]]
-local Item = commonlib.gettable("MyCompany.Aries.Game.Items.Item");
+NPL.load("(gl)script/apps/Aries/Creator/Game/Common/Files.lua");
+local Files = commonlib.gettable("MyCompany.Aries.Game.Common.Files");
 local EntityManager = commonlib.gettable("MyCompany.Aries.Game.EntityManager");
 local BlockEngine = commonlib.gettable("MyCompany.Aries.Game.BlockEngine")
 local block_types = commonlib.gettable("MyCompany.Aries.Game.block_types")
 local GameLogic = commonlib.gettable("MyCompany.Aries.Game.GameLogic")
 local ItemStack = commonlib.gettable("MyCompany.Aries.Game.Items.ItemStack");
 
-local ItemCADCodeBlock = commonlib.inherit(Item, commonlib.gettable("MyCompany.Aries.Game.Items.ItemCADCodeBlock"));
+local ItemCADCodeBlock = commonlib.inherit(commonlib.gettable("MyCompany.Aries.Game.Items.Item"), commonlib.gettable("MyCompany.Aries.Game.Items.ItemCADCodeBlock"));
 
 block_types.RegisterItemClass("ItemCADCodeBlock", ItemCADCodeBlock);
 
