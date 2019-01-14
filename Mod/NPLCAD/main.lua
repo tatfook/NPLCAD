@@ -45,12 +45,21 @@ function NPLCAD:init()
 	GameLogic.GetFilters():add_filter("block_types", function(xmlRoot) 
 		local blocks = commonlib.XPath.selectNode(xmlRoot, "/blocks/");
 		if(blocks) then
+			-- NPL CAD v1.0
 			NPL.load("(gl)Mod/NPLCAD/ItemCAD.lua");
 			blocks[#blocks+1] = {name="block", attr={ name="NPLCAD",
 				id = 10512, item_class="ItemCAD", text="NPL CAD",
 				icon = "Mod/NPLCAD/textures/icon.png",
 			}}
-			LOG.std(nil, "info", "NPLCAD", "NPL CAD block is registered");
+			LOG.std(nil, "info", "NPLCAD", "NPL CAD block  is registered");
+
+			-- NPL CAD v2.0 with Code Block
+			NPL.load("(gl)Mod/NPLCAD/ItemCADCodeBlock.lua");
+			blocks[#blocks+1] = {name="block", attr={ name="NPLCADCodeBlock",
+				id = 10513, item_class="ItemCADCodeBlock", text=L"CAD 代码模型",
+				icon = "Mod/NPLCAD/textures/icon.png",
+			}}
+			LOG.std(nil, "info", "NPLCAD", "NPL CAD code block  is registered");
 		end
 		return xmlRoot;
 	end)
@@ -60,6 +69,9 @@ function NPLCAD:init()
 		for node in commonlib.XPath.eachNode(xmlRoot, "/blocklist/category") do
 			if(node.attr.name == "tool") then
 				node[#node+1] = {name="block", attr={name="NPLCAD"} };
+
+				-- TODO for LEIO: uncomment this when it is fully finished
+				-- node[#node+1] = {name="block", attr={name="NPLCADCodeBlock"} };
 			end
 		end
 		return xmlRoot;
