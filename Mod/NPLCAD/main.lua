@@ -52,14 +52,7 @@ function NPLCAD:init()
 				icon = "Mod/NPLCAD/textures/icon.png",
 			}}
 			LOG.std(nil, "info", "NPLCAD", "NPL CAD block  is registered");
-
-			-- NPL CAD v2.0 with Code Block
-			NPL.load("(gl)Mod/NPLCAD/ItemCADCodeBlock.lua");
-			blocks[#blocks+1] = {name="block", attr={ name="NPLCADCodeBlock",
-				id = 10513, item_class="ItemCADCodeBlock", text=L"CAD 代码模型",
-				icon = "Mod/NPLCAD/textures/icon.png",
-			}}
-			LOG.std(nil, "info", "NPLCAD", "NPL CAD code block  is registered");
+			
 		end
 		return xmlRoot;
 	end)
@@ -69,9 +62,6 @@ function NPLCAD:init()
 		for node in commonlib.XPath.eachNode(xmlRoot, "/blocklist/category") do
 			if(node.attr.name == "tool") then
 				node[#node+1] = {name="block", attr={name="NPLCAD"} };
-
-				-- TODO for LEIO: uncomment this when it is fully finished
-				-- node[#node+1] = {name="block", attr={name="NPLCADCodeBlock"} };
 			end
 		end
 		return xmlRoot;
